@@ -1,0 +1,33 @@
+name: Variables
+description: "Set variables for use in other actions"
+
+inputs:
+  image_name:
+    description: "Name of the image"
+    required: true
+
+  image_tag:
+    description: "Tag of the image"
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Create variables file
+      shell: bash
+      run: |
+        echo "Creating variables file..."; \
+        touch variables.txt; \
+
+    - name: Set variables
+      shell: bash
+      run: |
+        echo "Setting variables..."; \
+        echo "DLR_IMAGE_NAME=${{ inputs.image_name }}" >> variables.txt; \
+        echo "DLR_IMAGE_TAG=${{ inputs.image_tag }}" >> variables.txt; \
+
+    - name: Upload variables file
+      uses: actions/upload-artifact@v3
+      with:
+        name: variables
+        path: variables.txt

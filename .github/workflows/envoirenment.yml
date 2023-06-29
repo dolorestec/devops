@@ -1,0 +1,33 @@
+name: Envoirenment
+
+on:
+    workflow_call:
+        inputs:
+            image_name:
+              type: string
+              description: 'Name of the environment'
+              required: true
+            
+            image_tag:
+              type: string
+              description: 'Variables to set'
+              required: true
+
+jobs:
+    variables:
+        name: Variables
+        timeout-minutes: 10
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                repository: ${{ github.repository }}
+                ref: ${{ github.ref_name }}
+                fetch-depth: 0
+            
+            - name: Setting variables
+              uses: ./.github/actions/utils/variables
+              with:
+                image_name: ${{ github.event.inputs.image_name }}
+                image_tag: ${{ github.event.inputs.image_tag }}
