@@ -1,0 +1,81 @@
+name: Envoirenment
+
+on:
+    workflow_call:
+
+jobs:
+    variables:
+        name: Variables
+        timeout-minutes: 10
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                repository: ${{ github.repository }}
+                ref: ${{ github.ref_name }}
+                fetch-depth: 0
+            
+            - name: pass1
+              run: |
+                echo "passo 1"
+
+            - name: pass2
+              run: |
+                echo "passo 2"
+
+    build:
+        name: Build
+        timeout-minutes: 10
+        runs-on: ubuntu-latest
+        needs: variables
+        steps:
+            - name: pass3
+              run: |
+                echo "passo 3"
+
+            - name: pass4
+              run: |
+                echo "passo 4"
+
+    test:
+        name: Test
+        timeout-minutes: 10
+        runs-on: ubuntu-latest
+        needs: build
+        steps:
+            - name: pass5
+              run: |
+                echo "passo 5"
+
+            - name: pass6
+              run: |
+                echo "passo 6"
+  
+    deploy:
+        name: Deploy
+        timeout-minutes: 10
+        runs-on: ubuntu-latest
+        needs: test
+        steps:
+            - name: pass7
+              run: |
+                echo "passo 7"
+
+            - name: pass8
+              run: |
+                echo "passo 8"
+
+    release-branch:
+        name: Release Branch
+        timeout-minutes: 10
+        runs-on: ubuntu-latest
+        needs: deploy
+        steps:
+            - name: pass9
+              run: |
+                echo "passo 9"
+
+            - name: pass10
+              run: |
+                echo "passo 10"
