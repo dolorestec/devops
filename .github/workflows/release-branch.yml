@@ -1,4 +1,4 @@
-name: Envoirenment
+name: Release Branch
 
 on:
     workflow_call:
