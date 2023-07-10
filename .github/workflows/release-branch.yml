@@ -21,7 +21,7 @@ jobs:
                 echo ${{ github.repository }}
                 echo ${{ github.ref_name }}
 
-            - name: pass0 2
+            - name: passo 2
               run: |
                 echo "passo 2"
 
