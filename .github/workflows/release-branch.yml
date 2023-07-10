@@ -16,9 +16,10 @@ jobs:
                 ref: ${{ github.ref_name }}
                 fetch-depth: 0
             
-            - name: pass1
+            - name: Setting up variables
               run: |
-                echo "passo 1"
+                echo ${{ github.repository }}
+                echo ${{ github.ref_name }}
 
             - name: pass2
               run: |
