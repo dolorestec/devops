@@ -11,15 +11,22 @@ jobs:
 
         steps:
         - name: Setting variables
-          uses: dolorestec/devops/.github/actions/variables@v1
+          #uses: dolorestec/devops/.github/actions/variables@v1
+          run: echo "Hello world"
 
 
-    build:
-        name: Build
-        timeout-minutes: 10
-        runs-on: ubuntu-latest
-        needs: environment
+#    build:
+#        name: Build
+#        timeout-minutes: 10
+#        runs-on: ubuntu-latest
 
-        steps:
-        - name: Docker build
-          uses: dolorestec/devops/.github/actions/docker/build@v1
+#        steps:
+#        - name: Checkout code
+#          uses: Actions/checkout@v3
+#         with:
+#           repository: ${{ github.repository }}
+ #           ref: ${{ github.ref_name }}
+ #           fetch-depth: 0
+
+#        - name: Docker build
+#          uses: dolorestec/devops/.github/actions/docker/build@v1
