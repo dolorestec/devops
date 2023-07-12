@@ -1,0 +1,31 @@
+name: Upload
+description: "Upload a docker image to a registry"
+
+inputs:
+  docker_username:
+    description: "Docker username"
+    required: true
+  docker_password:
+    description: "Docker password"
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Docker login
+      shell: bash
+      run: |
+        echo "Logging in to docker"; \
+        echo "${{ inputs.docker_password }}" | docker login -u ${{ inputs.docker_username }} --password-stdin; \
+
+    - name: Docker image upload
+      shell: bash
+      run: |
+        echo "Uploading docker image ${{ github.repository }}:${{ github.ref_name }}"; \
+        docker push ${{ github.repository }}:${{ github.ref_name }}; \
+
+    - name: Docker logout
+      shell: bash
+      run: |
+        echo "Logging out of docker"; \
+        docker logout; \

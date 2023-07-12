@@ -18,12 +18,14 @@ jobs:
             fetch-depth: 0
 
         - name: Setting variables
-          run: |
-            echo "Setting variables in variables file"
-            touch variables.txt
-            echo -e DLRS_NAME=dlrs-$(basename `git rev-parse --show-toplevel`) >> variables.txt 
-            echo -e DLRS_BRANCH=${{ github.ref_name }} >> variables.txt
-            echo -e DLRS_VERSION=$(git tag --sort creatordate -l "v*-RELEASE*" --merged | tail -n 1) >> variables.txt
+          uses: dolorestec/devops/.github/actions/docker/build@v1
+#        - name: Setting variables
+#          run: |
+#            echo "Setting variables in variables file"
+#            touch variables.txt
+#            echo -e DLRS_NAME=dlrs-$(basename `git rev-parse --show-toplevel`) >> variables.txt 
+#           echo -e DLRS_BRANCH=${{ github.ref_name }} >> variables.txt
+#           echo -e DLRS_VERSION=$(git tag --sort creatordate -l "v*-RELEASE*" --merged | tail -n 1) >> variables.txt
 
         - name: Upload variables
           uses: actions/upload-artifact@v2
