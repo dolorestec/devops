@@ -44,3 +44,34 @@ jobs:
           run: |
             echo "Building docker image $DLRS_NAME:$DLRS_VERSION"
             docker build -t $DLRS_NAME:$DLRS_VERSION .  
+
+    publish:
+      name: Publish
+      runs-on: ubuntu-latest
+      timeout-minutes: 10
+      needs: build
+      steps:
+        - name: Download variables
+          uses: actions/download-artifact@v2
+          with:
+            name: variables.txt
+
+        - name: Setting variables
+          run: |
+            echo "Setting variables from variables file"
+            variables=$(cat variables.txt)
+            cat variables.txt
+            for variable in $variables; do
+              echo -e $variable >> $GITHUB_ENV
+              echo -e $variable
+            done
+
+        - name: Docker login
+          run: |
+            echo "Logging in to docker hub"
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+
+        - name: Docker push
+          run: |
+            echo "Pushing docker image $DLRS_NAME:$DLRS_VERSION"
+            docker push $DLRS_NAME:$DLRS_VERSION
