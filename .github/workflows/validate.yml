@@ -10,6 +10,13 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
+        - name: Checkout code
+          uses: Actions/checkout@v3
+          with:
+            repository: ${{ github.repository }}
+            ref: ${{ github.ref_name }}
+            fetch-depth: 0
+
         - name: Setting variables
           uses: dolorestec/devops/.github/actions/variables@v1
 
