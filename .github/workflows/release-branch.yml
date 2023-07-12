@@ -18,7 +18,7 @@ jobs:
             fetch-depth: 0
 
         - name: Setting variables
-          uses: dolorestec/devops/.github/actions/docker/build@v1
+          uses: dolorestec/devops/.github/actions/variables@v1
 #        - name: Setting variables
 #          run: |
 #            echo "Setting variables in variables file"
