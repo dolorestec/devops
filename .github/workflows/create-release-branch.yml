@@ -1,0 +1,46 @@
+name: Create Release Branch
+
+on:
+    workflow_call:
+      
+jobs:
+    variables:
+        name: Variables
+        timeout-minutes: 10
+        runs-on: ubuntu-latest
+
+        steps:
+        - name: Setting variables
+          uses: dolorestec/devops/.github/actions/variables@v1
+
+        - name: Upload variables
+          uses: actions/upload-artifact@v2
+          with:
+            name: variables.txt
+            path: variables.txt
+            
+    build:
+      name: Build
+      runs-on: ubuntu-latest
+      timeout-minutes: 10
+      needs: variables
+      steps:
+        - name: Download variables
+          uses: actions/download-artifact@v2
+          with:
+            name: variables.txt
+
+        - name: Setting variables
+          run: |
+            echo "Setting variables from variables file"
+            variables=$(cat variables.txt)
+            cat variables.txt
+            for variable in $variables; do
+              echo -e $variable >> $GITHUB_ENV
+              echo -e $variable
+            done
+
+        - name: Docker build
+          run: |
+            echo "Building docker image $DLRS_NAME:$DLRS_VERSION"
+            docker build -t $DLRS_NAME:$DLRS_VERSION .  
