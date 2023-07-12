@@ -1,6 +1,8 @@
 name: Release Branch
+
 on:
     workflow_call:
+      
 jobs:
     variables:
         name: Variables
