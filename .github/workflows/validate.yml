@@ -47,10 +47,8 @@ jobs:
           run: |
             echo "Setting variables from variables file"
             variables=$(cat variables.txt)
-            cat variables.txt
             for variable in $variables; do
               echo -e $variable >> $GITHUB_ENV
-              echo -e $variable
             done
 
         - name: Docker build
