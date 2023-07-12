@@ -10,20 +10,21 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: actions/checkout@v3
-              with:
-                repository: ${{ github.repository }}
-                ref: ${{ github.ref_name }}
-                fetch-depth: 0
-            
-            - name: Setting up variables
-              run: |
-                echo ${{ github.repository }}
-                echo ${{ github.ref_name }}
+        - name: Checkout
+          uses: actions/checkout@v3
+          with:
+            repository: ${{ github.repository }}
+            ref: ${{ github.ref_name }}
+            fetch-depth: 0
 
-            - name: passo 2.
-              run: |
-                echo "passo 2"
+        - name: Setting variables
+          uses: ./.github/actions/variables
+
+        - name: Upload variables
+          uses: actions/upload-artifact@v2
+          with:
+            name: variables.txt
+            path: variables.txt
 
     build:
         name: Build

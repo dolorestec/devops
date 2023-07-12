@@ -1,33 +1,14 @@
 name: Variables
 description: "Set variables for use in other actions"
 
-inputs:
-  image_name:
-    description: "Name of the image"
-    required: true
-
-  image_tag:
-    description: "Tag of the image"
-    required: true
-
 runs:
   using: composite
   steps:
-    - name: Create variables file
+    - name: Setting variables
       shell: bash
       run: |
-        echo "Creating variables file..."; \
-        touch variables.txt; \
-
-    - name: Set variables
-      shell: bash
-      run: |
-        echo "Setting variables..."; \
-        echo "DLR_IMAGE_NAME=${{ inputs.image_name }}" >> variables.txt; \
-        echo "DLR_IMAGE_TAG=${{ inputs.image_tag }}" >> variables.txt; \
-
-    - name: Upload variables file
-      uses: actions/upload-artifact@v3
-      with:
-        name: variables
-        path: variables.txt
+        echo "Setting variables in variables file"
+        touch variables.txt
+        echo -e DLRS_NAME=dlrs-$(basename `git rev-parse --show-toplevel`) >> variables.txt 
+        echo -e DLRS_BRANCH=${{ github.ref_name }} >> variables.txt
+        echo -e DLRS_VERSION=$(git tag --sort creatordate -l "v*-RELEASE*" --merged | tail -n 1) >> variables.txt
