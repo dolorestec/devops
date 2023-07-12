@@ -4,54 +4,22 @@ on:
     workflow_call:
       
 jobs:
-    variables:
-        name: Variables
+    environment:
+        name: Environment
         timeout-minutes: 10
         runs-on: ubuntu-latest
 
         steps:
-        - name: Checkout code
-          uses: Actions/checkout@v3
-          with:
-            repository: ${{ github.repository }}
-            ref: ${{ github.ref_name }}
-            fetch-depth: 0
-
         - name: Setting variables
           uses: dolorestec/devops/.github/actions/variables@v1
 
-        - name: Upload variables
-          uses: actions/upload-artifact@v2
-          with:
-            name: variables.txt
-            path: variables.txt
 
     build:
         name: Build
-        needs: variables
+        timeout-minutes: 10
         runs-on: ubuntu-latest
+        needs: environment
+
         steps:
-        - name: Checkout
-          uses: actions/checkout@v2
-          with:
-            repository: ${{ github.repository }}
-            ref: ${{ github.ref_name }}
-            fetch-depth: 0
-
-        - name: Download variables
-          uses: actions/download-artifact@v2
-          with:
-            name: variables.txt
-
-        - name: Setting variables
-          run: |
-            echo "Setting variables from variables file"
-            variables=$(cat variables.txt)
-            for variable in $variables; do
-              echo -e $variable >> $GITHUB_ENV
-            done
-
         - name: Docker build
-          run: |
-            echo "Building docker image $DLRS_NAME:$DLRS_VERSION"
-            docker build -t $DLRS_NAME:$DLRS_VERSION . 
+          uses: dolorestec/devops/.github/actions/docker/build@v1

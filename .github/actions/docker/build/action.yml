@@ -1,20 +1,21 @@
 name: Build
 description: "Build a docker image"
 
-inputs:
-  name:
-    description: "The name of the docker image"
-    required: true
-  tag:
-    description: "The tag of the docker image"
-    required: true
-
 runs:
   using: composite
   steps:
+    - name: Download variables
+      uses: actions/download-artifact@v2
+      with:
+        name: variables.txt
+
+    - name: Set variables
+      shell: bash
+      run: |
+        cat variables.txt | xargs -I {} echo "{}" >> $GITHUB_ENV
+        
     - name: Docker image build
       shell: bash
       run: |
-        echo "Building docker image ${{ inputs.name }}:${{ inputs.tag }}"; \
-        docker build . \
-        --tag ${{ inputs.name }}:${{ inputs.tag  }}; \
+        echo "Building docker image ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}" 
+        docker build . --tag ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}

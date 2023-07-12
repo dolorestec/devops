@@ -4,11 +4,18 @@ description: "Set variables for use in other actions"
 runs:
   using: composite
   steps:
-    - name: Setting variables
+    - name: Create variables
       shell: bash
       run: |
-        echo "Setting variables in variables file"
-        touch variables.txt
-        echo -e DLRS_NAME=dlrs-$(basename `git rev-parse --show-toplevel`) >> variables.txt 
-        echo -e DLRS_BRANCH=${{ github.ref_name }} >> variables.txt
-        echo -e DLRS_VERSION=$(git tag --sort creatordate -l "v*-RELEASE*" --merged | tail -n 1) >> variables.txt
+        run: |
+            echo "Exporting variables to Variables file"
+            touch variables.txt
+            echo -e "DLRS_NAME=$(pwd | awk -F'/' '{print $NF}')" >> variables.txt
+            echo "DLRS_VERSION=$(cat pyproject.toml | grep version | awk -F'=' '{print $2}' | sed 's/ \|"\|//g')" >> variables.txt
+            echo "DLRS_LAST_VERSION=$(git tag --sort creatordate -l 'v*-RELEASE*' 'v*-RC*' --merged | tail -n 1)" >> variables.txt
+    
+    - name: Upload variables
+      uses: actions/upload-artifact@v3
+      with:
+        name: variables.txt
+        path: variables.txt
