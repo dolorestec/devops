@@ -2,7 +2,6 @@ name: Release Branch
 
 on:
     workflow_call:
-    workflow_dispatch:
 
 jobs:
     variables:
