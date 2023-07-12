@@ -11,8 +11,7 @@ jobs:
 
         steps:
         - name: Setting variables
-          #uses: dolorestec/devops/.github/actions/variables@v1
-          run: echo "Hello world"
+          uses: dolorestec/devops/.github/actions/variables@v1
 
 
 #    build:
