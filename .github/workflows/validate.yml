@@ -38,7 +38,7 @@ jobs:
         - name: Docker build
           #uses: dolorestec/devops/.github/actions/docker/build@v1
           run: |
-            echo ${{ env.variables }}
+            env
 
         #- name: Docker run
         #  run: docker run --rm -it 
