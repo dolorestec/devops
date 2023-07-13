@@ -21,7 +21,7 @@ jobs:
         - name: Setting variables
           id: setting_variables
           run: |
-            echo "::set-output name=variables::$(cat variables.txt | xargs -I {} echo '{}')"
+            echo "$(cat variables.txt | xargs -I {} echo '{}')" >> $GITHUB_OUTPUT
 
         outputs:
             variables: ${{ steps.setting_variables.outputs.variables }}
