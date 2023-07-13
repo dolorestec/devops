@@ -21,8 +21,8 @@ runs:
     - name: Docker image upload
       shell: bash
       run: |
-        echo "Uploading docker image ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}";
-        docker push ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }};
+        echo "Uploading docker image ${{ env.DLRS_REPOSITORY }}:${{ env.DLRS_VERSION }}";
+        docker push ${{ env.DLRS_REPOSITORY }}:${{ env.DLRS_VERSION }};
 
     - name: Docker logout
       shell: bash

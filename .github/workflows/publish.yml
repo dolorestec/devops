@@ -4,8 +4,8 @@ on:
   workflow_call:
       
 jobs:
-    publish:
-      name: Publish
+    push:
+      name: Push
       timeout-minutes: 10
       runs-on: ubuntu-latest
 
