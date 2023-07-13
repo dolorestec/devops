@@ -27,9 +27,9 @@ runs:
     - name: Docker image upload
       shell: bash
       run: |
-        echo "Uploading docker image ${{ env.DLRS_REPOSITORY }}:${{ env.DLRS_VERSION }}"
-        docker tag ${{ env.DLRS_REPOSITORY }}:${{ env.DLRS_VERSION }} ${{ env.DLRS_REPOSITORY }}:${{ env.DLRS_VERSION }}
-        docker push ${{ env.DLRS_REPOSITORY }}:${{ env.DLRS_VERSION }} --all-tags
+        echo "Uploading docker image ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}"
+        docker tag ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }} ${{ env.DLRS_REPOSITORY }}:${{ env.DLRS_VERSION }}
+        docker image push --all-tags ${{ env.DLRS_REPOSITORY }}
 
     - name: Docker logout
       shell: bash
