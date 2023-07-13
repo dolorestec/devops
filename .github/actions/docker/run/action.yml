@@ -1,12 +1,19 @@
 name: Run Image
 description: "Run a docker image"
 
+inputs:
+  DLRS_NAME:
+    description: "Name of the docker image"
+    required: true
+  DLRS_VERSION:
+    description: "Version of the docker image"
+    required: true
+
 runs:
   using: composite
   steps:
-    - name: Checkout code
-      uses: Actions/checkout@v3
-      with:
-        repository: ${{ github.repository }}
-        ref: ${{ github.ref_name }}
-        fetch-depth: 0
+    - name: Docker image build
+      shell: bash
+      run: |
+        echo "Running docker image ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}" 
+        docker run -it ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }} /bin/bash

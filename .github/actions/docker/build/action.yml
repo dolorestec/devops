@@ -1,26 +1,17 @@
 name: Build Image
 description: "Build a docker image"
 
+inputs:
+  DLRS_NAME:
+    description: "Name of the docker image"
+    required: true
+  DLRS_VERSION:
+    description: "Version of the docker image"
+    required: true
+    
 runs:
   using: composite
   steps:
-    - name: Checkout code
-      uses: Actions/checkout@v3
-      with:
-        repository: ${{ github.repository }}
-        ref: ${{ github.ref_name }}
-        fetch-depth: 0
-
-    - name: Download variables
-      uses: actions/download-artifact@v3
-      with:
-        name: variables.txt
-
-    - name: Set variables
-      shell: bash
-      run: |
-        cat variables.txt | xargs -I {} echo "{}" >> $GITHUB_ENV
-        
     - name: Docker image build
       shell: bash
       run: |
