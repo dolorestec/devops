@@ -1,0 +1,24 @@
+name: Publish Docker Image
+
+on:
+    workflow_call:
+      
+jobs:
+    build:
+        name: Build
+        timeout-minutes: 10
+        runs-on: ubuntu-latest
+
+        steps:
+        - name: Setting variables
+          uses: dolorestec/devops/.github/actions/docker/build@v1
+
+    publish:
+        name: Publish
+        timeout-minutes: 10
+        runs-on: ubuntu-latest
+        needs: build
+
+        steps:
+        - name: Docker build
+          uses: dolorestec/devops/.github/actions/docker/publish@v1

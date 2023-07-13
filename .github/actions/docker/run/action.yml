@@ -1,0 +1,12 @@
+name: Run Image
+description: "Run a docker image"
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout code
+      uses: Actions/checkout@v3
+      with:
+        repository: ${{ github.repository }}
+        ref: ${{ github.ref_name }}
+        fetch-depth: 0
