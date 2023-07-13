@@ -12,6 +12,12 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Docker logout
+      shell: bash
+      run: |
+        echo "Logging out of docker";
+        docker logout;
+
     - name: Docker login
       shell: bash
       run: |
@@ -21,11 +27,12 @@ runs:
     - name: Docker image upload
       shell: bash
       run: |
-        echo "Uploading docker image ${{ env.DLRS_REPOSITORY }}:${{ env.DLRS_VERSION }}";
-        docker push ${{ env.DLRS_REPOSITORY }}:${{ env.DLRS_VERSION }};
+        echo "Uploading docker image ${{ env.DLRS_REPOSITORY }}:${{ env.DLRS_VERSION }}"
+        docker tag ${{ env.DLRS_REPOSITORY }}:${{ env.DLRS_VERSION }} ${{ env.DLRS_REPOSITORY }}:${{ env.DLRS_VERSION }}
+        docker push ${{ env.DLRS_REPOSITORY }}:${{ env.DLRS_VERSION }} --all-tags
 
     - name: Docker logout
       shell: bash
       run: |
-        echo "Logging out of docker";
-        docker logout;
+        echo "Logging out of docker"
+        docker logout
