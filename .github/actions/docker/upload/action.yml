@@ -16,7 +16,8 @@ runs:
       shell: bash
       run: |
         echo "Logging in to docker"; \
-        echo ${{ inputs.docker_password }} | docker login -u ${{ inputs.docker_username }} --password-stdin; \
+        echo ${{ inputs.docker_password }} >> pass.txt; \
+        cat pass.txt | docker login -u ${{ inputs.docker_username }} --password-stdin; \
 
     - name: Docker image upload
       shell: bash
