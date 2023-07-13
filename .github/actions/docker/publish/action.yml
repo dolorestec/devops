@@ -2,10 +2,10 @@ name: Publish
 description: "Publish a docker image to a registry"
 
 inputs:
-  docker_username:
+  DOCKER_USERNAME:
     description: "Docker username"
     required: true
-  docker_password:
+  DOCKER_PASSWORD:
     description: "Docker password"
     required: true
 
