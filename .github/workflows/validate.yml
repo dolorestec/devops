@@ -39,12 +39,6 @@ jobs:
 
           - name: Docker build
             uses: dolorestec/devops/.github/actions/docker/build@v1
-            with:
-              DLRS_NAME: ${{ env.DLRS_NAME }}
-              DLRS_VERSION: ${{ env.DLRS_VERSION }}
 
           - name: Docker run
             uses: dolorestec/devops/.github/actions/docker/run@v1
-            with:
-              DLRS_NAME: ${{ env.DLRS_NAME }}
-              DLRS_VERSION: ${{ env.DLRS_VERSION }}
