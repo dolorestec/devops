@@ -4,6 +4,13 @@ description: "Build a docker image"
 runs:
   using: composite
   steps:
+    - name: Checkout code
+      uses: Actions/checkout@v3
+      with:
+        repository: ${{ github.repository }}
+        ref: ${{ github.ref_name }}
+        fetch-depth: 0
+
     - name: Download variables
       uses: actions/download-artifact@v3
       with:
