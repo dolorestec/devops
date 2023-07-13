@@ -40,8 +40,8 @@ jobs:
           - name: Docker build
             uses: dolorestec/devops/.github/actions/docker/build@v1
 
-          - name: Docker run
+          - name: Docker push
             uses: dolorestec/devops/.github/actions/docker/upload@v1
             with:
-              DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-              DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+              docker_username: ${{ secrets.DOCKER_USERNAME }}
+              docker_password: ${{ secrets.DOCKER_PASSWORD }}
