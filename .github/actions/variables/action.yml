@@ -16,9 +16,11 @@ runs:
       run: |
         echo "Exporting variables to Variables file"
         touch variables.txt
-        echo "DLRS_NAME=${{ github.repository_owner }}/$(pwd | awk -F'/' '{print $NF}')" >> variables.txt
+
+        echo "DLRS_NAME=$(echo ${{ github.repository }} | awk -F'/' '{print $NF}')" >> variables.txt
+        echo "DLRS_REPOSITORY=${{ github.repository }}" >> variables.txt
         echo "DLRS_VERSION=$(cat pyproject.toml | grep version | awk -F'=' '{print $2}' | sed 's/ \|"\|//g')" >> variables.txt
-        echo "DLRS_LAST_VERSION=$(git tag --sort creatordate -l 'v*-RELEASE*' 'v*-RC*' --merged | tail -n 1)" >> variables.txt
+        echo "DLRS_VERSION_SUFFIX=$(cat pyproject.toml | grep version |  sed 's/ \|"\|//g' |awk -F'-' '{print $NF}')" >> variables.txt
     
     - name: Upload variables
       uses: actions/upload-artifact@v3
