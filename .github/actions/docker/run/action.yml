@@ -1,18 +1,10 @@
 name: Run Image
 description: "Run a docker image"
 
-inputs:
-  DLRS_NAME:
-    description: "Name of the docker image"
-    required: true
-  DLRS_VERSION:
-    description: "Version of the docker image"
-    required: true
-
 runs:
   using: composite
   steps:
     - name: Docker image build
       shell: container
       run: |
-        docker run -d --name ${{ inputs.DLRS_NAME }} ${{ inputs.DLRS_NAME }}:${{ inputs.DLRS_VERSION }}
+        docker run -d --name ${{ env.DLRS_NAME }} ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}
