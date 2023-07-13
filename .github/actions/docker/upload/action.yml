@@ -1,6 +1,13 @@
 name: Upload
 description: "Upload a docker image to a registry"
 
+inputs:
+  DOCKER_USERNAME:
+    description: "Docker username"
+    required: true
+  DOCKER_PASSWORD:
+    description: "Docker password"
+    required: true
 runs:
   using: composite
   steps:
@@ -8,7 +15,7 @@ runs:
       shell: bash
       run: |
         echo "Logging in to docker";
-        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin;
+        echo "${{ inputs.DOCKER_PASSWORD }}" | docker login -u "${{ inputs.DOCKER_USERNAME }}" --password-stdin;
 
     - name: Docker image upload
       shell: bash

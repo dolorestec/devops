@@ -42,3 +42,6 @@ jobs:
 
           - name: Docker run
             uses: dolorestec/devops/.github/actions/docker/upload@v1
+            with:
+              DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+              DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
