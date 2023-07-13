@@ -3,14 +3,7 @@ description: "Set variables for use in other actions"
 
 runs:
   using: composite
-  steps:
-    - name: Checkout code
-      uses: Actions/checkout@v3
-      with:
-        repository: ${{ github.repository }}
-        ref: ${{ github.ref_name }}
-        fetch-depth: 0
-        
+  steps:      
     - name: Create variables
       shell: bash
       run: |

@@ -5,65 +5,71 @@ on:
       
 jobs:
     variables:
-        name: Variables
-        timeout-minutes: 10
-        runs-on: ubuntu-latest
+      name: Variables
+      timeout-minutes: 10
+      runs-on: ubuntu-latest
 
-        steps:
+      steps:
+        - name: Checkout code
+          uses: Actions/checkout@v3
+          with:
+            repository: ${{ github.repository }}
+            ref: ${{ github.ref_name }}
+            fetch-depth: 0
+
         - name: Export variables
           uses: dolorestec/devops/.github/actions/variables@v1
 
     build:
-        name: Test
-        timeout-minutes: 10
-        runs-on: ubuntu-latest
-        needs: variables
+      name: Test
+      timeout-minutes: 10
+      runs-on: ubuntu-latest
+      needs: variables
     
-        steps:
-          - name: Checkout code
-            uses: Actions/checkout@v3
-            with:
-              repository: ${{ github.repository }}
-              ref: ${{ github.ref_name }}
-              fetch-depth: 0
+      steps:
+        - name: Checkout code
+          uses: Actions/checkout@v3
+          with:
+            repository: ${{ github.repository }}
+            ref: ${{ github.ref_name }}
+            fetch-depth: 0
       
-          - name: Download variables
-            uses: actions/download-artifact@v3
-            with:
-              name: variables.txt
+        - name: Download variables
+          uses: actions/download-artifact@v3
+          with:
+            name: variables.txt
       
-          - name: Set variables
-            shell: bash
-            run: |
-              cat variables.txt | xargs -I {} echo "{}" >> $GITHUB_ENV
+        - name: Set variables
+          run: |
+            cat variables.txt | xargs -I {} echo "{}" >> $GITHUB_ENV
 
-          - name: Docker build
-            uses: dolorestec/devops/.github/actions/docker/build@v1
+        - name: Docker build
+          uses: dolorestec/devops/.github/actions/docker/build@v1
 
-      publish:
-        name: Test
-        timeout-minutes: 10
-        runs-on: ubuntu-latest
-        needs: build
+    publish:
+      name: Test
+      timeout-minutes: 10
+      runs-on: ubuntu-latest
+      needs: build
 
-        steps:
-          - name: Checkout code
-            uses: Actions/checkout@v3
-            with:
-              repository: ${{ github.repository }}
-              ref: ${{ github.ref_name }}
-              fetch-depth: 0
+      steps:
+        - name: Checkout code
+          uses: Actions/checkout@v3
+          with:
+            repository: ${{ github.repository }}
+            ref: ${{ github.ref_name }}
+            fetch-depth: 0
 
-          - name: Download variables
-            uses: actions/download-artifact@v3
-            with:
-              name: variables.txt
+        - name: Download variables
+          uses: actions/download-artifact@v3
+          with:
+            name: variables.txt
 
-          - name: Set variables
-            shell: bash
-            run: |
-              cat variables.txt | xargs -I {} echo "{}" >> $GITHUB_ENV
+        - name: Set variables
+          shell: bash
+          run: |
+            cat variables.txt | xargs -I {} echo "{}" >> $GITHUB_ENV
 
-          - name: Docker login
-            run: |
-              echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+        - name: Docker login
+          run: |
+            echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
