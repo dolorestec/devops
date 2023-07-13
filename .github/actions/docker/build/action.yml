@@ -1,14 +1,6 @@
 name: Build Image
 description: "Build a docker image"
 
-inputs:
-  DLRS_NAME:
-    description: "Name of the docker image"
-    required: true
-  DLRS_VERSION:
-    description: "Version of the docker image"
-    required: true
-    
 runs:
   using: composite
   steps:
