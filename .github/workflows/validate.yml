@@ -24,21 +24,4 @@ jobs:
           uses: dolorestec/devops/.github/actions/docker/build@v1
         
         - name: Docker run
-          uses: dolorestec/devops/.github/actions/docker/run@v1
-
-    publish:
-      name: Publish
-      timeout-minutes: 10
-      runs-on: ubuntu-latest
-      needs: test
-
-      steps:
-        - name: Docker build
-          uses: dolorestec/devops/.github/actions/docker/build@v1
-
-        - name: Docker publish
-          uses: dolorestec/devops/.github/actions/docker/publish@v1
-          with:
-            DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-            DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          
+          uses: dolorestec/devops/.github/actions/docker/run@v1          
