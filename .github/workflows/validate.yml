@@ -45,3 +45,4 @@ jobs:
 
         - name: Docker publish
           uses: dolorestec/devops/.github/actions/docker/publish@v1
+          
