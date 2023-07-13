@@ -21,10 +21,10 @@ jobs:
         - name: Setting variables
           id: setting_variables
           run: |
-            echo "$(cat variables.txt | xargs -I {} echo '{}')" >> $GITHUB_OUTPUT
+            echo "$(cat variables.txt | xargs -I {} echo '{}')" >> $GITHUB_ENV
 
         outputs:
-            variables: ${{ steps.setting_variables.outputs.variables }}
+            variables: $GITHUB_ENV
 
     test:
         name: Test
