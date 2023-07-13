@@ -19,4 +19,4 @@ jobs:
 
         - name: Docker login
           run: |
-            docker login -u "${{ env.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
+            env
