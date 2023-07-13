@@ -13,8 +13,8 @@ jobs:
         - name: Export variables
           uses: dolorestec/devops/.github/actions/variables@v1
 
-    build:
-      name: Build
+    test:
+      name: Test
       timeout-minutes: 10
       runs-on: ubuntu-latest
       needs: variables
@@ -26,21 +26,11 @@ jobs:
         - name: Docker run
           uses: dolorestec/devops/.github/actions/docker/run@v1
 
-    run: 
-      name: Run
-      timeout-minutes: 10
-      runs-on: ubuntu-latest
-      needs: build
-
-      steps:
-        - name: Docker run
-          uses: dolorestec/devops/.github/actions/docker/run@v1
-
     publish:
       name: Publish
       timeout-minutes: 10
       runs-on: ubuntu-latest
-      needs: run
+      needs: test
 
       steps:
         - name: Docker build
