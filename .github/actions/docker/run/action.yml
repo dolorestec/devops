@@ -10,10 +10,6 @@ inputs:
     required: true
 
 runs:
-  using: composite
-  steps:
-    - name: Docker image build
-      shell: bash
-      run: |
-        echo "Running docker image ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}" 
-        docker run -it ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }} /bin/bash
+  using: docker
+  image: Dockerfile
+  
