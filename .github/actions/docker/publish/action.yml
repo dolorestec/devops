@@ -1,5 +1,5 @@
-name: Upload
-description: "Upload a docker image to a registry"
+name: Publish
+description: "Publish a docker image to a registry"
 
 inputs:
   docker_username:
@@ -15,15 +15,14 @@ runs:
     - name: Docker login
       shell: bash
       run: |
-        echo "Logging in to docker"; \
-        echo ${{ inputs.docker_password }} >> pass.txt; \
-        cat pass.txt | docker login -u ${{ inputs.docker_username }} --password-stdin; \
+        echo "Logging in to docker"
+        echo ${{inputs.DOCKER_PASSWORD}} | docker login -u ${{inputs.DOCKER_USERNAME}} --password-stdin
 
     - name: Docker image upload
       shell: bash
       run: |
         echo "Uploading docker image ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}";
-        docker push ${{ github.DLRS_NAME }}:${{ github.DLRS_VERSION }};
+        docker push ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }};
 
     - name: Docker logout
       shell: bash
