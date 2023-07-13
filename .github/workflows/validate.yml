@@ -41,4 +41,4 @@ jobs:
             uses: dolorestec/devops/.github/actions/docker/build@v1
 
           - name: Docker run
-            uses: dolorestec/devops/.github/actions/docker/run@v1
+            uses: dolorestec/devops/.github/actions/docker/upload@v1
