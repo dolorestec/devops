@@ -13,11 +13,11 @@ jobs:
         - name: Setting variables
           uses: dolorestec/devops/.github/actions/variables@v1
 
-
     build:
         name: Build
         timeout-minutes: 10
         runs-on: ubuntu-latest
+        needs: variables
 
         steps:
         - name: Checkout code
