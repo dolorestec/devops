@@ -19,4 +19,4 @@ jobs:
 
         - name: Docker login
           run: |
-            docker login -u lucascantarelli -p "#Psdw2021#"   
+            docker login -u "${{ env.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
