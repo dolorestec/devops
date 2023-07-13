@@ -9,8 +9,23 @@ jobs:
         timeout-minutes: 10
         runs-on: ubuntu-latest
 
-        steps:         
+        steps:
         - name: Setting variables
           uses: dolorestec/devops/.github/actions/variables@v1
 
 
+    build:
+        name: Build
+        timeout-minutes: 10
+        runs-on: ubuntu-latest
+
+        steps:
+        - name: Checkout code
+          uses: Actions/checkout@v3
+          with:
+            repository: ${{ github.repository }}
+            ref: ${{ github.ref_name }}
+            fetch-depth: 0
+
+        - name: Docker build
+          uses: dolorestec/devops/.github/actions/docker/build@v1

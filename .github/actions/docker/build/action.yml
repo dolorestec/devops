@@ -1,4 +1,4 @@
-name: Build
+name: Build Image
 description: "Build a docker image"
 
 runs:
