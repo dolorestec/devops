@@ -42,10 +42,6 @@ jobs:
           with:
             image: ${{ env.DLRS_IMAGE_NAME }}
             tag: ${{ env.DLRS_VERSION }}
-            cache-to: |
-              type=gha,scope=${{ env.DLRS_IMAGE_NAME }}-${{ env.DLRS_VERSION }},mode=max
-            cache-from: |
-              type=gha,scope=${{ env.DLRS_IMAGE_NAME }}-${{ env.DLRS_VERSION }}
           
         - name: Docker run
           uses: dolorestec/devops/.github/actions/docker/run@develop  
