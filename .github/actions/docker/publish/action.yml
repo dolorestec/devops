@@ -15,7 +15,7 @@ runs:
     - name: Docker verify
       shell: bash
       run: |
-        docker pull $(echo ${{ github.repository_owner }}| sed 's/./& /g)/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }} || true
+        docker pull ${{ env.DRLS_REGISTRY }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }} || true
 
     - name: Docker login
       if: failure()
