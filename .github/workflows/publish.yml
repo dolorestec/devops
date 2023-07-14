@@ -18,4 +18,4 @@ jobs:
           with:
             DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
             DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-            DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
+            DOCKER_REGISTRY: ${{ env.DRLS_REGISTRY }}
