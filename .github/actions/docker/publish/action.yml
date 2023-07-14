@@ -8,9 +8,6 @@ inputs:
   DOCKER_PASSWORD:
     description: "Docker password"
     required: true
-  DOCKER_REGISTRY:
-    description: "Docker registry"
-    required: true
 
 runs:
   using: composite
@@ -18,14 +15,14 @@ runs:
     - name: Docker verify
       shell: bash
       run: |
-        docker pull ${{ inputs.DOCKER_REGISTRY }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }} || true
+        docker pull ${{ env.DRLS_REGISTRY }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }} || true
 
     - name: Docker login
       if: failure()
       shell: bash
       run: |
         echo "Logging in to docker"
-        echo ${{inputs.DOCKER_PASSWORD}} | docker login ${{ inputs.DOCKER_REGISTRY }} -u ${{inputs.DOCKER_USERNAME}} --password-stdin
+        echo ${{inputs.DOCKER_PASSWORD}} | docker login ${{ env.DRLS_REGISTRY }} -u ${{inputs.DOCKER_USERNAME}} --password-stdin
 
     - name: Docker image tag
       if: success()
