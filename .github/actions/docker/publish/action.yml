@@ -12,13 +12,16 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Docker logout
+    - name: Docker verify
       shell: bash
+      id: docker_verify
       run: |
         echo "Logging out of docker";
         docker logout;
+        docker pull ${{ env.DLRS_REPOSITORY }}:${{ env.DLRS_VERSION }} || true;
 
     - name: Docker login
+      if: steps.docker_verify.outcome == 'Success'
       shell: bash
       run: |
         echo "Logging in to docker"
