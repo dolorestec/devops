@@ -21,7 +21,7 @@ runs:
         docker pull ${{ env.DLRS_REPOSITORY }}:${{ env.DLRS_VERSION }} || true;
 
     - name: Docker login
-      if: steps.docker_verify.outcome == 'Success'
+      if: failure()
       shell: bash
       run: |
         echo "Logging in to docker"
