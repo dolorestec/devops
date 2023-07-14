@@ -16,7 +16,7 @@ runs:
       shell: bash
       run: |
         echo "Logging in to docker"
-        echo ${{inputs.DOCKER_TOKEN}} | docker login ${{ env.DRLS_REGISTRY }} -u ${{ github.actor }} --password-stdin
+        echo ${{inputs.DOCKER_TOKEN}} | docker login -u ${{ github.actor }} --password-stdin
 
     - name: Docker image upload
       shell: bash
