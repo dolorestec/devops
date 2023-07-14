@@ -33,7 +33,7 @@ runs:
       run: |
         echo "Uploading docker image ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}"
         docker tag ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }} ${{ env.DLRS_REPOSITORY }}:${{ env.DLRS_VERSION }}
-        docker image push --all-tags ${{ github.repository_owner }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}
+        docker image push --all-tags ${{ github.repository_owner }}/${{ env.DLRS_NAME }}
 
     - name: Docker logout
       if: success() || failure()
