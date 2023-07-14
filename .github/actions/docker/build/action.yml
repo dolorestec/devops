@@ -10,6 +10,20 @@ runs:
         repository: ${{ github.repository }}
         ref: ${{ github.ref_name }}
         fetch-depth: 0
+
+    - name: Cache docker layers
+      id: cache-docker
+      uses: actions/cache@v3
+      env:
+        cache-name: cache-docker
+      with:
+        path: ~/.docker
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pyproject.toml') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+
       
     - name: Download variables
       uses: actions/download-artifact@v3
@@ -26,7 +40,3 @@ runs:
       run: |
         echo "Building docker image ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}" 
         docker build . --tag ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}
-
-    - name: Cache docker layers
-      uses: satackey/action-docker-layer-caching@v0.0.11
-      continue-on-error: true
