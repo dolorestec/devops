@@ -50,7 +50,7 @@ jobs:
             image: ${{ env.DLRS_IMAGE_NAME }}
             tag: ${{ env.DLRS_VERSION }}
 
-        - name: Docker run
+        - name: Docker exec
           uses: dolorestec/devops/.github/actions/docker/exec@develop  
           with:
             container: ${{ env.DLRS_NAME }}

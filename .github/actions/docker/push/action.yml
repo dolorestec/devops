@@ -2,11 +2,17 @@ name: Publish
 description: "Publish a docker image to a registry"
 
 inputs:
-  DOCKER_USERNAME:
+  user:
     description: "Docker username"
     required: true
-  DOCKER_TOKEN:
+  token:
     description: "Docker password"
+    required: true
+  image:
+    description: "Name of the image to build"
+    required: true
+  tag:
+    description: "Tag of the image to build"
     required: true
 
 runs:
@@ -16,17 +22,15 @@ runs:
       shell: bash
       run: |
         echo "Logging in to docker"
-        echo ${{inputs.DOCKER_TOKEN}} | docker login -u ${{ github.actor }} --password-stdin
+        echo ${{inputs.token}} | docker login -u ${{ inputs.user }} --password-stdin &> /dev/null
 
     - name: Docker image upload
       shell: bash
-      run: |
-        echo "Uploading docker to registry ${{ env.DLRS_IMAGE_NAME }}:${{ env.DLRS_VERSION }}"
-        docker image push ${{ env.DLRS_IMAGE_NAME }}:${{ env.DLRS_VERSION }}
+      run: docker image push ${{ inputs.image }}:${{ inputs.tag }}
 
     - name: Docker logout
       if: success() || failure()
       shell: bash
       run: |
         echo "Logging out of docker"
-        docker logout
+        docker logout &> /dev/null

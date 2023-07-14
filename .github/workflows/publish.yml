@@ -10,11 +10,26 @@ jobs:
       runs-on: ubuntu-latest
 
       steps:
+        - name: Checkout code
+          uses: Actions/checkout@v3
+          with:
+            repository: ${{ github.repository }}
+            ref: ${{ github.ref_name }}
+            fetch-depth: 0
+        
+        - name: Load variables
+          uses: dolorestec/devops/.github/actions/variables/load@develop
+
         - name: Docker build
           uses: dolorestec/devops/.github/actions/docker/build@develop
+          with:
+            image: ${{ env.DLRS_IMAGE_NAME }}
+            tag: ${{ env.DLRS_VERSION }}
 
         - name: Docker publish
-          uses: dolorestec/devops/.github/actions/docker/publish@develop
+          uses: dolorestec/devops/.github/actions/docker/push@develop
           with:
-            DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-            DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+            user: ${{ github.actor }}
+            token: ${{ secrets.DOCKER_TOKEN }}
+            image: ${{ env.DLRS_IMAGE_NAME }}
+            tag: ${{ env.DLRS_VERSION }}

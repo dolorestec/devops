@@ -20,11 +20,3 @@ runs:
       run: |
         echo "Running docker image ${{ inputs.container }}:${{ inputs.tag }}" 
         docker run -it -d --name ${{ inputs.container }} ${{ inputs.image }}:${{ inputs.tag }}
-        sleep 5
-        docker exec ${{ inputs.container }} /bin/bash -c "cat /etc/motd" 
-
-    - name: Docker image run
-      shell: bash
-      run: |
-        echo "Execute command on container: ${{ inputs.container }}" 
-        docker exec ${{ inputs.container }} /bin/bash -c "cat /etc/motd" 
