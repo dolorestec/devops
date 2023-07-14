@@ -11,10 +11,10 @@ jobs:
 
       steps:
         - name: Docker build
-          uses: dolorestec/devops/.github/actions/docker/build@v1
+          uses: dolorestec/devops/.github/actions/docker/build@main
 
         - name: Docker publish
-          uses: dolorestec/devops/.github/actions/docker/publish@v1
+          uses: dolorestec/devops/.github/actions/docker/publish@main
           with:
             DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
             DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
