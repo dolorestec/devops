@@ -16,6 +16,7 @@ runs:
       
       shell: bash
       id: verify
+      continue-on-error: true
       run: |
         docker pull ${{ github.actor }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }} || true
 
@@ -24,17 +25,12 @@ runs:
       run: |
         echo "Logging in to docker"
         echo ${{inputs.DOCKER_PASSWORD}} | docker login ${{ env.DRLS_REGISTRY }} -u ${{ github.actor }} --password-stdin
-    - name: Docker image tag
-      shell: bash
-      run: |
-        echo "Tagging docker image ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}"
-        docker tag  ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }} ${{ github.actor }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}
 
     - name: Docker image upload
       shell: bash
       run: |
         echo "Uploading docker to registry ${{ env.DRLS_REGISTRY }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}"
-        docker image push --all-tags ${{ github.actor }}/${{ env.DLRS_NAME }}
+        docker image push ${{ github.actor }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}
 
     - name: Docker logout
       if: success() || failure()
