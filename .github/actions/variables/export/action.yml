@@ -1,16 +1,9 @@
-name: Variables
-description: "Set variables for use in other actions"
+name: Export Variables
+description: "Export variables for use in other actions"
 
 runs:
   using: composite
   steps:
-    - name: Checkout code
-      uses: Actions/checkout@v3
-      with:
-        repository: ${{ github.repository }}
-        ref: ${{ github.ref_name }}
-        fetch-depth: 0     
-
     - name: Create variables
       shell: bash
       run: |

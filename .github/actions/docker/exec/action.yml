@@ -1,0 +1,19 @@
+name: Docker exec
+description: "Execute command on a docker container"
+
+inputs:
+  container:
+    description: "Name of the container to run"
+    required: true
+  command:
+    description: "Command to execute"
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Docker exec
+      shell: bash
+      run: |
+        echo "Execute command on container: ${{ inputs.container }}" 
+        docker exec ${{ inputs.container }} /bin/bash -c "${{ inputs.command }}"

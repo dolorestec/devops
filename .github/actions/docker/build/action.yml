@@ -1,42 +1,19 @@
 name: Build Image
 description: "Build a docker image"
 
+inputs:
+  image:
+    description: "Name of the image to build"
+    required: true
+  tag:
+    description: "Tag of the image to build"
+    required: true
+
 runs:
   using: composite
   steps:
-    - name: Checkout code
-      uses: Actions/checkout@v3
-      with:
-        repository: ${{ github.repository }}
-        ref: ${{ github.ref_name }}
-        fetch-depth: 0
-
-    - name: Cache docker layers
-      id: cache-docker
-      uses: actions/cache@v3
-      env:
-        cache-name: cache-docker
-      with:
-        path: ~/.docker
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pyproject.toml') }}
-        restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-build-
-          ${{ runner.os }}-
-
-      
-    - name: Download variables
-      uses: actions/download-artifact@v3
-      with:
-        name: variables.txt
-      
-    - name: Set variables
-      shell: bash
-      run: |
-        cat variables.txt | xargs -I {} echo "{}" >> $GITHUB_ENV
-
     - name: Docker image build
       shell: bash
       run: |
-        echo "Building docker image ${{ env.DLRS_IMAGE_NAME }}:${{ env.DLRS_VERSION }}" 
-        docker build . --tag ${{ env.DLRS_IMAGE_NAME }}:${{ env.DLRS_VERSION }}
+        echo "Building docker image ${{ inputs.image }}:${{ inputs.tag }}" 
+        docker build . --tag ${{ inputs.image }}:${{ inputs.tag }}

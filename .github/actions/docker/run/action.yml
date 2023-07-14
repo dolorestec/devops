@@ -1,13 +1,30 @@
-name: Run Image
+name: Docker run
 description: "Run a docker image"
+
+inputs:
+  container:
+    description: "Name of the container to run"
+    required: true
+  image:
+    description: "Name of the image to build"
+    required: true
+  tag:
+    description: "Tag of the image to build"
+    required: true
 
 runs:
   using: composite
   steps:
+    - name: Docker Run
+      shell: bash
+      run: |
+        echo "Running docker image ${{ inputs.container }}:${{ inputs.tag }}" 
+        docker run -it -d --name ${{ inputs.container }} ${{ inputs.image }}:${{ inputs.tag }}
+        sleep 5
+        docker exec ${{ inputs.container }} /bin/bash -c "cat /etc/motd" 
+
     - name: Docker image run
       shell: bash
       run: |
-        echo "Running docker image ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}" 
-        docker run -it -d --name ${{ env.DLRS_NAME }} ${{ env.DLRS_IMAGE_NAME }}:${{ env.DLRS_VERSION }}
-        sleep 5
-        docker exec ${{ env.DLRS_NAME }} /bin/bash -c "cat /etc/motd" 
+        echo "Execute command on container: ${{ inputs.container }}" 
+        docker exec ${{ inputs.container }} /bin/bash -c "cat /etc/motd" 
