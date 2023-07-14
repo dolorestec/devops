@@ -28,14 +28,14 @@ runs:
       shell: bash
       run: |
         echo "Tagging docker image ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}"
-        docker tag ${{ env.DRLS_REGISTRY }}/${{ env.DLRS_NAME }} ${{ env.DRLS_REGISTRY }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}
+        docker tag  ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }} ${{ github.actor }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}
 
     - name: Docker image upload
       if: success()
       shell: bash
       run: |
         echo "Uploading docker to registry ${{ env.DRLS_REGISTRY }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}"
-        docker image push --all-tags ${{ github.repository_owner }}/${{ env.DLRS_NAME }}
+        docker image push --all-tags ${{ github.actor }}/${{ env.DLRS_NAME }}
 
     - name: Docker logout
       if: success() || failure()
