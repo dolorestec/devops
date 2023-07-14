@@ -22,8 +22,7 @@ runs:
       shell: bash
       run: |
         echo "Logging in to docker"
-        echo ${{inputs.DOCKER_PASSWORD}} | docker login ${{ env.DRLS_REGISTRY }} -u ${{ github.github_actor }} --password-stdin
-
+        echo ${{inputs.DOCKER_PASSWORD}} | docker login ${{ env.DRLS_REGISTRY }} -u ${{ github.actor }} --password-stdin
     - name: Docker image tag
       if: success()
       shell: bash
