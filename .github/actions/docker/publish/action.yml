@@ -28,6 +28,7 @@ runs:
         echo ${{inputs.DOCKER_PASSWORD}} | docker login -u ${{inputs.DOCKER_USERNAME}} --password-stdin
 
     - name: Docker image upload
+      if: success()
       shell: bash
       run: |
         echo "Uploading docker image ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}"
@@ -35,6 +36,7 @@ runs:
         docker image push --all-tags ${{ github.repository_owner }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}
 
     - name: Docker logout
+      if: success() || failure()
       shell: bash
       run: |
         echo "Logging out of docker"
