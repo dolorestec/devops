@@ -17,9 +17,8 @@ runs:
   steps:
     - name: Docker verify
       shell: bash
-      id: docker_verify
       run: |
-        docker pull ${{ inputs.DOCKER_USERNAME }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }} || true
+        docker pull ${{ inputs.DOCKER_REGISTERY }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }} || true
 
     - name: Docker login
       if: failure()
