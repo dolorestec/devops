@@ -39,4 +39,5 @@ runs:
       shell: bash
       run: |
         echo "Building docker image ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}" 
-        docker build . --tag ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}
+        docker build . --tag ${{ github.actor }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}
+        docker
