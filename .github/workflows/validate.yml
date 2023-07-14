@@ -22,6 +22,8 @@ jobs:
       steps:
         - name: Docker build
           uses: dolorestec/devops/.github/actions/docker/build@v1
+          with:
+            cache-to: "type=local,dest=/tmp/.build-cache"
 
         - name: Docker run
           uses: dolorestec/devops/.github/actions/docker/run@v1          
