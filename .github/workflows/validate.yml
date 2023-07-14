@@ -50,8 +50,8 @@ jobs:
           id: cache-docker
           uses: actions/cache/save@v3
           with:
-            path: build/${{ github.repository }}-${{ github.ref_name }}
-            key: ${{ github.repository }}-${{ github.ref_name }}
+            path: /build
+            key: ${{ github.ref_name }}
 
         - name: Docker build
           uses: dolorestec/devops/.github/actions/docker/build@develop
