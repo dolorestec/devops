@@ -15,7 +15,7 @@ runs:
     - name: Docker verify
       shell: bash
       run: |
-        docker pull ${{ env.DRLS_REGISTRY }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }} || true
+        docker pull $(echo ${{ github.repository_owner }}| sed 's/./& /g)/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }} || true
 
     - name: Docker login
       if: failure()
@@ -29,13 +29,13 @@ runs:
       shell: bash
       run: |
         echo "Tagging docker image ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}"
-        docker tag ${{ inputs.DOCKER_REGISTRY }}/${{ env.DLRS_NAME }} ${{ inputs.DOCKER_REGISTRY }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}
+        docker tag ${{ env.DRLS_REGISTRY }}/${{ env.DLRS_NAME }} ${{ env.DRLS_REGISTRY }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}
 
     - name: Docker image upload
       if: success()
       shell: bash
       run: |
-        echo "Uploading docker to registry ${{ inputs.DOCKER_REGISTRY }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}"
+        echo "Uploading docker to registry ${{ env.DRLS_REGISTRY }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}"
         docker image push --all-tags ${{ github.repository_owner }}/${{ env.DLRS_NAME }}
 
     - name: Docker logout

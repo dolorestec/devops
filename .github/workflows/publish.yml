@@ -13,9 +13,9 @@ jobs:
         - name: Docker build
           uses: dolorestec/devops/.github/actions/docker/build@v1
           with:
-            cache-from: type=local,src=/tmp/.build-cache
-            cache-to: type=local,dest=/tmp/.build-cache-new
-
+            cache-from: type=local,src=/tmp/.buildx-cache
+            cache-to: type=local,dest=/tmp/.buildx-cache-new
+            
         - name: Docker publish
           uses: dolorestec/devops/.github/actions/docker/publish@v1
           with:

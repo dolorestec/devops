@@ -23,13 +23,13 @@ jobs:
         - name: Docker build
           uses: dolorestec/devops/.github/actions/docker/build@v1
           
-        - name: Cache Docker layers
+        - name: Cache docker layers
           uses: actions/cache@v2
           with:
-            path: /tmp/.build-cache
-            key: ${{ runner.os }}-build-${{ github.sha }}
+            path: /tmp/.buildx-cache
+            key: ${{ runner.os }}-single-buildx-${{ github.sha }}
             restore-keys: |
-              ${{ runner.os }}-build-
+              ${{ runner.os }}-single-buildx
 
         - name: Docker run
           uses: dolorestec/devops/.github/actions/docker/run@v1          
