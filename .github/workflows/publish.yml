@@ -24,6 +24,8 @@ jobs:
           id: cache-docker
           uses: actions/cache/restore@v3
           with:
+            path: |
+              build
             key: ${{ github.ref_name }}
 
         - name: Docker build
