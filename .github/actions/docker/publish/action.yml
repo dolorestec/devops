@@ -25,14 +25,20 @@ runs:
       shell: bash
       run: |
         echo "Logging in to docker"
-        echo ${{inputs.DOCKER_PASSWORD}} | docker login -u ${{inputs.DOCKER_USERNAME}} --password-stdin
+        echo ${{inputs.DOCKER_PASSWORD}} | docker login ${{ inputs.DOCKER_REGISTERY }} -u ${{inputs.DOCKER_USERNAME}} --password-stdin
+
+    - name: Docker image tag
+      if: success()
+      shell: bash
+      run: |
+        echo "Tagging docker image ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}"
+        docker tag ${{ inputs.DOCKER_REGISTERY }}/${{ env.DLRS_NAME }} ${{ inputs.DOCKER_REGISTERY }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}
 
     - name: Docker image upload
       if: success()
       shell: bash
       run: |
-        echo "Uploading docker image ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}"
-        docker tag ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }} ${{ env.DLRS_REPOSITORY }}:${{ env.DLRS_VERSION }}
+        echo "Uploading docker to registry ${{ inputs.DOCKER_REGISTERY }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}"
         docker image push --all-tags ${{ github.repository_owner }}/${{ env.DLRS_NAME }}
 
     - name: Docker logout
