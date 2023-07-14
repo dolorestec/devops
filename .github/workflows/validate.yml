@@ -53,6 +53,8 @@ jobs:
             path: |
               build
             key: ${{ github.ref_name }}
+            restore-keys: |
+              ${{ github.ref_name }}
 
         - name: Docker build
           uses: dolorestec/devops/.github/actions/docker/build@develop

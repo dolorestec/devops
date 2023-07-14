@@ -26,7 +26,7 @@ jobs:
           with:
             path: |
               build
-            key: ${{ github.ref_name }}
+            key: ${{ github.ref_name}}
 
         - name: Docker build
           uses: dolorestec/devops/.github/actions/docker/build@develop
