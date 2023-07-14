@@ -21,8 +21,8 @@ runs:
     - name: Docker image upload
       shell: bash
       run: |
-        echo "Uploading docker to registry ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}"
-        docker image push ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}
+        echo "Uploading docker to registry ${{ env.DLRS_IMAGE_NAME }}:${{ env.DLRS_VERSION }}"
+        docker image push ${{ env.DLRS_IMAGE_NAME }}:${{ env.DLRS_VERSION }}
 
     - name: Docker logout
       if: success() || failure()
