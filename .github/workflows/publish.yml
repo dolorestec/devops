@@ -20,6 +20,13 @@ jobs:
         - name: Load variables
           uses: dolorestec/devops/.github/actions/variables/load@develop
 
+        - name: Cache docker build
+          id: cache-docker
+          uses: actions/cache/restore@v3
+          with:
+            path: build/${{ github.repository }}-${{ github.ref_name }}
+            key: ${{ github.repository }}-${{ github.ref_name }}
+
         - name: Docker build
           uses: dolorestec/devops/.github/actions/docker/build@develop
           with:
