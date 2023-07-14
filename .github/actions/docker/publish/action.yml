@@ -8,6 +8,9 @@ inputs:
   DOCKER_PASSWORD:
     description: "Docker password"
     required: true
+  DOCKER_REGISTERY:
+    description: "Docker registry"
+    required: true
 
 runs:
   using: composite
@@ -16,9 +19,7 @@ runs:
       shell: bash
       id: docker_verify
       run: |
-        echo "Logging out of docker";
-        docker logout;
-        docker pull ${{ env.DLRS_REPOSITORY }}:${{ env.DLRS_VERSION }} || true;
+        docker pull ${{ inputs.DOCKER_USERNAME }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }} || true
 
     - name: Docker login
       if: failure()
