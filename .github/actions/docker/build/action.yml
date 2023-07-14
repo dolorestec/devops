@@ -16,4 +16,4 @@ runs:
       shell: bash
       run: |
         echo "Building docker image ${{ inputs.image }}:${{ inputs.tag }}" 
-        docker build . --tag ${{ inputs.image }}:${{ inputs.tag }}
+        docker buildx build . --tag ${{ inputs.image }}:${{ inputs.tag }}
