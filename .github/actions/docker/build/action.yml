@@ -26,3 +26,7 @@ runs:
       run: |
         echo "Building docker image ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}" 
         docker build . --tag ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}
+
+    - name: Cache docker layers
+      uses: satackey/action-docker-layer-caching@v0.0.11
+      continue-on-error: true
