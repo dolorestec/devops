@@ -13,25 +13,24 @@ runs:
   using: composite
   steps:
     - name: Docker verify
+      
       shell: bash
+      id: verify
       run: |
-        docker pull ${{ env.DRLS_REGISTRY }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }} || true
+        docker pull ${{ github.actor }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }} || true
 
     - name: Docker login
-      if: failure()
       shell: bash
       run: |
         echo "Logging in to docker"
         echo ${{inputs.DOCKER_PASSWORD}} | docker login ${{ env.DRLS_REGISTRY }} -u ${{ github.actor }} --password-stdin
     - name: Docker image tag
-      if: success()
       shell: bash
       run: |
         echo "Tagging docker image ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}"
         docker tag  ${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }} ${{ github.actor }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}
 
     - name: Docker image upload
-      if: success()
       shell: bash
       run: |
         echo "Uploading docker to registry ${{ env.DRLS_REGISTRY }}/${{ env.DLRS_NAME }}:${{ env.DLRS_VERSION }}"
