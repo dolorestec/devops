@@ -17,4 +17,4 @@ jobs:
           uses: dolorestec/devops/.github/actions/docker/publish@v1
           with:
             DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-            DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+            DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}

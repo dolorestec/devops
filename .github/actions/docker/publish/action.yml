@@ -5,7 +5,7 @@ inputs:
   DOCKER_USERNAME:
     description: "Docker username"
     required: true
-  DOCKER_PASSWORD:
+  DOCKER_TOKEN:
     description: "Docker password"
     required: true
 
@@ -16,7 +16,7 @@ runs:
       shell: bash
       run: |
         echo "Logging in to docker"
-        echo ${{inputs.DOCKER_PASSWORD}} | docker login ${{ env.DRLS_REGISTRY }} -u ${{ github.actor }} --password-stdin
+        echo ${{inputs.DOCKER_TOKEN}} | docker login ${{ env.DRLS_REGISTRY }} -u ${{ github.actor }} --password-stdin
 
     - name: Docker image upload
       shell: bash
