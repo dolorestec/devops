@@ -20,19 +20,14 @@ jobs:
         - name: Load variables
           uses: dolorestec/devops/.github/actions/variables/load@develop
 
-        - name: Cache docker build
-          id: cache-docker
-          uses: actions/cache/restore@v3
-          with:
-            path: |
-              build
-            key: ${{ github.ref_name}}
-
         - name: Docker build
           uses: dolorestec/devops/.github/actions/docker/build@develop
           with:
             image: ${{ env.DLRS_IMAGE_NAME }}
             tag: ${{ env.DLRS_VERSION }}
+            context: .
+            dockerfile: Dockerfile
+            cache-from: type=local,src=/tmp/.buildx-cache
 
         - name: Docker publish
           uses: dolorestec/devops/.github/actions/docker/push@develop

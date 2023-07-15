@@ -20,15 +20,6 @@ jobs:
         - name: Export variables
           uses: dolorestec/devops/.github/actions/variables/export@develop
 
-        - name: Create cache
-          id: cache
-          uses: actions/cache@v3
-          with:
-            path: /build/${{ github.repository }}-${{ github.ref_name }}
-            key: ${{ github.repository }}-${{ github.ref_name }}
-            restore-keys: |
-              ${{ github.repository }}-${{ github.ref_name }}
-
     test:
       name: Test
       timeout-minutes: 10
@@ -46,22 +37,15 @@ jobs:
         - name: Load variables
           uses: dolorestec/devops/.github/actions/variables/load@develop
 
-        - name: Cache docker build
-          id: cache-docker
-          uses: actions/cache@v3
-          with:
-            path: |
-              build
-            key: ${{ github.ref_name }}
-            restore-keys: |
-              ${{ github.ref_name }}
-
         - name: Docker build
           uses: dolorestec/devops/.github/actions/docker/build@develop
           with:
             image: ${{ env.DLRS_IMAGE_NAME }}
             tag: ${{ env.DLRS_VERSION }}
-          
+            dockerfile: "Dockerfile"
+            context: "."
+            cache-to: "type=local,dest=/tmp/.buildx-cache"
+
         - name: Docker run
           uses: dolorestec/devops/.github/actions/docker/run@develop  
           with:
