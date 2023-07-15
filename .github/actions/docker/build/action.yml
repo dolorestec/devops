@@ -17,9 +17,11 @@ inputs:
   cache-to:
     description: "Cache the image to this registry"
     required: false
+    default: "type=registry,ref=docker.pkg.github.com/${{ github.repository }}/cache"
   cache-from:
     description: "Cache the image from this registry"
     required: false 
+    default: "type=registry,ref=docker.pkg.github.com/${{ github.repository }}/cache"
   push:
     description: "Push the image to the registry"
     required: false
@@ -31,9 +33,17 @@ runs:
     - name: Docker image build
       shell: bash
       run: |
-        echo "Building docker image ${{ inputs.image }}:${{ inputs.tag }}" 
-        docker buildx build "${{ inputs.context }}" --tag ${{ inputs.image }}:${{ inputs.tag }}  \
+        echo "###########################################################################################"
+        echo "# Docker image build                                                                      #"
+        echo "# Name: ${{ inputs.image }}                                                               #"
+        echo "# Version: ${{ inputs.tag }}                                                              #"
+        echo "# Context: ${{ inputs.context }}                                                          #"
+        echo "# Dockerfile: ${{ inputs.dockerfile }}                                                    #"
+        echo "# Cache from: ${{ inputs.cache-from }}                                                    #"
+        echo "# Cache to: ${{ inputs.cache-to }}                                                        #"
+        echo "# Push: ${{ inputs.push }}                                                                #"
+        echo "###########################################################################################"
+        docker buildx build "${{ inputs.context }}" --tag ${{ inputs.image }}:${{ inputs.tag }} \
+        --cache-to ${{ inputs.cache-to }} --cache-from ${{ inputs.cache-from }} \
         [[ -z "${{ inputs.dockerfile }}" ]] || --file ${{ inputs.dockerfile }} \
-        [[ -z "${{ inputs.cache-from }}" ]] || --cache-from ${{ inputs.cache-from }} \
-        [[ -z "${{ inputs.cache-to }}" ]] || --cache-to ${{ inputs.cache-to }} \
         [[ -z "${{ inputs.push }}" ]] || --push
