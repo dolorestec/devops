@@ -24,12 +24,12 @@ jobs:
           id: cache
           uses: actions/cache@v3
           env:
-            cache-name: ${{ env.DLRS_NAME }}":"${{ env.DLRS_VERSION }}
+            cache-name: ${{ env.DLRS_NAME }}
           with:
-            path: ~/.build-cache
+            path: ~/
             key: ${{ env.cache-name }}-${{ hashFiles('**/pyproject.toml') }}
             restore-keys: |
-              ${{ env.DLRS_NAME }}":"${{ env.DLRS_VERSION }}
+              ${{ env.DLRS_NAME }}
 
         - name: Docker build
           uses: dolorestec/devops/.github/actions/docker/build@develop
