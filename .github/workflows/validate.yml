@@ -19,7 +19,16 @@ jobs:
 
         - name: Export variables
           uses: dolorestec/devops/.github/actions/variables/export@develop
+  
+    cache:
+      name: Cache
+      timeout-minutes: 10
+      runs-on: ubuntu-latest
 
+      steps:
+        - name: Load variables
+          uses: dolorestec/devops/.github/actions/variables/load@develop
+          
         - name: Cache save
           id: cache
           uses: actions/cache@v3
@@ -40,9 +49,6 @@ jobs:
             repository: ${{ github.repository }}
             ref: ${{ github.ref_name }}
             fetch-depth: 0
-
-        - name: Load variables
-          uses: dolorestec/devops/.github/actions/variables/load@develop
 
         - name: Docker build
           continue-on-error: true
