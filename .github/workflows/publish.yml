@@ -22,7 +22,7 @@ jobs:
 
         - name: Cache 
           id: cache
-          uses: actions/cache/save@v3
+          uses: actions/cache/restore@v3
           with:
             path: ~/
             key: ${{ env.DLRS_NAME }}-${{ hashFiles('**/pyproject.toml') }}
