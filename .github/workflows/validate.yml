@@ -44,7 +44,7 @@ jobs:
             path: ${{ github.workspace }}
             key: ${{ env.DLRS_NAME }}
 
-        - if: steps.cache.outputs.cache-hit != 'true'
+        -
           name: Docker build
           continue-on-error: true
           uses: dolorestec/devops/.github/actions/docker/build@develop
