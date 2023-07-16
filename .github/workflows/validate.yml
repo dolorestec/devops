@@ -63,7 +63,7 @@ jobs:
             tag: ${{ env.DLRS_VERSION }}
             context: .
             dockerfile: Dockerfile
-            cache-to: ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}
+            cache-to: type=gha,mode=max,ref=${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}
 
         - name: Docker run
           uses: dolorestec/devops/.github/actions/docker/run@develop  
