@@ -52,6 +52,9 @@ jobs:
             ref: ${{ github.ref_name }}
             fetch-depth: 0
 
+        - name: Load variables
+          uses: dolorestec/devops/.github/actions/variables/load@develop
+
         - name: Docker build
           continue-on-error: true
           uses: dolorestec/devops/.github/actions/docker/build@develop
