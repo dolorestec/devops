@@ -50,8 +50,9 @@ jobs:
           with:
             image: ${{ env.DLRS_IMAGE_NAME }}
             tag: ${{ env.DLRS_VERSION }}
-            dockerfile: "Dockerfile"
-            context: "."
+            context: .
+            dockerfile: Dockerfile
+            cache-to: ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}
 
         - name: Docker run
           uses: dolorestec/devops/.github/actions/docker/run@develop  
@@ -65,10 +66,3 @@ jobs:
           with:
             container: ${{ env.DLRS_NAME }}
             command: "cat /etc/motd"
-
-        - name: Cache save
-          id: cache
-          uses: actions/cache/save@v3
-          with:
-            path: ${{ github.workspace }}
-            key: ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}

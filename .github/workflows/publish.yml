@@ -20,13 +20,6 @@ jobs:
         - name: Load variables
           uses: dolorestec/devops/.github/actions/variables/load@develop
 
-        - name: Cache 
-          id: cache
-          uses: actions/cache/restore@v3
-          with:
-            path: ${{ github.workspace }}
-            key: ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}
-
         - name: Docker build
           uses: dolorestec/devops/.github/actions/docker/build@develop
           with:
@@ -34,6 +27,7 @@ jobs:
             tag: ${{ env.DLRS_VERSION }}
             context: .
             dockerfile: Dockerfile
+            cache-from: ${{ env.DLRS_IMAGE_NAME }}-${{ env.DLRS_VERSION }}
 
         - name: Docker publish
           uses: dolorestec/devops/.github/actions/docker/push@develop
