@@ -17,11 +17,11 @@ inputs:
   cache-to:
     description: "Cache the image to this registry"
     required: false
-    default: "type=registry,ref=docker.pkg.github.com/${{ github.repository }}/cache"
+    default: "type=gha,ref=docker.pkg.github.com/${{ github.repository }}/cache"
   cache-from:
     description: "Cache the image from this registry"
     required: false 
-    default: "type=registry,ref=docker.pkg.github.com/${{ github.repository }}/cache"
+    default: "type=gha,ref=docker.pkg.github.com/${{ github.repository }}/cache"
   push:
     description: "Push the image to the registry"
     required: false
