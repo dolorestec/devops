@@ -33,17 +33,16 @@ jobs:
             repository: ${{ github.repository }}
             ref: ${{ github.ref_name }}
             fetch-depth: 0
-        
+
         - name: Load variables
           uses: dolorestec/devops/.github/actions/variables/load@develop
 
-        - name: Cache 
+        - name: Cache restore
           id: cache
-          uses: actions/cache/save@v3
+          uses: actions/cache/restore@v3
           with:
             path: ${{ github.workspace }}
             key: ${{ env.DLRS_NAME }}
-
 
         - if: steps.cache.outputs.cache-hit != 'true'
           name: Docker build
@@ -67,3 +66,9 @@ jobs:
           with:
             container: ${{ env.DLRS_NAME }}
             command: "cat /etc/motd"
+
+        - name: Cache save
+          uses: actions/cache/save@v3
+          with:
+            path: ${{ github.workspace }}
+            key: ${{ env.DLRS_NAME }}
