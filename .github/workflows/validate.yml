@@ -44,7 +44,6 @@ jobs:
             tag: ${{ env.DLRS_VERSION }}
             dockerfile: "Dockerfile"
             context: "."
-            cache-to: "type=local,dest=/tmp/.buildx-cache"
 
         - name: Docker run
           uses: dolorestec/devops/.github/actions/docker/run@develop  

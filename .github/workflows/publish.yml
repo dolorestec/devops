@@ -27,7 +27,6 @@ jobs:
             tag: ${{ env.DLRS_VERSION }}
             context: .
             dockerfile: Dockerfile
-            cache-from: type=local,src=/tmp/.buildx-cache
 
         - name: Docker publish
           uses: dolorestec/devops/.github/actions/docker/push@develop
