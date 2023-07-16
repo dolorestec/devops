@@ -39,13 +39,12 @@ jobs:
 
         - name: Cache restore
           id: cache
-          uses: actions/cache/restore@v3
+          uses: actions/cache@v3
           with:
             path: ${{ github.workspace }}
             key: ${{ env.DLRS_NAME }}
 
-        -
-          name: Docker build
+        - name: Docker build
           continue-on-error: true
           uses: dolorestec/devops/.github/actions/docker/build@develop
           with:
@@ -66,9 +65,3 @@ jobs:
           with:
             container: ${{ env.DLRS_NAME }}
             command: "cat /etc/motd"
-
-        - name: Cache save
-          uses: actions/cache/save@v3
-          with:
-            path: ${{ github.workspace }}
-            key: ${{ env.DLRS_NAME }}
