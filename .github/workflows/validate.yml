@@ -38,12 +38,12 @@ jobs:
         - name: Load variables
           uses: dolorestec/devops/.github/actions/variables/load@develop
 
-        - name: Cache save
+        - name: Cache
           id: cache
-          uses: actions/cache/save@v3
+          uses: actions/cache@v3
           with:
             path: ${{ github.workspace }}
-            key: ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}
+            key: ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}-${{github.sha}}
 
         - name: Docker build
           continue-on-error: true
