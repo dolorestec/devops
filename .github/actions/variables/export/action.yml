@@ -13,7 +13,7 @@ runs:
         echo "DLRS_IMAGE_NAME=$( echo ${{ github.actor }} )/$(echo ${{ github.repository }} | awk -F'/' '{print $NF}')" >> variables.txt
         echo "DLRS_REPOSITORY=${{ github.repository }}" >> variables.txt
         echo "DLRS_VERSION=$(cat pyproject.toml | grep version | awk -F'=' '{print $2}' | sed 's/ \|"\|//g')" >> variables.txt
-        echo "DLRS_VERSION_SUFFIX=$(awk '{ if ($(git tag --sort creatordate -l 'v*' --merged | tail -n 1) == '') { print "SNAPSHOT" } else { print $(git tag --sort creatordate -l 'v*' --merged | tail -n 1) } }') | awk -F'-' '{print $2}}')" >> variables.txt
+        echo "DLRS_VERSION_SUFFIX=$(awk '{ if ($(git tag --sort creatordate -l 'v*' --merged) == '') { print "SNAPSHOT" } else { print $(git tag --sort creatordate -l 'v*' --merged | tail -n 1) } }') | awk -F'-' '{print $2}}')" >> variables.txt
         echo "DRLS_REGISTRY=registry-1.docker.io" >> variables.txt
     
     - name: Upload variables
