@@ -37,7 +37,20 @@ jobs:
         - name: Load variables
           uses: dolorestec/devops/.github/actions/variables/load@develop
 
-        - name: Docker build
+        - name: Cache 
+          id: cache
+          uses: actions/cache@v3
+          env:
+            cache-name: ${{ env.DLRS_NAME }}":"${{ env.DLRS_VERSION }}
+          with:
+            path: ~/.build-cache
+            key: ${{ env.cache-name }}-${{ hashFiles('**/pyproject.toml') }}
+            restore-keys: |
+              ${{ env.DLRS_NAME }}":"${{ env.DLRS_VERSION }}
+
+        - if: steps.cache.outputs.cache-hit != 'true'
+          name: Docker build
+          continue-on-error: true
           uses: dolorestec/devops/.github/actions/docker/build@develop
           with:
             image: ${{ env.DLRS_IMAGE_NAME }}
