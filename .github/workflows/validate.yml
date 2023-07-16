@@ -42,7 +42,7 @@ jobs:
           uses: actions/cache/save@v3
           with:
             path: ${{ github.workspace }}
-            key: ${{ env.DLRS_NAME }}-${{ hashFiles('**/pyproject.toml') }}
+            key: ${{ env.DLRS_NAME }}
 
 
         - if: steps.cache.outputs.cache-hit != 'true'
