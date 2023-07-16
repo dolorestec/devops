@@ -38,6 +38,13 @@ jobs:
         - name: Load variables
           uses: dolorestec/devops/.github/actions/variables/load@develop
 
+        - name: Cache save
+          id: cache
+          uses: actions/cache/save@v3
+          with:
+            path: ${{ github.workspace }}
+            key: ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}
+
         - name: Docker build
           continue-on-error: true
           uses: dolorestec/devops/.github/actions/docker/build@develop
@@ -60,10 +67,3 @@ jobs:
           with:
             container: ${{ env.DLRS_NAME }}
             command: "cat /etc/motd"
-        
-        - name: Cache save
-          id: cache
-          uses: actions/cache/save@v3
-          with:
-            path: ${{ github.workspace }}
-            key: ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}
