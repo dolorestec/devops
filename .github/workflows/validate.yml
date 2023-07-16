@@ -45,6 +45,7 @@ jobs:
             path: ${{ github.workspace }}
             key: ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}-${{github.sha}}
             restore-keys: |
+              ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}-${{github.sha}}
               ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}-
               ${{ env.DLRS_NAME }}-
 
@@ -71,12 +72,13 @@ jobs:
             container: ${{ env.DLRS_NAME }}
             command: "cat /etc/motd"
         
-        - if: ${{ steps.cache.outputs.cache-hit == 'false' }}
+        - if: ${{ steps.cache.outputs.cache-hit == 'true' }}
           name: Cache
           uses: actions/cache@v3
           with:
             path: ${{ github.workspace }}
             key: ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}-${{github.sha}}
             restore-keys: |
+              ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}-${{github.sha}}
               ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}-
               ${{ env.DLRS_NAME }}-
