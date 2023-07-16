@@ -42,7 +42,7 @@ jobs:
       timeout-minutes: 10
       runs-on: ubuntu-latest
       needs: cache
-      if: ${{ github.job.cache.outputs.cache-hit == 'false'}}
+      if: ${{ github.job.cache.outputs.cache-hit != 'false'}}
     
       steps:
         - name: Checkout code
