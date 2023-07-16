@@ -20,6 +20,13 @@ jobs:
         - name: Export variables
           uses: dolorestec/devops/.github/actions/variables/export@develop
 
+        - name: Cache save
+          id: cache
+          uses: actions/cache@v3
+          with:
+            path: ${{ github.workspace }}
+            key: ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}
+
     test:
       name: Test
       timeout-minutes: 10
@@ -64,4 +71,4 @@ jobs:
           uses: actions/cache/save@v3
           with:
             path: ${{ github.workspace }}
-            key: ${{ env.DLRS_NAME }}
+            key: ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}

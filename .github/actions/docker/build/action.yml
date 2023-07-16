@@ -17,11 +17,11 @@ inputs:
   cache-to:
     description: "Cache the image to this registry"
     required: false
-    default: "type=gha,mode=max"
+    default: "type=gha,mode=max,ref=${{ inputs.image }}:${{ inputs.tag }}"
   cache-from:
     description: "Cache the image from this registry"
     required: false 
-    default: "type=gha"
+    default: "type=gha,ref=${{ inputs.image }}:${{ inputs.tag }}"
   push:
     description: "Push the image to the registry"
     required: false

@@ -22,10 +22,10 @@ jobs:
 
         - name: Cache 
           id: cache
-          uses: actions/cache@v3
+          uses: actions/cache/restore@v3
           with:
             path: ${{ github.workspace }}
-            key: ${{ env.DLRS_NAME }}
+            key: ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}
 
         - name: Docker build
           uses: dolorestec/devops/.github/actions/docker/build@develop
