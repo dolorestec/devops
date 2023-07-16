@@ -19,29 +19,12 @@ jobs:
 
         - name: Export variables
           uses: dolorestec/devops/.github/actions/variables/export@develop
-  
-    cache:
-      name: Cache
-      timeout-minutes: 10
-      runs-on: ubuntu-latest
-      needs: variables
-
-      steps:
-        - name: Load variables
-          uses: dolorestec/devops/.github/actions/variables/load@develop
-
-        - name: Create cache
-          id: cache
-          uses: actions/cache@v3
-          with:
-            path: ${{ github.workspace }}
-            key: ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}
 
     test:
       name: Test
       timeout-minutes: 10
       runs-on: ubuntu-latest
-      needs: cache
+      needs: variables
       if: ${{ github.job.cache.outputs.cache-hit != 'false'}}
     
       steps:
