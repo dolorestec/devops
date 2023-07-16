@@ -26,6 +26,9 @@ jobs:
           with:
             path: ${{ github.workspace }}
             key: ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}-${{github.sha}}
+            restore-keys: |
+              ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}-
+              ${{ env.DLRS_NAME }}-
 
         - name: Docker build
           uses: dolorestec/devops/.github/actions/docker/build@develop

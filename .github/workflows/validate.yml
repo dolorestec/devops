@@ -44,6 +44,9 @@ jobs:
           with:
             path: ${{ github.workspace }}
             key: ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}-${{github.sha}}
+            restore-keys: |
+              ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}-
+              ${{ env.DLRS_NAME }}-
 
         - name: Docker build
           continue-on-error: true
@@ -67,3 +70,13 @@ jobs:
           with:
             container: ${{ env.DLRS_NAME }}
             command: "cat /etc/motd"
+        
+        - if: ${{ steps.cache.outputs.cache-hit == 'false' }}
+          name: Cache
+          uses: actions/cache@v3
+          with:
+            path: ${{ github.workspace }}
+            key: ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}-${{github.sha}}
+            restore-keys: |
+              ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}-
+              ${{ env.DLRS_NAME }}-
