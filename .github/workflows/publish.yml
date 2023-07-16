@@ -24,7 +24,7 @@ jobs:
           id: cache
           uses: actions/cache/restore@v3
           with:
-            path: ~/
+            path: ${{ github.workspace }}
             key: ${{ env.DLRS_NAME }}-${{ hashFiles('**/pyproject.toml') }}
 
         - name: Docker build

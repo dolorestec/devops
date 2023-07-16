@@ -41,7 +41,7 @@ jobs:
           id: cache
           uses: actions/cache/save@v3
           with:
-            path: ~/.build-cache
+            path: ${{ github.workspace }}
             key: ${{ env.DLRS_NAME }}-${{ hashFiles('**/pyproject.toml') }}
 
 
