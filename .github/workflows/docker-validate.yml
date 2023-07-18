@@ -5,24 +5,33 @@ on:
   workflow_call:
 
 jobs:
-    build:
-        name: Build
-        timeout-minutes: 10
-        runs-on: ubuntu-latest
+  build:
+    name: Build
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
 
-        steps:
-        - name: Checkout code
-          uses: Actions/checkout@v3
-          with:
-            repository: ${{ github.repository }}
-            ref: ${{ github.ref_name }}
-            fetch-depth: 0
+    steps:
+      - name: Checkout code
+        uses: Actions/checkout@v3
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
 
-        - name: Load variables
-          uses: dolorestec/devops/.github/actions/variables/load@develop
+      - name: Load variables
+        uses: dolorestec/devops/.github/actions/variables/load@develop
             
-        - name: Create buildx builder         
-          uses: dolorestec/devops/.github/actions/docker/buildx/create@develop
-          with:
-            name: "${{ env.DLRS_NAME }}-builder"
+      - name: Create buildx builder         
+        uses: dolorestec/devops/.github/actions/docker/buildx/create@develop
+        with:
+          name: "${{ env.DLRS_NAME }}-builder"
+
+      - name: Build image
+        uses: dolorestec/devops/.github/actions/docker/buildx/build@develop
+        with:
+          name: "${{ env.DLRS_IMAGE_NAME }}"
+          context: .
+          file: Dockerfile
+          tags: ${{ env.DLRS_VERSION }}
+          
             

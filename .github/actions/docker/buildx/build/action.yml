@@ -1,0 +1,82 @@
+name: Build Image
+author: Lucas Cantarelli
+description: "Build a docker image"
+
+inputs:
+  image:
+    description: "Name of the image to build"
+    required: true
+  tag:
+    description: "Tag of the image to build"
+    required: true
+  context:
+    description: "Path to the build context"
+    required: true
+  dockerfile:
+    description: "Path to the Dockerfile"
+    required: true
+  cache-to:
+    description: "Cache the image to this registry"
+    required: false
+    default: "type=gha,mode=max"
+  cache-from:
+    description: "Cache the image from this registry"
+    required: false
+    default: "type=gha"
+  push:
+    description: "Push the image to the registry"
+    required: false
+    default: "false"
+  pull:
+    description: "Pull the image from the registry"
+    required: false
+    default: "false"
+  load:
+    description: "Load the image to the registry"
+    required: false
+    default: "false"
+  no-cache:
+    description: "Do not use cache when building the image"
+    required: false
+    default: "false"
+  github-token:
+    description: "Github token to use for pushing the image"
+    required: false
+    default: ${{ github.token }}
+  
+
+runs:
+  using: composite
+  steps:
+    # Build info
+    - name: Docker image - motd
+      shell: bash
+      run: |
+        echo "::group::Docker image info"
+        echo "Name: ${{ inputs.image }}"
+        echo "Version: ${{ inputs.tag }}"
+        echo "Context: ${{ inputs.context }}"
+        echo "Dockerfile: ${{ inputs.dockerfile }}"
+        echo "Cache from: ${{ inputs.cache-from }}"
+        echo "Cache to: ${{ inputs.cache-to }}"
+        echo "Push: ${{ inputs.push }}"
+        echo "Pull: ${{ inputs.pull }}"
+        echo "Load: ${{ inputs.load }}"
+        echo "No cache: ${{ inputs.no-cache }}"
+        echo "::endgroup::"
+
+    - name: Docker image build
+      shell: bash
+      run: |
+        echo "::group::Build image"
+        docker buildx build \
+        --cache-from ${{ inputs.cache-from }} --cache-to ${{ inputs.cache-to }} \
+        --iidfile image_id.txt \
+        --file ${{ inputs.dockerfile }} \
+        --tag ${{ inputs.image }}:${{ inputs.tag }} \
+        $([[ "${{ inputs.pull }}" == "true" ]] && echo "--pull") \
+        $([[ "${{ inputs.no-cache }}" == "true" ]] && echo "--no-cache") \
+        $([[ "${{ inputs.load }}" == "true" ]] && echo "--load") \
+        $([[ "${{ inputs.push }}" == "true" ]] && echo "--push") \
+        ${{ inputs.context }}
+        echo "::endgroup::"

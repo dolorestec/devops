@@ -13,7 +13,7 @@ inputs:
   flags:
     description: "Flags to pass to buildx"
     required: false
-    default: --buildkitd-flags '--allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host'
+    default: --buildkitd-flags "--allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host"
   use:
     description: "Use this builder"
     required: false
@@ -22,6 +22,7 @@ inputs:
 runs:
   using: composite
   steps:
+    # Builder info
     - name: Motd
       shell: bash
       run: |
@@ -31,7 +32,7 @@ runs:
         echo "Flags: ${{ inputs.flags }}"
         echo "Use: ${{ inputs.use }}"
         echo "::endgroup::"
-
+    # Create builder
     - name: Create Buildx
       shell: bash        
       run: |
