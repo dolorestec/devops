@@ -6,18 +6,6 @@ inputs:
   name:
     description: "Name of the builder"
     required: true
-  driver:
-    description: "Driver to use for buildx"
-    required: false
-    default: docker-container
-  flags:
-    description: "Flags to pass to buildx"
-    required: false
-    default: --buildkitd-flags --allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host
-  use:
-    description: "Use this builder"
-    required: false
-    default: "true"
 
 runs:
   using: composite
@@ -28,9 +16,9 @@ runs:
       run: |
         echo "::group::Buildx Info"
         echo "Name: ${{ inputs.name }}"
-        echo "Driver: ${{ inputs.driver }}"
-        echo "Flags: ${{ inputs.flags }}"
-        echo "Use: ${{ inputs.use }}"
+        echo "Driver: docker-container"
+        echo "Flags: --buildkitd-flags --allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host"
+        echo "Use: True}"
         echo "::endgroup::"
 
     # Cria o builder
@@ -40,7 +28,8 @@ runs:
         echo "::group::Create Buildx"
         docker buildx create \
         --name ${{ inputs.name }} \
-        --driver ${{ inputs.driver }} \
-        ${{ inputs.flags }} \
-        $( [[ -z "${{ inputs.use }}" ]] || echo "--use")
+        --driver docker-container \
+        --buildkitd-flags --allow-insecure-entitlement security.insecure \
+        --buildkitd-flags --allow-insecure-entitlement network.host \
+        --use
         echo "::endgroup::"
