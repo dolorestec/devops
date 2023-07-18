@@ -54,6 +54,6 @@ runs:
       run: |
         docker buildx build "${{ inputs.context }}" --tag ${{ inputs.image }}:${{ inputs.tag }} \
         $([[ -z "${{ inputs.cache-from }}" ]] || --import-cache ${{ inputs.cache-from }}) \
-        $([[ -z "${{ inputs.cache-to }}" ]] || --export-cache ${{ inputs.cache-to }}) \
+        $([[ -z "${{ inputs.cache-to }}" ]] || --cache-to ${{ inputs.cache-to }}) \
         --file ${{ inputs.dockerfile }} -o type=docker \
         $( [[ "${{ inputs.push }}" == "true" ]] && echo "--push" || echo "" )
