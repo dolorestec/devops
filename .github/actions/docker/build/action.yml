@@ -50,7 +50,7 @@ runs:
       run: |
         docker buildx create --use --name builder
         docker buildx inspect --bootstrap
-          continue-on-error: true
+
     - name: Docker image build
       shell: bash
       run: |
