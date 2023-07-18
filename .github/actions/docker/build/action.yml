@@ -54,7 +54,7 @@ runs:
     - name: Docker image build
       shell: bash
       run: |
-        docker buildx build --allow builder "${{ inputs.context }}" --tag ${{ inputs.image }}:${{ inputs.tag }} \
+        docker buildx build "${{ inputs.context }}" --tag ${{ inputs.image }}:${{ inputs.tag }} \
         $([[ -z "${{ inputs.cache-from }}" ]] || --cache-from ${{ inputs.cache-from }}) \
         $([[ -z "${{ inputs.cache-to }}" ]] || --cache-to ${{ inputs.cache-to }}) \
         --file ${{ inputs.dockerfile }} $([[ -z "${{ inputs.push }}" ]] || --push)
