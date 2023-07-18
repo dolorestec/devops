@@ -5,7 +5,7 @@ on:
       
 jobs:
     variables:
-      name: Variables
+      name: Environment variables
       timeout-minutes: 10
       runs-on: ubuntu-latest
 

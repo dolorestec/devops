@@ -1,0 +1,41 @@
+name: Prepare Environment
+
+on:
+    workflow_call:
+
+jobs:
+    variables:
+        name: Environment variables
+        timeout-minutes: 10
+        runs-on: ubuntu-latest
+  
+        steps:
+          - name: Checkout code
+            uses: Actions/checkout@v3
+            with:
+              repository: ${{ github.repository }}
+              ref: ${{ github.ref_name }}
+              fetch-depth: 0
+  
+          - name: Export variables
+            uses: dolorestec/devops/.github/actions/variables/export@develop
+
+    cache:
+        name: Environment cache
+        timeout-minutes: 10
+        runs-on: ubuntu-latest
+  
+        steps:
+          - name: Load variables
+            uses: dolorestec/devops/.github/actions/variables/load@develop
+          
+          - name: Environment Cache
+            uses: actions/cache@v3
+            with:
+              path: ${{ github.workspace }}
+              key: ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}-${{github.sha}}
+              restore-keys: |
+                ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}-${{github.sha}}
+                ${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}-
+                ${{ env.DLRS_NAME }}-
+ 

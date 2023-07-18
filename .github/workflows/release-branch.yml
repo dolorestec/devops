@@ -1,0 +1,27 @@
+name: Release Branch
+
+on:
+    workflow_dispatch:
+        inputs:
+            ref_name:
+                type: boolean
+                description: 'The name of the branch to create'
+                required: true
+
+jobs:
+    create:
+        name: Create Release Branch
+        timeout-minutes: 10
+        runs-on: ubuntu-latest
+
+        steps:
+          - name: Checkout code
+            uses: Actions/checkout@v3
+            with:
+              repository: ${{ github.repository }}
+              ref: ${{ github.ref_name }}
+              fetch-depth: 0
+
+          - name: Create Release Branch
+            run: |
+                echo "release"

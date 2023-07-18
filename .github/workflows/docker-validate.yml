@@ -1,0 +1,45 @@
+name: Docker Validate
+
+on:
+    workflow_call:
+
+jobs:
+    build:
+        name: Docker build
+        timeout-minutes: 10
+        runs-on: ubuntu-latest
+
+        steps:
+        - name: Checkout code
+          uses: Actions/checkout@v3
+          with:
+            repository: ${{ github.repository }}
+            ref: ${{ github.ref_name }}
+            fetch-depth: 0
+
+        - name: Load variables
+          uses: dolorestec/devops/.github/actions/variables/load@develop
+            
+        - name: Build
+          continue-on-error: true
+          uses: dolorestec/devops/.github/actions/docker/build@develop
+          with:
+            image: ${{ env.DLRS_IMAGE_NAME }}
+            tag: ${{ env.DLRS_VERSION }}
+            context: .
+            dockerfile: Dockerfile
+            cache-to: type=gha,mode=max,ref=${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}-${{github.sha}}
+            cache-from: type=gha,mode=max,ref=${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}-${{github.sha}}
+        
+        - name: Docker run
+          uses: dolorestec/devops/.github/actions/docker/run@develop  
+          with:
+            container: ${{ env.DLRS_NAME }}
+            image: ${{ env.DLRS_IMAGE_NAME }}
+            tag: ${{ env.DLRS_VERSION }}
+  
+        - name: Docker exec
+          uses: dolorestec/devops/.github/actions/docker/exec@develop  
+          with:
+            container: ${{ env.DLRS_NAME }}
+            command: "cat /etc/motd"
