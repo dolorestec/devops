@@ -1,7 +1,8 @@
 name: Docker Validate
+run-name: Validate
 
 on:
-    workflow_call:
+  workflow_call:
 
 jobs:
     build:
@@ -20,25 +21,8 @@ jobs:
         - name: Load variables
           uses: dolorestec/devops/.github/actions/variables/load@develop
             
-        - name: Build
-          continue-on-error: true
-          uses: dolorestec/devops/.github/actions/docker/build@develop
+        - name: Create buildx builder         
+          uses: dolorestec/devops/.github/actions/docker/buildx/create@develop
           with:
-            image: ${{ env.DLRS_IMAGE_NAME }}
-            tag: ${{ env.DLRS_VERSION }}
-            context: .
-            dockerfile: Dockerfile
-            cache-to: type=local,mode=max,dest=${{github.workspace}}
-        
-        - name: Docker run
-          uses: dolorestec/devops/.github/actions/docker/run@develop  
-          with:
-            container: ${{ env.DLRS_NAME }}
-            image: ${{ env.DLRS_IMAGE_NAME }}
-            tag: ${{ env.DLRS_VERSION }}
-  
-        - name: Docker exec
-          uses: dolorestec/devops/.github/actions/docker/exec@develop  
-          with:
-            container: ${{ env.DLRS_NAME }}
-            command: "cat /etc/motd"
+            name: "${{ env.DLRS_NAME }}-builder"
+            
