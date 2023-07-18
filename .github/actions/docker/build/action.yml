@@ -42,14 +42,19 @@ runs:
 
     - name: Create builder
       shell: bash
+      env:
+        DOCKER_CLI_EXPERIMENTAL: enabled
+        DOCKER_BUILDKIT: "1"
+        BUILDX_BUILDER: builder
+        
       run: |
         docker buildx create --use --name builder
         docker buildx inspect --bootstrap
-
+          continue-on-error: true
     - name: Docker image build
       shell: bash
       run: |
-        docker buildx build "${{ inputs.context }}" --tag ${{ inputs.image }}:${{ inputs.tag }} \
+        docker buildx build --allow builder "${{ inputs.context }}" --tag ${{ inputs.image }}:${{ inputs.tag }} \
         $([[ -z "${{ inputs.cache-from }}" ]] || --cache-from ${{ inputs.cache-from }}) \
         $([[ -z "${{ inputs.cache-to }}" ]] || --cache-to ${{ inputs.cache-to }}) \
         --file ${{ inputs.dockerfile }} $([[ -z "${{ inputs.push }}" ]] || --push)
