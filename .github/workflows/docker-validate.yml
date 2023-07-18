@@ -33,5 +33,6 @@ jobs:
           tag: "${{ env.DLRS_VERSION }}"
           context: .
           dockerfile: Dockerfile
+          load: true
           
             
