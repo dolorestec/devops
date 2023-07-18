@@ -31,7 +31,7 @@ runs:
       shell: bash        
       run: |
         echo "Create docker builder"
-        docker buildx create --use --name builder &> /dev/null || true
+        docker buildx create --use --name builder --driver=docker-container &> /dev/null || true
 
     - name: Docker image - motd
       shell: bash
