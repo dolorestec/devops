@@ -57,9 +57,3 @@ runs:
         $([[ -z "${{ inputs.cache-to }}" ]] || --cache-to ${{ inputs.cache-to }}) \
         --file ${{ inputs.dockerfile }} -o type=docker \
         $( [[ "${{ inputs.push }}" == "true" ]] && echo "--push" || echo "" )
-
-    - name: Docker image - inspect
-      shell: bash
-      run: |
-        echo "Docker image inspect"
-        docker inspect ${{ inputs.image }}:${{ inputs.tag }} | jq -r '.[].RepoDigests[]'
