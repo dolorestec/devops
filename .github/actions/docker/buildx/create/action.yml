@@ -27,5 +27,5 @@ runs:
       run: |
         echo "::group::Create Buildx"
         docker buildx create \
-        --name ${{ inputs.name }} --driver docker-container --buildkitd-flags --allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host --use
+        --name ${{ inputs.name }} --driver docker-container --buildkitd-flags '--allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host' --use
         echo "::endgroup::"
