@@ -1,0 +1,46 @@
+name: Setup Buildx
+author: Lucas Cantarelli
+description: "Setup Buildx for docker build"
+
+inputs:
+  name:
+    description: "Name of the builder"
+    required: true
+  driver:
+    description: "Driver to use for buildx"
+    required: false
+    default: docker-container
+  flags:
+    description: "Flags to pass to buildx"
+    required: false
+    default: --buildkitd-flags --allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host
+  use:
+    description: "Use this builder"
+    required: false
+    default: "true"
+
+runs:
+  using: composite
+  steps:
+    # Mostra informações do builder
+    - name: Motd
+      shell: bash
+      run: |
+        echo "::group::Buildx Info"
+        echo "Name: ${{ inputs.name }}"
+        echo "Driver: ${{ inputs.driver }}"
+        echo "Flags: ${{ inputs.flags }}"
+        echo "Use: ${{ inputs.use }}"
+        echo "::endgroup::"
+
+    # Cria o builder
+    - name: Create Buildx
+      shell: bash        
+      run: |
+        echo "::group::Create Buildx"
+        docker buildx create \
+        --name ${{ inputs.name }} \
+        --driver ${{ inputs.driver }} \
+        ${{ inputs.flags }} \
+        $( [[ -z "${{ inputs.use }}" ]] || echo "--use")
+        echo "::endgroup::"

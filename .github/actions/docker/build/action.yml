@@ -43,7 +43,7 @@ runs:
         echo "# Dockerfile: ${{ inputs.dockerfile }}"
         echo "# Cache from: ${{ inputs.cache-from }}"
         echo "# Cache to: ${{ inputs.cache-to }}"
-        echo "# Push: ${{ inputs.push }}" 
+        echo "# Push: ${{ inputs.push }}"
 
     - name: Docker image build
       shell: bash
