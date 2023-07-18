@@ -13,6 +13,9 @@ jobs:
         -   name: Checkout
             uses: actions/checkout@v3
 
+        -   name: Load variables
+            uses: dolorestec/devops/.github/actions/variables/load@develop
+
         -   name: Set up Docker Buildx
             uses: docker/setup-buildx-action@v2
 
