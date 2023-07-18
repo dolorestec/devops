@@ -20,14 +20,14 @@ jobs:
         - name: Load variables
           uses: dolorestec/devops/.github/actions/variables/load@develop
             
-        - name: Build
-          uses: dolorestec/devops/.github/actions/docker/build@develop
+        - name: Build and push
+          uses: docker/build-push-action@v4
           with:
-            image: ${{ env.DLRS_IMAGE_NAME }}
-            tag: ${{ env.DLRS_VERSION }}
-            context: .
-            dockerfile: Dockerfile
-            cache-from: type=local,src=${{github.workspace}}
+              context: .
+              push: true
+              tags: "${{ env.DLRS_IMAGE_NAME}}:${{env.DLRS_VERSION}}"
+              cache-from: type=gha
+              cache-to: type=gha,mode=max
 
         - name: Push
           uses: dolorestec/devops/.github/actions/docker/push@develop
