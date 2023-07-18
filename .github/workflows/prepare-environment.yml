@@ -24,6 +24,7 @@ jobs:
         name: Environment cache
         timeout-minutes: 10
         runs-on: ubuntu-latest
+        needs: variables
   
         steps:
           - name: Load variables
