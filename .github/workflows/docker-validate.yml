@@ -28,7 +28,7 @@ jobs:
             tag: ${{ env.DLRS_VERSION }}
             context: .
             dockerfile: Dockerfile
-            cache-to: type=gha,mode=max
+            cache-to: type=local,mode=max,dest=${{github.workspace}}
         
         - name: Docker run
           uses: dolorestec/devops/.github/actions/docker/run@develop  
