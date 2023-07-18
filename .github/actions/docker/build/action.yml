@@ -48,12 +48,12 @@ runs:
     - name: Docker image build
       shell: bash
       env:
-        DOCKER_CLI_EXPERIMENTAL: enabled
         DOCKER_BUILDKIT: "1"
         BUILDX_BUILDER: builder
+        BUILDKIT_INLINE_CACHE: "1"
       run: |
         docker buildx build "${{ inputs.context }}" --tag ${{ inputs.image }}:${{ inputs.tag }} \
-        $([[ -z "${{ inputs.cache-from }}" ]] || --cache-from ${{ inputs.cache-from }}) \
-        $([[ -z "${{ inputs.cache-to }}" ]] || --cache-to ${{ inputs.cache-to }}) \
+        $([[ -z "${{ inputs.cache-from }}" ]] || --import-cache ${{ inputs.cache-from }}) \
+        $([[ -z "${{ inputs.cache-to }}" ]] || --export-cache ${{ inputs.cache-to }}) \
         --file ${{ inputs.dockerfile }} -o type=docker \
         $( [[ "${{ inputs.push }}" == "true" ]] && echo "--push" || echo "" )
