@@ -27,7 +27,7 @@ jobs:
             tag: ${{ env.DLRS_VERSION }}
             context: .
             dockerfile: Dockerfile
-            cache-from: type=gha,scope=${{ env.DLRS_NAME }}-${{ env.DLRS_VERSION }}-${{github.sha}}
+            cache-from: type=gha
 
         - name: Push
           uses: dolorestec/devops/.github/actions/docker/push@develop
