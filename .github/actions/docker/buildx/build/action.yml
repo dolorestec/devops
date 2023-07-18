@@ -69,7 +69,7 @@ runs:
       shell: bash
       run: |
         echo "::group::Build image"
-        docker buildx build \
+        echo $(docker buildx build \
         --cache-from ${{ inputs.cache-from }} --cache-to ${{ inputs.cache-to }} \
         --iidfile image_id.txt \
         --file ${{ inputs.dockerfile }} \
@@ -77,6 +77,6 @@ runs:
         $([[ "${{ inputs.pull }}" == "true" ]] && echo "--pull") \
         $([[ "${{ inputs.no-cache }}" == "true" ]] && echo "--no-cache") \
         $([[ "${{ inputs.load }}" == "true" ]] && echo "--load") \
-        $([[ "${{ inputs.push }}" == "true" ]] && echo "--push") \
+        $([[ "${{ inputs.push }}" == "true" ]] && echo "--push")) \
         ${{ inputs.context }}
         echo "::endgroup::"
