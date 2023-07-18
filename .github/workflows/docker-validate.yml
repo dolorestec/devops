@@ -29,9 +29,9 @@ jobs:
       - name: Build image
         uses: dolorestec/devops/.github/actions/docker/buildx/build@develop
         with:
-          name: "${{ env.DLRS_IMAGE_NAME }}"
+          image: "${{ env.DLRS_IMAGE_NAME }}"
+          tag: "${{ env.DLRS_VERSION }}"
           context: .
-          file: Dockerfile
-          tags: ${{ env.DLRS_VERSION }}
+          dockerfile: Dockerfile
           
             
