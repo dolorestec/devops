@@ -19,4 +19,4 @@ runs:
       shell: bash
       run: |
         echo "Running docker image ${{ inputs.container }}:${{ inputs.tag }}" 
-        docker run -it -d --name ${{ inputs.container }} ${{ inputs.image }}:${{ inputs.tag }}
+        docker run -it -d --name ${{ inputs.container }} ${{ inputs.image }}:${{ inputs.tag }} &> /dev/null || true
