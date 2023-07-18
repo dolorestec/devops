@@ -20,18 +20,20 @@ inputs:
   cache-from:
     description: "Cache the image from this registry"
     required: false 
-  push:
-    description: "Push the image to the registry"
-    required: false
-
 
 runs:
   using: composite
   steps:
-    - name: Docker image build - motd
+    - name: Create builder
+      shell: bash        
+      run: |
+        echo "Create docker builder"
+        docker buildx create --use --name builder &> /dev/null || true
+
+    - name: Docker image - motd
       shell: bash
       run: |
-        echo "Docker image build "
+        echo "Docker image info "
         echo "# Name: ${{ inputs.image }}"
         echo "# Version: ${{ inputs.tag }}"
         echo "# Context: ${{ inputs.context }}"
@@ -40,21 +42,20 @@ runs:
         echo "# Cache to: ${{ inputs.cache-to }}"
         echo "# Push: ${{ inputs.push }}" 
 
-    - name: Create builder
+    - name: Docker image build
       shell: bash
       env:
         DOCKER_CLI_EXPERIMENTAL: enabled
         DOCKER_BUILDKIT: "1"
         BUILDX_BUILDER: builder
-        
-      run: |
-        docker buildx create --use --name builder
-        docker buildx inspect --bootstrap
-
-    - name: Docker image build
-      shell: bash
       run: |
         docker buildx build "${{ inputs.context }}" --tag ${{ inputs.image }}:${{ inputs.tag }} \
         $([[ -z "${{ inputs.cache-from }}" ]] || --cache-from ${{ inputs.cache-from }}) \
         $([[ -z "${{ inputs.cache-to }}" ]] || --cache-to ${{ inputs.cache-to }}) \
-        --file ${{ inputs.dockerfile }} $([[ -z "${{ inputs.push }}" ]] || --push)
+        --file ${{ inputs.dockerfile }}
+
+    - name: Docker image - inspect
+      shell: bash
+      run: |
+        echo "Docker image inspect"
+        docker inspect ${{ inputs.image }}:${{ inputs.tag }} | jq -r '.[].RepoDigests[]'
