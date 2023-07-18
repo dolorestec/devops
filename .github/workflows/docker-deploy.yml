@@ -25,7 +25,7 @@ jobs:
           with:
               context: .
               push: true
-              tags: "${{ env.DLRS_IMAGE_NAME}}:${{env.DLRS_VERSION}}"
+              tags: ${{ env.DLRS_IMAGE_NAME}}
               cache-from: type=gha
               cache-to: type=gha,mode=max
 
