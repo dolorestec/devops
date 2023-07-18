@@ -40,10 +40,16 @@ runs:
         echo "# Cache to: ${{ inputs.cache-to }}"
         echo "# Push: ${{ inputs.push }}" 
 
+    - name: Create builder
+      shell: bash
+      run: |
+        docker buildx create --use --name builder
+        docker buildx inspect --bootstrap
+
     - name: Docker image build
       shell: bash
       run: |
-        DOCKER_BUILDKIT=1 docker buildx build "${{ inputs.context }}" --tag ${{ inputs.image }}:${{ inputs.tag }} \
+        docker buildx build "${{ inputs.context }}" --tag ${{ inputs.image }}:${{ inputs.tag }} \
         $([[ -z "${{ inputs.cache-from }}" ]] || --cache-from ${{ inputs.cache-from }}) \
         $([[ -z "${{ inputs.cache-to }}" ]] || --cache-to ${{ inputs.cache-to }}) \
         --file ${{ inputs.dockerfile }} $([[ -z "${{ inputs.push }}" ]] || --push)
