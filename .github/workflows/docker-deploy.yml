@@ -29,7 +29,7 @@ jobs:
           uses: dolorestec/devops/.github/actions/docker/buildx/build@develop
           with:
             image: ${{ env.DLRS_IMAGE_NAME }}
-            tag: ${{ env.DLRS_IMAGE_TAG }}
+            tag: ${{ env.DLRS_VERSION }}
             context: .
             dockerfile: Dockerfile
             push: true
