@@ -8,7 +8,6 @@ runs:
       shell: bash
       env:
         DLRS_NAME: ${{ github.repository }}
-        DLRS_T1: "${{ github.repository }}"
         DLRS_T3: $(echo ${{ github.repository }} | awk -F'/' '{print $NF}')
 
       run: |
