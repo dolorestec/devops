@@ -4,7 +4,7 @@ description: "Export variables for use in other actions"
 inputs:
   file: 
     description: "File name"
-    required: true
+    required: false
     default: "${{ inputs.file }}"
 
 runs:
