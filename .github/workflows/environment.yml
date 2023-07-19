@@ -1,0 +1,22 @@
+name: Environment
+run-name: Environment
+
+on:
+    workflow_call:
+
+jobs:
+    variables:
+        name: Variables
+        timeout-minutes: 10
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: Actions/checkout@v3
+              with:
+                repository: ${{ github.repository }}
+                ref: ${{ github.ref_name }}
+                fetch-depth: 0
+    
+            - name: Export variables
+              uses: dolorestec/devops/.github/actions/environment/variables/export@develop
