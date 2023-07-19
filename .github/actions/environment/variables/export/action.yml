@@ -8,8 +8,8 @@ runs:
       shell: bash
       run: |
         echo "::group::Environment Variables"
-        $(echo DLRS_NAME=$(echo ${{ github.repository }} | awk -F'/' '{print $NF}'))
-        $(echo DLRS_BRANCH=$(echo ${{ github.ref }} | awk -F'/' '{print $NF}'))
-        $(echo DLRS_ARTIFACT=$(echo ${{ github.repository }})/$(echo ${{ github.repository }} | awk -F'/' '{print $NF}'))
+        $(echo DLRS_NAME=${{ github.repository }} | awk -F'/' '{print $NF}')
+        $(echo DLRS_BRANCH=${{ github.ref }} | awk -F'/' '{print $NF}')
+        $(echo DLRS_ARTIFACT=${{ github.repository }})/$(echo ${{ github.repository }} | awk -F'/' '{print $NF}')
         $(echo DLRS_VERSION=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g'))
         echo "::endgroup::"
