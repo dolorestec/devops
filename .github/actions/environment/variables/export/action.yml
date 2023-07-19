@@ -8,11 +8,10 @@ runs:
       shell: bash
       env:
         DLRS_NAME: ${{ github.repository }}
-        DLRS_T3: $(echo ${{ github.repository }} | awk -F'/' '{print $NF}')
+        DLRS_T3: $(export ${{ github.repository }} | awk -F'/' '{print $NF}')
 
       run: |
         echo "::group::Environment Variables"
         echo "$DLRS_NAME"
-        echo "$DLRS_T1"
         echo "$DLRS_T3"
         echo "::endgroup::" 
