@@ -29,6 +29,5 @@ runs:
     - name: Summary
       shell: bash
       run: |
-        echo "## Environment Variables" >> $GITHUB_STEP_SUMMARY
-        echo "artifact: variables.json" >> $GITHUB_STEP_SUMMARY
+        echo "### Environment Variables" >> $GITHUB_STEP_SUMMARY
         cat variables.json >> $GITHUB_STEP_SUMMARY

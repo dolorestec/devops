@@ -9,7 +9,7 @@ jobs:
         name: Create
         timeout-minutes: 10
         runs-on: ubuntu-latest
-        environment: Development
+        environment: ${{ github.ref }}
         steps:
           - name: Checkout code
             uses: Actions/checkout@v3

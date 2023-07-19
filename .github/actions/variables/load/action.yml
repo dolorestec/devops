@@ -1,15 +1,21 @@
 name: Load Variables
 description: "Load variables for use in other actions"
 
+inputs:
+  file: 
+    description: "File name"
+    required: true
+    default: variables.json
+
 runs:
   using: composite
   steps:
     - name: Download variables
       uses: actions/download-artifact@v3
       with:
-        name: variables.txt
+        name: ${{ inputs.file }}
       
     - name: Set variables
       shell: bash
       run: |
-        cat variables.txt | xargs -I {} echo "{}" >> $GITHUB_ENV
+        cat ${{ inputs.file }} | xargs -I {} echo "{}" >> $GITHUB_ENV
