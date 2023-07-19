@@ -39,10 +39,6 @@ inputs:
     description: "Do not use cache when building the image"
     required: false
     default: "false"
-  github-token:
-    description: "Github token to use for pushing the image"
-    required: false
-    default: ${{ github.token }}
   
 
 runs:
