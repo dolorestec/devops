@@ -7,10 +7,7 @@ runs:
     - name: Create variables
       shell: bash
       env:
-        DLRS_NAME: ${{ github.repository | awk -F'/' '{print $NF}' }}
-        DLRS_BRANCH: ${{ github.ref | awk -F'/' '{print $NF}' }}
-        DLRS_ARTIFACT: ${{ github.repository }})/$(${{ github.repository | awk -F'/' '{print $NF}' }}
-        DLRS_VERSION: $(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')
+        DLRS_NAME: "${{ github.repository | awk -F'/' '{print $NF}' }}"
 
       run: |
         env
