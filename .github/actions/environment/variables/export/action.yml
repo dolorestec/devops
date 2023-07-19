@@ -13,16 +13,4 @@ runs:
         DLRS_VERSION: $(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')
 
       run: |
-        echo "Exporting variables to Variables file"
-        touch variables.txt
-        echo "DLRS_NAME=$(echo ${{ github.repository }} | awk -F'/' '{print $NF}')" >> variables.txt
-        echo "DLRS_IMAGE_NAME=$( echo ${{ github.actor }} )/$(echo ${{ github.repository }} | awk -F'/' '{print $NF}')" >> variables.txt
-        echo "DLRS_REPOSITORY=${{ github.repository }}" >> variables.txt
-        echo "DLRS_VERSION=$(cat pyproject.toml | grep version | awk -F'=' '{print $2}' | sed 's/ \|"\|//g')" >> variables.txt
-        echo "DRLS_REGISTRY=registry-1.docker.io" >> variables.txt
-    
-    - name: Upload variables
-      uses: actions/upload-artifact@v3
-      with:
-        name: variables.txt
-        path: variables.txt
+        env
