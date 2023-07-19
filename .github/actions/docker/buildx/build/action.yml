@@ -74,12 +74,11 @@ runs:
           --iidfile image_id.txt \
           --file ${{ inputs.dockerfile }} \
           --tag ${{ inputs.image }}:${{ inputs.tag }} \
-          [ ${{ inputs.no-cache }} == "true" ] && echo "--no-cache" || echo "" \
-          [ ${{ inputs.pull }} == "true" ] && echo "--pull" || echo "" \
-          [ ${{ inputs.load }} == "true" ] && echo "--load" || echo "" \
+          $([ ${{ inputs.no-cache }} == "true" ] && echo "--no-cache") \
+          $([ ${{ inputs.pull }} == "true" ] && echo "--pull") \
+          $([ ${{ inputs.load }} == "true" ] && echo "--load") \
           ${{ inputs.context }}
       run: |
         echo "::group::Build image"
-        echo "Build command: ${{ env.command }}"
         ${{ env.command }}
         echo "::endgroup::"
