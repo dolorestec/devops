@@ -11,7 +11,7 @@ runs:
         touch variables.json
 
     - name: Create variables
-      if: [[ -f variables.json ]]
+      if: [ -f variables.json ]
       shell: bash
       run: |
         echo "::group::Environment Variables"
