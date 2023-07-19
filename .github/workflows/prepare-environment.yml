@@ -1,4 +1,5 @@
 name: Prepare Environment
+run-name: Environment
 
 on:
     workflow_call:
