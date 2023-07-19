@@ -20,19 +20,21 @@ jobs:
         - name: Load variables
           uses: dolorestec/devops/.github/actions/variables/load@develop
             
-        - name: Build and push
-          uses: docker/build-push-action@v4
-          with:
-              context: .
-              push: true
-              tags: ${{ env.DLRS_IMAGE_NAME}}
-              cache-from: type=gha
-              cache-to: type=gha,mode=max
+        - name: Docker login
+          run: |
+            echo "Logging in to docker"
+            echo ${{inputs.token}} | docker login -u ${{ inputs.user }} --password-stdin &> /dev/null
 
-        - name: Push
-          uses: dolorestec/devops/.github/actions/docker/push@develop
+        - name: Build
+          uses: dolorestec/devops/.github/actions/docker/buildx/build@develop
           with:
-            user: ${{ github.actor }}
-            token: ${{ secrets.DOCKER_TOKEN }}
             image: ${{ env.DLRS_IMAGE_NAME }}
-            tag: ${{ env.DLRS_VERSION }}
+            tag: ${{ env.DLRS_IMAGE_TAG }}
+            context: .
+            dockerfile: Dockerfile
+            push: true
+            
+        - name: Push
+          run: |
+            echo "Logging out of docker"
+            docker logout &> /dev/null

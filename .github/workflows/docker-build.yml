@@ -1,4 +1,4 @@
-name: Docker Validate
+name: Docker build
 run-name: Validate
 
 on:
