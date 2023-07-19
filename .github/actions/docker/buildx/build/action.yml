@@ -39,10 +39,9 @@ inputs:
     description: "Do not use cache when building the image"
     required: false
     default: "false"
-  github-token:
+  token:
     description: "Github token to use for pushing the image"
     required: false
-    default: ${{ github.token }}
   
 
 runs:
@@ -71,7 +70,7 @@ runs:
       shell: bash
       run: |
         echo "::group::Docker login"
-        echo ${{ secrets.DOCKER_TOKEN }} | docker login -u ${{ github.actor }} --password-stdin
+        echo ${{ inputs.token }} | docker login -u ${{ github.actor }} --password-stdin
         echo "::endgroup::"
    
     # Image build

@@ -33,6 +33,7 @@ jobs:
           tag: "${{ env.DLRS_VERSION }}"
           context: .
           dockerfile: Dockerfile
+          token: ${{ secrets.GITHUB_TOKEN }}
           load: true
           
             
