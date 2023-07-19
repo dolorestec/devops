@@ -67,16 +67,19 @@ runs:
 
     - name: Docker image build
       shell: bash
+      env:
+        command: |
+          docker buildx build \
+          --cache-from ${{ inputs.cache-from }} --cache-to ${{ inputs.cache-to }} \
+          --iidfile image_id.txt \
+          --file ${{ inputs.dockerfile }} \
+          --tag ${{ inputs.image }}:${{ inputs.tag }} \
+          [ ${{ inputs.no-cache }} == "true" ] && echo "--no-cache" || echo "" \
+          [ ${{ inputs.pull }} == "true" ] && echo "--pull" || echo "" \
+          [ ${{ inputs.load }} == "true" ] && echo "--load" || echo "" \
+          ${{ inputs.context }}
       run: |
         echo "::group::Build image"
-        echo $(docker buildx build \
-        --cache-from ${{ inputs.cache-from }} --cache-to ${{ inputs.cache-to }} \
-        --iidfile image_id.txt \
-        --file ${{ inputs.dockerfile }} \
-        --tag ${{ inputs.image }}:${{ inputs.tag }} \
-        $([[ "${{ inputs.pull }}" == "true" ]] && echo "--pull") \
-        $([[ "${{ inputs.no-cache }}" == "true" ]] && echo "--no-cache") \
-        $([[ "${{ inputs.load }}" == "true" ]] && echo "--load") \
-        $([[ "${{ inputs.push }}" == "true" ]] && echo "--push")) \
-        ${{ inputs.context }}
+        echo "Build command: ${{ env.command }}"
+        ${{ env.command }}
         echo "::endgroup::"
