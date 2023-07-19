@@ -1,5 +1,5 @@
 name: Docker build
-run-name: Build
+run-name: Docker build
 
 on:
   workflow_call:

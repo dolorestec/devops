@@ -1,12 +1,12 @@
 name: Docker Deploy
-run-name: Deploy
+run-name: Docker Deploy 
 
 on:
     workflow_call:
 
 jobs:
     deploy:
-        name: Deploy
+        name: Push
         timeout-minutes: 10
         runs-on: ubuntu-latest
 

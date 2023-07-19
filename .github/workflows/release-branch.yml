@@ -1,15 +1,15 @@
 name: Release Branch
+run-name: Release Branch
 
 on:
     workflow_call:
 
 jobs:
     create:
-        name: Create Release Branch
+        name: Create
         timeout-minutes: 10
         runs-on: ubuntu-latest
-        environment: 
-            name: Development
+        environment: Development
         steps:
           - name: Checkout code
             uses: Actions/checkout@v3
