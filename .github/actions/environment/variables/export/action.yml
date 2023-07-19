@@ -13,7 +13,6 @@ runs:
         ls -a 
 
     - name: Create variables
-      if: ${{ hashFiles(variables.json) != '' }}
       shell: bash
       run: |
         echo "::group::Environment Variables"
