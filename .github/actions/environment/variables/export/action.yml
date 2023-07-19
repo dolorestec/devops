@@ -9,6 +9,8 @@ runs:
       run: |
         echo "::notice title=Create file::Create variables.json"
         touch variables.json
+        pwd
+        ls -a 
 
     - name: Create variables
       if: ${{ hashFiles(variables.json) != '' }}
