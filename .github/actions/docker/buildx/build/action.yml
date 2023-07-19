@@ -39,9 +39,10 @@ inputs:
     description: "Do not use cache when building the image"
     required: false
     default: "false"
-  token:
+  github-token:
     description: "Github token to use for pushing the image"
     required: false
+    default: ${{ github.token }}
   
 
 runs:
@@ -63,15 +64,6 @@ runs:
         echo "Load: ${{ inputs.load }}"
         echo "No cache: ${{ inputs.no-cache }}"
         echo "::endgroup::"
-
-    # Docker login
-    - if: ${{ inputs.push == "true" || inputs.pull == "true" || inputs.load == "true" }}
-      name: Docker login
-      shell: bash
-      run: |
-        echo "::group::Docker login"
-        echo ${{ inputs.token }} | docker login -u ${{ github.actor }} --password-stdin
-        echo "::endgroup::"
    
     # Image build
     - name: Docker image build
@@ -90,13 +82,4 @@ runs:
       run: |
         echo "::group::Build image"
         ${{ env.command }}
-        echo "::endgroup::"
-
-    # Docker logout
-    - if: ${{ inputs.push == "true" || inputs.pull == "true" || inputs.load == "true" }}
-      name: Docker logout
-      shell: bash
-      run: |
-        echo "::group::Docker logout"
-        docker logout
         echo "::endgroup::"
