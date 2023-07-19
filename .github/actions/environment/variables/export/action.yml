@@ -7,7 +7,7 @@ runs:
     - name: Create variables
       shell: bash
       env:
-        DLRS_NAME: "${{ github.repository | awk -F'/' '{print $NF}' }}"
+        DLRS_NAME: ${{ github.repository }}
 
       run: |
         env
