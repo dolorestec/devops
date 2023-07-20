@@ -26,9 +26,24 @@ jobs:
       - name: Load variables
         uses: dolorestec/devops/.github/actions/variables/load@develop
 
-      - name: Create branch
-        if: ${{ github.ref_name == 'develop' }}
+      - name: Prefix branch
+        id: prefix
         env:
-          BRANCH: "release/${{ env.DLRS_VERSION }}"
+          DLRS_BRANCH: ${{ env.DLRS_BRANCH }}
+          DLRS_VERSION: ${{ env.DLRS_VERSION }}
         run: |
-          echo "Creating branch $BRANCH"
+          echo "::group::Prefixing branch"
+          if [[ ${{ env.DLRS_BRANCH }} == "main" ]]; then
+            echo "Prefixing branch hotfix/${{ env.DLRS_VERSION }}"
+            echo "DLRS_BRANCH=hotfix/${{ env.DLRS_VERSION }}" >> $GITHUB_OUTPUT
+          elif [[ ${{ env.DLRS_BRANCH }} == "develop" ]]; then
+            echo "Prefixing branch release/${{ env.DLRS_VERSION }}"
+            echo "DLRS_BRANCH=release/${{ env.DLRS_VERSION }}" >> $GITHUB_OUTPUT
+          fi
+          echo "::endgroup::"
+
+      - name: Create branch
+        env:
+          DLRS_BRANCH: ${{ steps.prefix.outputs.DLRS_BRANCH }}
+        run: |
+          echo "Creating branch ${{ env.DLRS_BRANCH }}"
