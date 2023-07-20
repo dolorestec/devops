@@ -76,4 +76,19 @@ jobs:
           --base ${{ env.DLRS_BRANCH }} 
           --head ${{ env.DLRS_BRANCH }}
           echo "::endgroup::"
+
+      - name: Rollback branch
+        if : ${{ failure() }}
+        env:
+          DLRS_BRANCH: ${{ env.DLRS_BRANCH }}
+          DLRS_TAG: ${{ env.DLRS_TAG }}
+          DLRS_VERSION: ${{ env.DLRS_VERSION }}
+        run: |
+          echo "::group::Rollback branch"
+          git checkout ${{ env.DLRS_BRANCH }}
+          git tag -d ${{ env.DLRS_TAG }}
+          git push origin :${{ env.DLRS_TAG }}
+          git branch -D ${{ env.DLRS_BRANCH }}
+          git push origin :${{ env.DLRS_BRANCH }}
+          echo "::endgroup::"
           
