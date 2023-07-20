@@ -82,8 +82,3 @@ runs:
             echo "DLRS_BRANCH=release/${{ env.DLRS_VERSION }}" >> $GITHUB_OUTPUT
         fi
         echo "::endgroup::"
-
-    - name: Versioning
-      shell: bash
-      run: |
-        echo "Versioning"
