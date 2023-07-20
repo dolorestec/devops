@@ -40,7 +40,6 @@ jobs:
           tag: ${{ env.DLRS_VERSION }}
           context: .
           dockerfile: Dockerfile
-          load: true
 
       - name: Logout from ghcr.io
         uses: dolorestec/devops/.github/actions/docker/registry/logout@develop

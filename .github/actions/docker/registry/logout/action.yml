@@ -6,12 +6,6 @@ inputs:
   registry:
     description: "Registry to login"
     required: true
-  username:
-    description: "Username to login"
-    required: true
-  token:
-    description: "Token to login"
-    required: true
   
 
 runs:
@@ -23,5 +17,5 @@ runs:
       run: |
         echo "::group::Docker registry login"
         echo "Name: ${{ inputs.registry }}"
-        echo ${{ inputs.token }} | docker logout ${{ inputs.registry }} -u ${{ inputs.username }} --password-stdin
+        docker logout ${{ inputs.registry }}
         echo "::endgroup::"

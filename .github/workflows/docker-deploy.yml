@@ -21,11 +21,13 @@ jobs:
         - name: Load variables
           uses: dolorestec/devops/.github/actions/variables/load@develop
             
-        - name: Docker login
-          run: |
-            echo "Logging in to docker"
-            echo ${{ secrets.DOCKER_TOKEN }} | docker login -u ${{ github.actor }} --password-stdin &> /dev/null
-
+        - name: Login to ghcr.io
+          uses: dolorestec/devops/.github/actions/docker/registry/login@develop
+          with:
+            registry: ghcr.io
+            username: ${{ github.actor }}
+            token: ${{ github.token }}
+            
         - name: Build and push image
           uses: dolorestec/devops/.github/actions/docker/buildx/build@develop
           with:
@@ -35,7 +37,9 @@ jobs:
             dockerfile: Dockerfile
             push: true
             
-        - name: Docker logout
-          run: |
-            echo "Logging out of docker"
-            docker logout &> /dev/null
+        - name: Logout from ghcr.io
+          uses: dolorestec/devops/.github/actions/docker/registry/logout@develop
+          with:
+            registry: ghcr.io
+            username: ${{ github.actor }}
+            token: ${{ github.token }}
