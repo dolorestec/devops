@@ -21,18 +21,8 @@ jobs:
       - name: Load variables
         uses: dolorestec/devops/.github/actions/variables/load@develop
             
-      - name: Create buildx builder         
-        uses: dolorestec/devops/.github/actions/docker/buildx/create@develop
-        with:
-          name: "${{ env.DLRS_NAME }}-builder"
-
-      - name: Build image
-        uses: dolorestec/devops/.github/actions/docker/buildx/build@develop
-        with:
-          image: ${{ env.DLRS_ARTIFACT }}
-          tag: ${{ env.DLRS_VERSION }}
-          context: .
-          dockerfile: Dockerfile
-          load: true
+      - name: Docker build
+        run: |
+          env
           
             
