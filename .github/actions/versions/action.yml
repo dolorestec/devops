@@ -25,13 +25,13 @@ inputs:
 
 outputs:
   version:
-    value: ${{ steps.set_outputs.outputs.DRLS_VERSION }}
+    value: ${{ steps.set_outputs.outputs.version }}
     description: "Version name"
   tag:
-    value: ${{ steps.set_outputs.outputs.DRLS_TAG }}
+    value: ${{ steps.set_outputs.outputs.tag }}
     description: "Tag name"
   branch:
-    value: ${{ steps.set_outputs.outputs.DRLS_BRANCH }}
+    value: ${{ steps.set_outputs.outputs.branch }}
     description: "Branch name"
 
 runs:
@@ -46,14 +46,13 @@ runs:
         DLRS_VERSION: ${{ inputs.version }}
       run: |
         echo "::group::Versioning major"
-        echo "DLRS_VERSION=$( echo ${{ env.DLRS_VERSION }} | awk -F. '{print $1+1".0.0"}')" >> $GITHUB_ENV
-        echo "DLRS_TAG=$( echo ${{ env.DLRS_VERSION }} | awk -F. '{print $1+1".0.0"}')-$( echo ${{ env.DLRS_TAG }} | awk -F- '{print $2}' )" >> $GITHUB_ENV
+        echo "DLRS_NEXT_VERSION=$( echo ${{ env.DLRS_VERSION }} | awk -F. '{print $1+1".0.0"}')" >> $GITHUB_ENV
+        echo "DLRS_NEXT_TAG=$( echo ${{ env.DLRS_VERSION }} | awk -F. '{print $1+1".0.0"}')-$( echo ${{ env.DLRS_TAG }} | awk -F- '{print $2}' )" >> $GITHUB_ENV
         if [[ ${{ env.DLRS_BRANCH }} == "main" ]]; then
-            echo "DLRS_BRANCH=hotfix/$( echo ${{ env.DLRS_VERSION }} | awk -F. '{print $1+1".0.0"}')" >> $GITHUB_ENV
+            echo "DLRS_NEXT_BRANCH=hotfix/$( echo ${{ env.DLRS_VERSION }} | awk -F. '{print $1+1".0.0"}')" >> $GITHUB_ENV
           elif [[ ${{ env.DLRS_BRANCH }} == "develop" ]]; then
-            echo "DLRS_BRANCH=release/$( echo ${{ env.DLRS_VERSION }} | awk -F. '{print $1+1".0.0"}')" >> $GITHUB_ENV
+            echo "DLRS_NEXT_BRANCH=release/$( echo ${{ env.DLRS_VERSION }} | awk -F. '{print $1+1".0.0"}')" >> $GITHUB_ENV
         fi
-
         echo "::endgroup::"
 
     - name: Versioning minor
@@ -97,7 +96,7 @@ runs:
       shell: bash
       run: |
         echo "::group::Versioning outputs"
-        echo "DRLS_VERSION=${{ env.DLRS_VERSION }}" >> $GITHUB_OUTPUT
-        echo "DRLS_TAG=${{ env.DLRS_TAG }}" >> $GITHUB_OUTPUT
-        echo "DRLS_BRANCH=${{ env.DLRS_BRANCH }}" >> $GITHUB_OUTPUT
+        echo "version=${{ env.DLRS_NEXT_VERSION }}" >> $GITHUB_OUTPUT
+        echo "tag=${{ env.DLRS_NEXT_TAG }}" >> $GITHUB_OUTPUT
+        echo "branch=${{ env.DLRS_NEXT_BRANCH }}" >> $GITHUB_OUTPUT
         echo "::endgroup::"
