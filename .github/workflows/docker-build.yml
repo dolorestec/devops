@@ -21,8 +21,11 @@ jobs:
       - name: Load variables
         uses: dolorestec/devops/.github/actions/variables/load@develop
             
-      - name: Docker build
-        run: |
-          env
+      - name: Create buildx builder         
+        uses: dolorestec/devops/.github/actions/docker/buildx/create@develop
+        with:
+          name: "${{ env.DLRS_NAME }}-builder"
+
+
           
             
