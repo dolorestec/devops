@@ -1,15 +1,15 @@
 name: Gitflow Workflow
-run-name: Gitflow ${{ github.ref_name }}
+run-name: Gitflow Branch
 
 on:
     workflow_call:
 
 jobs:
     create:
-        name: Release Branch
+        name: Gitflow ${{ github.ref_name }}
         timeout-minutes: 10
         runs-on: ubuntu-latest
-        environment: ${{ github.ref_name }}
+        #environment: ${{ github.ref_name }}
 
         steps:
           - name: Checkout code
@@ -25,21 +25,15 @@ jobs:
 
           - name: Load variables
             uses: dolorestec/devops/.github/actions/variables/load@develop
-              
-          - name: Check branch
-            id: check_branch
-            run: |
-              if [[ "${{ github.ref_name }}" == "main"* ]]; then
-                echo "hotfix" >> $GITHUB_OUTPUT
-              elif [[ "${{ github.ref_name }}" == "develop"* ]]; then
-                echo "release" >> $GITHUB_OUTPUT
-              else
-                echo "rc" >> $GITHUB_OUTPUT
-              fi
 
-          - name: Hotfix branch
-            if: steps.check_branch.outputs == 'release'
+          - name: Create branch
             env:
-              BRANCH_NAME: ${{ env.DLRS_VERSION}}
+              BRANCH_NAME: ${{ github.repository }}
+              BRANCH_VERSION: ${{ env.DLRS_VERSION }}
             run: |
-              echo ${{ steps.check_branch.outputs }}/${{ env.BRANCH_NAME }} | sed 's/\./-/g'
+              if [ "${{ github.ref_name }}" == "develop" ]; then
+                echo "Branch name: release/${{ env.BRANCH_VERSION }}"
+              fi
+              if [ "${{ github.ref_name }}" == "main" ]; then
+                echo "Branch name: hotfix/${{ env.BRANCH_VERSION }}"
+              fi
