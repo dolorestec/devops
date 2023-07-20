@@ -60,6 +60,6 @@ jobs:
           git add "${{ env.DLRS_NAME }}.json"
           git commit -m "[CI] - Create branch ${{ steps.versioning.outputs.branch }}"
           git push origin ${{ steps.versioning.outputs.branch }}
-          git request-pull ${{ env.DLRS_BRANCH }} ${{ steps.versioning.outputs.branch }}
+          git request-pull ${{ env.DLRS_BRANCH }} ${{ steps.versioning.outputs.branch }} ${{ github.repositoryUrl }}
           echo "::endgroup::"
           
