@@ -41,7 +41,7 @@ jobs:
 
       - name: Create branch
         env:
-          DLRS_VERSION: ${{ steps.versioning.actions.outputs.version }}
+          DLRS_VERSION: ${{ steps.versioning.outputs.version }}
           DLRS_BRANCH: ${{ steps.versioning.outputs.branch }}
           DLRS_TAG: ${{ steps.versioning.outputs.tag }}
         run: |
