@@ -45,37 +45,29 @@ jobs:
           DLRS_BRANCH: ${{ env.DLRS_BRANCH }}
           DLRS_TAG: ${{ env.DLRS_TAG }}
           DLRS_VERSION: ${{ env.DLRS_VERSION }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           echo "::group::Create branch"
           echo "Branch:${{ env.DLRS_BRANCH }} -> ${{ steps.versioning.outputs.branch }}"
           echo "Tag: ${{ env.DLRS_TAG }} -> ${{ steps.versioning.outputs.tag }}"
           echo "Version: ${{ env.DLRS_VERSION }} -> ${{ steps.versioning.outputs.version }}"
 
-          git config --global user.email "${{ github.actor}}jpa@gmail.com"
+          git config --global user.email "${{ github.actor }}jpa@gmail.com"
           git config --global user.name "${{ github.actor }}"
           
-
           git checkout -b "${{ steps.versioning.outputs.branch }}"
+          git merge --no-ff ${{ env.DLRS_BRANCH }}
+          git push origin ${{ steps.versioning.outputs.branch }}
+
+          git fetch --all --tags
+
           sed -i 's/${{env.DLRS_TAG}}/${{ steps.versioning.outputs.tag }}/g' "${{ env.DLRS_NAME }}.json"
+
           git add "${{ env.DLRS_NAME }}.json"
           git commit -m "[CI] - Create branch ${{ steps.versioning.outputs.branch }}"
           git push origin ${{ steps.versioning.outputs.branch }}
           echo "::endgroup::"
     
-      - name: Create pull request
-        env:
-          DLRS_TAG: ${{ env.DLRS_TAG }}
-          DLRS_BRANCH: ${{ env.DLRS_BRANCH }}
-          DLRS_NEXT_BRANCH: ${{ env.DLRS_NEXT_BRANCH }}
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          echo "::group::Create Pull Request"
-          gh pr create \
-          --title "[CI] - Create branch ${{ steps.versioning.outputs.branch }}" \
-          --body "Create branch ${{ env.DLRS_NEXT_BRANCH }} from ${{ env.DLRS_TAG }}" \
-          --base ${{ env.DLRS_BRANCH }}
-          echo "::endgroup::"
-
       - name: Rollback branch
         if : ${{ failure() }}
         env:
