@@ -32,7 +32,6 @@ jobs:
           DLRS_BRANCH: ${{ env.DLRS_BRANCH }}
           DLRS_VERSION: ${{ env.DLRS_VERSION }}
         run: |
-          echo "::group::Prefixing branch"
           if [[ ${{ env.DLRS_BRANCH }} == "main" ]]; then
             echo "Prefixing branch hotfix/${{ env.DLRS_VERSION }}"
             echo "DLRS_BRANCH=hotfix/${{ env.DLRS_VERSION }}" >> $GITHUB_OUTPUT
@@ -40,7 +39,6 @@ jobs:
             echo "Prefixing branch release/${{ env.DLRS_VERSION }}"
             echo "DLRS_BRANCH=release/${{ env.DLRS_VERSION }}" >> $GITHUB_OUTPUT
           fi
-          echo "::endgroup::"
 
       - name: Create branch
         env:
