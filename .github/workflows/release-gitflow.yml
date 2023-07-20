@@ -73,8 +73,7 @@ jobs:
           gh pr create \
           --title "[CI] - Create branch ${{ steps.versioning.outputs.branch }}" \
           --body "Create branch ${{ env.DLRS_NEXT_BRANCH }} from ${{ env.DLRS_TAG }}" \
-          --base ${{ env.DLRS_BRANCH }} 
-          --head ${{ env.DLRS_BRANCH }}
+          --base ${{ env.DLRS_BRANCH }}
           echo "::endgroup::"
 
       - name: Rollback branch
@@ -86,8 +85,6 @@ jobs:
         run: |
           echo "::group::Rollback branch"
           git checkout ${{ env.DLRS_BRANCH }}
-          git tag -d ${{ env.DLRS_TAG }}
-          git push origin :${{ env.DLRS_TAG }}
           git branch -D ${{ env.DLRS_BRANCH }}
           git push origin :${{ env.DLRS_BRANCH }}
           echo "::endgroup::"
