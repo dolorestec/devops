@@ -12,11 +12,15 @@ jobs:
   
         steps:
           - name: Checkout code
+            env:
+              REPOSITORY: ${{ github.repository }}
+              REF: ${{ github.ref_name }}
+              FETCH_DEPTH: 0
             uses: Actions/checkout@v3
             with:
-              repository: ${{ github.repository }}
-              ref: ${{ github.ref_name }}
-              fetch-depth: 0
+              repository: ${{ env.REPOSITORY }}
+              ref: ${{ env.REF }}
+              fetch-depth: ${{ env.FETCH_DEPTH }}
   
           - name: Export variables
             uses: dolorestec/devops/.github/actions/variables/export@develop
