@@ -18,11 +18,11 @@ inputs:
   cache-to:
     description: "Cache the image to this registry"
     required: false
-    default: "type=registry,mode=max,ref=ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
+    default: "type=registry,mode=max,ref=ghcr.io/${{ github.repository }}:${{ github.ref_name }},token=${{ secrets.GITHUB_TOKEN }}"
   cache-from:
     description: "Cache the image from this registry"
     required: false
-    default: "type=registry,mode=max,ref=ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
+    default: "type=registry,mode=max,ref=ghcr.io/${{ github.repository }}:${{ github.ref_name }},token=${{ secrets.GITHUB_TOKEN }}"
   push:
     description: "Push the image to the registry"
     required: false
