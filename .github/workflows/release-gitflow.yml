@@ -1,4 +1,4 @@
-name: Release gitflow
+name: Gitflow workflow
 run-name: Gitflow
 
 on:
