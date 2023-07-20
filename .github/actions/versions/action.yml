@@ -1,0 +1,33 @@
+name: Versions
+description: "Versioning for DLRS"
+
+inputs:
+  branch: 
+    description: "Branch name"
+    required: true
+  tag: 
+    description: "Tag name"
+    required: true
+  version:
+    description: "Version name"
+    required: true
+  major:
+    description: "Major version"
+    required: false
+    default: "false"
+  minor:
+    description: "Minor version"
+    required: false
+    default: "false"
+  patch:
+    description: "Patch version"
+    required: false
+    default: "false"
+
+runs:
+  using: composite
+  steps:
+    - name: Versions
+      shell: bash
+      run: |
+        echo ""
