@@ -9,7 +9,8 @@ jobs:
         name: Release Branch
         timeout-minutes: 10
         runs-on: ubuntu-latest
-        environment: ${{ github.ref }}
+        environment: ${{ github.ref_name }}
+
         steps:
           - name: Checkout code
             uses: Actions/checkout@v3
