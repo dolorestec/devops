@@ -23,6 +23,17 @@ inputs:
     required: false
     default: "false"
 
+outputs:
+  DRLS_VERSION:
+    value: ${{ steps.set_outputs.outputs.DRLS_VERSION }}
+    description: "Version name"
+  DRLS_TAG:
+    value: ${{ steps.set_outputs.outputs.DRLS_TAG }}
+    description: "Tag name"
+  DRLS_BRANCH:
+    value: ${{ steps.set_outputs.outputs.DRLS_BRANCH }}
+    description: "Branch name"
+
 runs:
   using: composite
   steps:
@@ -81,6 +92,7 @@ runs:
         echo "::endgroup::"
 
     - name: Set outputs
+      id: set_outputs
       shell: bash
       run: |
         echo "DRLS_VERSION=${{ env.DLRS_NEXT_VERSION }}" >> $GITHUB_OUTPUT
