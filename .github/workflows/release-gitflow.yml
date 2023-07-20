@@ -50,6 +50,11 @@ jobs:
           echo "Branch:${{ env.DLRS_BRANCH }} -> ${{ steps.versioning.outputs.branch }}"
           echo "Tag: ${{ env.DLRS_TAG }} -> ${{ steps.versioning.outputs.tag }}"
           echo "Version: ${{ env.DLRS_VERSION }} -> ${{ steps.versioning.outputs.version }}"
+
+          git config --global user.email "${{ github.actor}}jpa@gmail.com"
+          git config --global user.name "${{ github.actor}}"
+          
+
           git checkout -b "${{ steps.versioning.outputs.branch }}"
           sed -i 's/${{env.DLRS_TAG}}/${{ steps.versioning.outputs.tag }}/g' "${{ env.DLRS_NAME }}.json"
           git add "${{ env.DLRS_NAME }}.json"
