@@ -65,6 +65,7 @@ jobs:
       - name: Create pull request
         env:
           DLRS_TAG: ${{ env.DLRS_TAG }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           echo "::group::Create Pull Request"
           gh pr create \
