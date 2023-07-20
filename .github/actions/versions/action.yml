@@ -30,16 +30,16 @@ runs:
       shell: bash
       if: ${{ inputs.major == 'true' }}
       env:
-        DLRS_NAME: ${{ inputs.branch }}
+        DLRS_BRANCH: ${{ inputs.branch }}
         DLRS_TAG: ${{ inputs.tag }}
         DLRS_VERSION: ${{ inputs.version }}
       run: |
         echo "::group::Versioning major"
         echo "$(export DLRS_NEXT_VERSION=$( echo ${{ env.DLRS_VERSION }} | awk -F. '{print $1+1".0.0"}' ))"
         echo "$(export DLRS_NEXT_TAG=$( echo ${{ env.DLRS_VERSION }} | awk -F. '{print $1+1".0.0"}' ))-$( echo ${{ env.DLRS_TAG }} | awk -F'-' '{print $2}' ))"
-        if [[ ${{ env.BRANCH }} == "main" ]]; then
+        if [[ ${{ env.DLRS_BRANCH }} == "main" ]]; then
             echo "$(export DLRS_NEXT_BRANCH=hotfix/$( echo ${{ env.DLRS_VERSION }} | awk -F. '{print $1+1".0.0"}' )))"
-          elif [[ ${{ env.BRANCH }} == "develop" ]]; then
+          elif [[ ${{ env.DLRS_BRANCH }} == "develop" ]]; then
             echo "$(export DLRS_NEXT_BRANCH=release/$( echo ${{ env.DLRS_VERSION }} | awk -F. '{print $1+1".0.0"}' )))"
         fi
         echo "::endgroup::"
