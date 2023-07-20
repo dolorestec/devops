@@ -12,28 +12,41 @@ jobs:
 
     steps:
       - name: Checkout code
+        env:
+          REPOSITORY: ${{ github.repository }}
+          REF: ${{ github.ref_name }}
+          FETCH_DEPTH: 0
         uses: Actions/checkout@v3
         with:
           repository: ${{ github.repository }}
           ref: ${{ github.ref_name }}
-          fetch-depth: 0
+          fetch-depth: ${{ env.FETCH_DEPTH }}
 
       - name: Load variables
         uses: dolorestec/devops/.github/actions/variables/load@develop
             
-      - name: Create buildx builder         
+      - name: Create buildx builder
+        env:
+          DLRS_NAME: ${{ env.DLRS_NAME }}
         uses: dolorestec/devops/.github/actions/docker/buildx/create@develop
         with:
-          name: "${{ env.DLRS_NAME }}-builder"
+          name: ${{ env.DLRS_NAME }}
 
       - name: Login to ghcr.io
+        env:
+          REGISTRY: ghcr.io
+          USERNAME: ${{ github.actor }}
+          TOKEN: ${{ github.token }}
         uses: dolorestec/devops/.github/actions/docker/registry/login@develop
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          token: ${{ github.token }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ env.USERNAME }}
+          token: ${{ env.TOKEN }}
 
       - name: Build image
+        env:
+          DLRS_ARTIFACT: ${{ env.DLRS_ARTIFACT }}
+          DLRS_VERSION: ${{ env.DLRS_VERSION }}
         uses: dolorestec/devops/.github/actions/docker/buildx/build@develop
         with:
           image: ${{ env.DLRS_ARTIFACT }}
@@ -43,6 +56,8 @@ jobs:
           push: true
 
       - name: Logout from ghcr.io
+        env:
+          REGISTRY: ghcr.io
         uses: dolorestec/devops/.github/actions/docker/registry/logout@develop
         with:
-          registry: ghcr.io
+          registry: ${{ env.REGISTRY }}
