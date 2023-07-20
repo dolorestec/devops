@@ -36,9 +36,10 @@ runs:
       run: |
         echo "::group::Versioning major"
         echo "$(export DLRS_NEXT_VERSION=$( echo ${{ env.DLRS_VERSION }} | awk -F. '{print $1+1".0.0"}' ))"
-        echo "$(export DLRS_NEXT_TAG=$( $(echo ${{ env.DLRS_VERSION }} | awk -F. '{print $1+1".0.0"}')-$(echo ${{ env.DLRS_TAG }} | awk -F- '{print $2}') )"
+        echo "$(export DLRS_NEXT_TAG=$($(echo "versão")-$(eho "sufix"))"
         echo "::endgroup::"
 
+#echo "$(export DLRS_NEXT_TAG=$( $(echo ${{ env.DLRS_VERSION }} | awk -F. '{print $1+1".0.0"}')-$(echo ${{ env.DLRS_TAG }} | awk -F- '{print $2}') )"
     - name: Versioning minor
       shell: bash
       if: ${{ inputs.minor == 'true' }}
