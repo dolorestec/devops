@@ -50,7 +50,10 @@ jobs:
           echo "Branch:${{ env.DLRS_BRANCH }} -> ${{ steps.versioning.outputs.branch }}"
           echo "Tag: ${{ env.DLRS_TAG }} -> ${{ steps.versioning.outputs.tag }}"
           echo "Version: ${{ env.DLRS_VERSION }} -> ${{ steps.versioning.outputs.version }}"
+          git checkout -b "${{ steps.versioning.outputs.branch }}"
           sed -i 's/${{env.DLRS_TAG}}/${{ steps.versioning.outputs.tag }}/g' "${{ env.DLRS_NAME }}.json"
-          cat "${{ env.DLRS_NAME }}.json"
+          git add "${{ env.DLRS_NAME }}.json"
+          git commit -m "[CI] - Create branch ${{ steps.versioning.outputs.branch }}"
+          git push origin ${{ steps.versioning.outputs.branch }}
           echo "::endgroup::"
           
