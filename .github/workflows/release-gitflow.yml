@@ -38,7 +38,7 @@ jobs:
           tag: ${{ env.DLRS_TAG }}
           version: ${{ env.DLRS_VERSION }}
           major: true
-
+          
       - name: Create branch
         env:
           DLRS_BRANCH: ${{ steps.versioning.outputs.DLRS_BRANCH }}
