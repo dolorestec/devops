@@ -24,13 +24,13 @@ inputs:
     default: "false"
 
 outputs:
-  DRLS_VERSION:
+  version:
     value: ${{ steps.set_outputs.outputs.DRLS_VERSION }}
     description: "Version name"
-  DRLS_TAG:
+  tag:
     value: ${{ steps.set_outputs.outputs.DRLS_TAG }}
     description: "Tag name"
-  DRLS_BRANCH:
+  branch:
     value: ${{ steps.set_outputs.outputs.DRLS_BRANCH }}
     description: "Branch name"
 

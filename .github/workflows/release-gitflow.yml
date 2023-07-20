@@ -41,9 +41,9 @@ jobs:
 
       - name: Create branch
         env:
-          DLRS_VERSION: ${{ steps.versioning.outputs.DLRS_VERSION }}
-          DLRS_BRANCH: ${{ steps.versioning.outputs.DLRS_BRANCH }}
-          DLRS_TAG: ${{ steps.versioning.outputs.DLRS_TAG }}
+          DLRS_VERSION: ${{ steps.versioning.outputs.version }}
+          DLRS_BRANCH: ${{ steps.versioning.outputs.branch }}
+          DLRS_TAG: ${{ steps.versioning.outputs.tag }}
         run: |
           echo "::group::Create branch"
           echo "Branch:${{ env.DLRS_BRANCH }}"
