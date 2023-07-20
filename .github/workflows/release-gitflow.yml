@@ -45,15 +45,12 @@ jobs:
           DLRS_BRANCH: ${{ env.DLRS_BRANCH }}
           DLRS_TAG: ${{ env.DLRS_TAG }}
           DLRS_VERSION: ${{ env.DLRS_VERSION }}
-          DLRS_NETX_VERSION: ${{ steps.versioning.outputs.version }}
-          DLRS_NETX_BRANCH: ${{ steps.versioning.outputs.branch }}
-          DLRS_NETX_TAG: ${{ steps.versioning.outputs.tag }}
         run: |
           echo "::group::Create branch"
-          echo "Branch:${{ env.DLRS_BRANCH }} -> ${{ env.DLRS_NETX_BRANCH }}"
-          echo "Tag: ${{ env.DLRS_TAG }} -> ${{ env.DLRS_NETX_TAG }}"
-          echo "Version: ${{ env.DLRS_VERSION }} -> ${{ env.DLRS_NETX_VERSION }}"
-          echo "$(sed -i s/${{env.DLRS_BRANCH}}/${{ env.DLRS_NETX_BRANCH }}/g" ${{ env.DLRS_NAME }}.json)"
+          echo "Branch:${{ env.DLRS_BRANCH }} -> ${{ steps.versioning.outputs.branch }}"
+          echo "Tag: ${{ env.DLRS_TAG }} -> ${{ steps.versioning.outputs.tag }}"
+          echo "Version: ${{ env.DLRS_VERSION }} -> ${{ steps.versioning.outputs.version }}"
+          echo "$(sed -i s/${{env.DLRS_BRANCH}}/${{ steps.versioning.outputs.version }}/g" ${{ env.DLRS_NAME }}.json)"
           cat ${{ env.DLRS_NAME }}.json
           echo "::endgroup::"
           
