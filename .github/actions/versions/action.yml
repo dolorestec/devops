@@ -33,9 +33,6 @@ outputs:
   branch:
     value: ${{ steps.set_outputs.outputs.branch }}
     description: "Branch name"
-  previous_version:
-    value: ${{ steps.set_outputs.outputs.previous_version }}
-    description: "Previous version name"
 
 runs:
   using: composite
@@ -102,5 +99,4 @@ runs:
         echo "version=${{ env.DLRS_NEXT_VERSION }}" >> $GITHUB_OUTPUT
         echo "tag=${{ env.DLRS_NEXT_TAG }}" >> $GITHUB_OUTPUT
         echo "branch=${{ env.DLRS_NEXT_BRANCH }}" >> $GITHUB_OUTPUT
-        echo "previous_version=${{ env.DLRS_VERSION }}" >> $GITHUB_OUTPUT
         echo "::endgroup::"
