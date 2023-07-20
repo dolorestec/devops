@@ -24,6 +24,7 @@ runs:
         echo "DLRS_BRANCH=$(echo ${{ github.ref }} | awk -F'/' '{print $NF}')" >> ${{ inputs.file }}
         echo "DLRS_ARTIFACT=${{ github.repository }}"  >> ${{ inputs.file }}
         echo "DLRS_VERSION=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')"  >> ${{ inputs.file }}
+        cat ${{ inputs.file }} | jq
         echo "::endgroup::"
 
     - name: Upload variables
@@ -31,9 +32,3 @@ runs:
       with:
         name: ${{ inputs.file }}
         path: ${{ inputs.file }}
-
-    - name: Summary
-      shell: bash
-      run: |
-        echo "### Environment Variables" >> $GITHUB_STEP_SUMMARY
-        cat ${{ inputs.file }} >> $GITHUB_STEP_SUMMARY
