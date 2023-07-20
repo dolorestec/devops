@@ -23,7 +23,8 @@ runs:
         echo "DLRS_NAME=$(echo ${{ github.repository }} | awk -F'/' '{print $NF}')" >> ${{ inputs.file }}
         echo "DLRS_BRANCH=$(echo ${{ github.ref }} | awk -F'/' '{print $NF}')" >> ${{ inputs.file }}
         echo "DLRS_ARTIFACT=${{ github.repository }}"  >> ${{ inputs.file }}
-        echo "DLRS_VERSION=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')"  >> ${{ inputs.file }}
+        echo "DLRS_TAG=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')"  >> ${{ inputs.file }}
+        echo "DLRS_VERSION=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $1}' | sed 's/[^0-9.]*//g' )"  >> ${{ inputs.file }}
         cat ${{ inputs.file }} | xargs -I {} echo "{}"
         echo "::endgroup::"
 
