@@ -67,6 +67,10 @@ jobs:
           DLRS_TAG: ${{ env.DLRS_TAG }}
         run: |
           echo "::group::Create Pull Request"
-          hub pull-request -m "[CI] - Create branch ${{ steps.versioning.outputs.branch }}" -b ${{ env.DLRS_TAG }} -h ${{ steps.versioning.outputs.branch }}
+          gh pr create \
+          --title "[CI] - Create branch ${{ steps.versioning.outputs.branch }}" \
+          --body "Create branch ${{ steps.versioning.outputs.branch }} from ${{ env.DLRS_TAG }}" \
+          --base ${{ env.DLRS_TAG }} 
+          --head ${{ steps.versioning.outputs.branch }}
           echo "::endgroup::"
           
