@@ -1,12 +1,12 @@
-name: Gitflow Workflow
-run-name: Gitflow Branch
+name: Release gitflow
+run-name: Gitflow
 
 on:
     workflow_call:
 
 jobs:
   create:
-    name: Gitflow Branch
+    name: Branch
     timeout-minutes: 10
     runs-on: ubuntu-latest
     #environment: ${{ github.ref_name }}

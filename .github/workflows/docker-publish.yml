@@ -1,12 +1,12 @@
-name: Docker build and push
-run-name: Build and Push
+name: Docker publish
+run-name: Publish
 
 on:
   workflow_call:
 
 jobs:
   build:
-    name: Build and push
+    name: Build and Push
     timeout-minutes: 10
     runs-on: ubuntu-latest
 
