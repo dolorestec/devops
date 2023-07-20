@@ -49,5 +49,11 @@ jobs:
           echo "Branch:${{ env.DLRS_BRANCH }}"
           echo "Tag: ${{ env.DLRS_TAG }}"
           echo "Version: ${{ env.DLRS_VERSION }}"
+          if [ $(echo "${{ env.DLRS_TAG }}" | awk -F- '{print $2}') == 'SNAPSHOT' ]; then
+            echo "criar branch"
+          else
+            echo "criar branch e tag"
+          fi
+          echo "push branch e tag"
           echo "::endgroup::"
           
