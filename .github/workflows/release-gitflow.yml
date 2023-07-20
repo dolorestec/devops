@@ -38,9 +38,16 @@ jobs:
           tag: ${{ env.DLRS_TAG }}
           version: ${{ env.DLRS_VERSION }}
           major: true
-          
+
       - name: Create branch
         env:
+          DLRS_VERSION: ${{ steps.versioning.outputs.DLRS_VERSION }}
           DLRS_BRANCH: ${{ steps.versioning.outputs.DLRS_BRANCH }}
+          DLRS_TAG: ${{ steps.versioning.outputs.DLRS_TAG }}
         run: |
-          echo "Creating branch ${{ env.DLRS_BRANCH }}"
+          echo "::group::Create branch"
+          echo "Branch:${{ env.DLRS_BRANCH }}"
+          echo "Tag: ${{ env.DLRS_TAG }}"
+          echo "Version: ${{ env.DLRS_VERSION }}"
+          echo "::endgroup::"
+          
