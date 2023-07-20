@@ -70,7 +70,7 @@ runs:
           --cache-from ${{ inputs.cache-from }} --cache-to ${{ inputs.cache-to }} \
           --iidfile image_id.txt \
           --file ${{ inputs.dockerfile }} \
-          --tag ${{ inputs.image }}:${{ inputs.tag }} \
+          --tag "${{ inputs.image }}:${{ inputs.tag }}" \
           $([ ${{ inputs.no-cache }} == "true" ] && echo "--no-cache") \
           $([ ${{ inputs.pull }} == "true" ] && echo "--pull") \
           $([ ${{ inputs.load }} == "true" ] && echo "--load") \

@@ -52,7 +52,7 @@ jobs:
           echo "Version: ${{ env.DLRS_VERSION }} -> ${{ steps.versioning.outputs.version }}"
 
           git config --global user.email "${{ github.actor}}jpa@gmail.com"
-          git config --global user.name "${{ github.actor}}"
+          git config --global user.name "${{ github.actor }}"
           
 
           git checkout -b "${{ steps.versioning.outputs.branch }}"
