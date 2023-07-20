@@ -28,12 +28,8 @@ jobs:
 
       - name: Create branch
         env:
-          BRANCH_NAME: ${{ github.repository }}
-          BRANCH_VERSION: ${{ env.DLRS_VERSION }}
+          BRANCH: ${{ env.DLRS_VERSION }}
         run: |
-          if [ "${{ github.ref_name }}" == "develop" ]; then
-            echo "release/${{ env.BRANCH_VERSION }}"
-          fi
-          if [ "${{ github.ref_name }}" == "main" ]; then
-            echo "Branch name: hotfix/${{ env.BRANCH_VERSION }}"
-          fi
+          [["${{ env.BRANCH}}"] == "master"] && \
+          echo "hotfix" || \
+          echo "release"
