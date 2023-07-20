@@ -26,6 +26,13 @@ jobs:
         with:
           name: "${{ env.DLRS_NAME }}-builder"
 
+      - name: Login to ghcr.io
+        uses: dolorestec/devops/.github/actions/docker/registry/login@develop
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build image
         uses: dolorestec/devops/.github/actions/docker/buildx/build@develop
         with:

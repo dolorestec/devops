@@ -1,0 +1,27 @@
+name: Registry login
+author: Lucas Cantarelli
+description: "Login to a docker registry"
+
+inputs:
+  registry:
+    description: "Registry to login"
+    required: true
+  username:
+    description: "Username to login"
+    required: true
+  token:
+    description: "Token to login"
+    required: true
+  
+
+runs:
+  using: composite
+  steps:
+    # Login to registry
+    - name: Login to registry
+      shell: bash
+      run: |
+        echo "::group::Docker registry login"
+        echo "Name: ${{ inputs.registry }}"
+        echo ${{ inputs.token }} | docker login ${{ inputs.registry }} -u ${{ inputs.username }} --password-stdin      
+        echo "::endgroup::"
