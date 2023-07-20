@@ -1,5 +1,5 @@
-name: Release
-run-name: Release Branch
+name: Gitflow Workflow
+run-name: Gitflow ${{ github.ref_name }}
 
 on:
     workflow_call:
@@ -22,7 +22,24 @@ jobs:
               repository: ${{ env.REPOSITORY }}
               ref: ${{ env.REF }}
               fetch-depth: ${{ env.FETCH_DEPTH }}
+
+          - name: Load variables
+            uses: dolorestec/devops/.github/actions/variables/load@develop
               
-          - name: Release Branch
+          - name: Check branch
+            id: check_branch
             run: |
-                echo "release"
+              if [[ "${{ github.ref_name }}" == "main"* ]]; then
+                echo "hotfix" >> $GITHUB_OUTPUT
+              elif [[ "${{ github.ref_name }}" == "develop"* ]]; then
+                echo "release" >> $GITHUB_OUTPUT
+              else
+                echo "rc" >> $GITHUB_OUTPUT
+              fi
+
+          - name: Hotfix branch
+            if: steps.check_branch.outputs == 'release'
+            env:
+              BRANCH_NAME: ${{ env.DLRS_VERSION}}
+            run: |
+              echo ${{ steps.check_branch.outputs }}/${{ env.BRANCH_NAME }} | sed 's/\./-/g'
