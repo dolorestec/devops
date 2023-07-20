@@ -56,20 +56,27 @@ jobs:
           git config --global user.name "${{ github.actor }}"
           
           git checkout -b "${{ steps.versioning.outputs.branch }}"
-          git merge --no-ff ${{ env.DLRS_BRANCH }}
           git push origin ${{ steps.versioning.outputs.branch }}
+          git fetch --all
+          echo "::endgroup::"
 
-          git fetch --all --tags
-
+      - name: Versioning
+        env:
+          DLRS_NAME: ${{ env.DLRS_NAME }}
+          DLRS_BRANCH: ${{ env.DLRS_BRANCH }}
+          DLRS_TAG: ${{ env.DLRS_TAG }}
+          DLRS_VERSION: ${{ env.DLRS_VERSION }}
+        run: |
+          echo "::group::Versioning"
+          git checkout ${{ steps.versioning.outputs.branch }}
           sed -i 's/${{env.DLRS_TAG}}/${{ steps.versioning.outputs.tag }}/g' "${{ env.DLRS_NAME }}.json"
-
           git add "${{ env.DLRS_NAME }}.json"
           git commit -m "[CI] - Create branch ${{ steps.versioning.outputs.branch }}"
           git push origin ${{ steps.versioning.outputs.branch }}
           echo "::endgroup::"
-    
-      - name: Rollback branch
-        if : ${{ failure() }}
+          
+      - if : ${{ failure() }}
+        name: Rollback branch
         env:
           DLRS_BRANCH: ${{ env.DLRS_BRANCH }}
           DLRS_TAG: ${{ env.DLRS_TAG }}
