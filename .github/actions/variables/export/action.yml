@@ -24,7 +24,7 @@ runs:
         echo "DLRS_BRANCH=$(echo ${{ github.ref }} | awk -F'/' '{print $NF}')" >> ${{ inputs.file }}
         echo "DLRS_ARTIFACT=${{ github.repository }}"  >> ${{ inputs.file }}
         echo "DLRS_VERSION=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')"  >> ${{ inputs.file }}
-        cat ${{ inputs.file }} | jq
+        cat ${{ inputs.file }} | xargs -I {} echo "{}"
         echo "::endgroup::"
 
     - name: Upload variables
