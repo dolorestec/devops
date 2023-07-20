@@ -5,35 +5,35 @@ on:
     workflow_call:
 
 jobs:
-    create:
-        name: Gitflow ${{ github.ref_name }}
-        timeout-minutes: 10
-        runs-on: ubuntu-latest
-        #environment: ${{ github.ref_name }}
+  create:
+    name: Gitflow ${{ github.ref_name }}
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    #environment: ${{ github.ref_name }}
 
-        steps:
-          - name: Checkout code
-            env:
-              REPOSITORY: ${{ github.repository }}
-              REF: ${{ github.ref_name }}
-              FETCH_DEPTH: 0
-            uses: Actions/checkout@v3
-            with:
-              repository: ${{ env.REPOSITORY }}
-              ref: ${{ env.REF }}
-              fetch-depth: ${{ env.FETCH_DEPTH }}
+    steps:
+      - name: Checkout code
+        env:
+          REPOSITORY: ${{ github.repository }}
+          REF: ${{ github.ref_name }}
+          FETCH_DEPTH: 0
+        uses: Actions/checkout@v3
+        with:
+          repository: ${{ env.REPOSITORY }}
+          ref: ${{ env.REF }}
+          fetch-depth: ${{ env.FETCH_DEPTH }}
 
-          - name: Load variables
-            uses: dolorestec/devops/.github/actions/variables/load@develop
+      - name: Load variables
+        uses: dolorestec/devops/.github/actions/variables/load@develop
 
-          - name: Create branch
-            env:
-              BRANCH_NAME: ${{ github.repository }}
-              BRANCH_VERSION: ${{ env.DLRS_VERSION }}
-            run: |
-              if [ "${{ github.ref_name }}" == "develop" ]; then
-                echo "Branch name: release/${{ env.BRANCH_VERSION }}"
-              fi
-              if [ "${{ github.ref_name }}" == "main" ]; then
-                echo "Branch name: hotfix/${{ env.BRANCH_VERSION }}"
-              fi
+      - name: Create branch
+        env:
+          BRANCH_NAME: ${{ github.repository }}
+          BRANCH_VERSION: ${{ env.DLRS_VERSION }}
+        run: |
+          if [ "${{ github.ref_name }}" == "develop" ]; then
+            echo "Branch name: release/${{ env.BRANCH_VERSION }} | awk -F'-' '{print $1}' | sed 's/[^0-9]*//g'"
+          fi
+          if [ "${{ github.ref_name }}" == "main" ]; then
+            echo "Branch name: hotfix/${{ env.BRANCH_VERSION }}"
+          fi
