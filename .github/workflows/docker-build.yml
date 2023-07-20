@@ -20,10 +20,6 @@ jobs:
 
       - name: Load variables
         uses: dolorestec/devops/.github/actions/variables/load@develop
-
-      - name: builder         
-        run: | 
-          env
             
       - name: Create buildx builder         
         uses: dolorestec/devops/.github/actions/docker/buildx/create@develop

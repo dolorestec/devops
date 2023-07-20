@@ -4,7 +4,7 @@ description: "Load variables for use in other actions"
 inputs:
   file: 
     description: "File name"
-    required: true
+    required: false
     default: variables.json
 
 runs:
