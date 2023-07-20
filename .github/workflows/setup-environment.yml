@@ -1,4 +1,4 @@
-name: Prepare Environment
+name: Setup environment
 run-name: Environment
 
 on:

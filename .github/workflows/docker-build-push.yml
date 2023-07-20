@@ -1,12 +1,12 @@
-name: Docker build
-run-name: Docker build
+name: Docker build and push
+run-name: Build and Push
 
 on:
   workflow_call:
 
 jobs:
   build:
-    name: Build
+    name: Build and push
     timeout-minutes: 10
     runs-on: ubuntu-latest
 
@@ -40,13 +40,9 @@ jobs:
           tag: ${{ env.DLRS_VERSION }}
           context: .
           dockerfile: Dockerfile
+          push: true
 
       - name: Logout from ghcr.io
         uses: dolorestec/devops/.github/actions/docker/registry/logout@develop
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
-          token: ${{ github.token }}
-
-          
-            
