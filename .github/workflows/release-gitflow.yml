@@ -60,6 +60,13 @@ jobs:
           git add "${{ env.DLRS_NAME }}.json"
           git commit -m "[CI] - Create branch ${{ steps.versioning.outputs.branch }}"
           git push origin ${{ steps.versioning.outputs.branch }}
-          git request-pull v${{ env.DLRS_TAG }} ${{ github.repositoryUrl }} ${{ steps.versioning.outputs.branch }}
+          echo "::endgroup::"
+    
+      - name: Create pull request
+        env:
+          DLRS_TAG: ${{ env.DLRS_TAG }}
+        run: |
+          echo "::group::Create Pull Request"
+          hub pull-request -m "[CI] - Create branch ${{ steps.versioning.outputs.branch }}" -b ${{ env.DLRS_TAG }} -h ${{ steps.versioning.outputs.branch }}
           echo "::endgroup::"
           
