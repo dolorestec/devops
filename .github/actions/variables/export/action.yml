@@ -5,7 +5,7 @@ inputs:
   file: 
     description: "File name"
     required: false
-    default: "${{ inputs.file }}"
+    default: variables.json
 
 runs:
   using: composite
