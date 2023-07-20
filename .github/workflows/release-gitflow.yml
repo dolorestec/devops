@@ -50,7 +50,7 @@ jobs:
           echo "Branch:${{ env.DLRS_BRANCH }} -> ${{ steps.versioning.outputs.branch }}"
           echo "Tag: ${{ env.DLRS_TAG }} -> ${{ steps.versioning.outputs.tag }}"
           echo "Version: ${{ env.DLRS_VERSION }} -> ${{ steps.versioning.outputs.version }}"
-          echo "$(sed -i s/${{env.DLRS_BRANCH}}/${{ steps.versioning.outputs.version }}/g" ${{ env.DLRS_NAME }}.json)"
+          echo "$(sed -i 's/${{env.DLRS_BRANCH}}/${{ steps.versioning.outputs.version }}/g' ${{ env.DLRS_NAME }}.json)"
           cat ${{ env.DLRS_NAME }}.json
           echo "::endgroup::"
           
