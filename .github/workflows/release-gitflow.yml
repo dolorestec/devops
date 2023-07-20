@@ -9,7 +9,7 @@ jobs:
     name: Branch
     timeout-minutes: 10
     runs-on: ubuntu-latest
-    #environment: ${{ github.ref_name }}
+    environment: ${{ github.ref_name }}
 
     steps:
       - name: Checkout code
