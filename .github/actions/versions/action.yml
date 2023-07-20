@@ -14,7 +14,6 @@ inputs:
   major:
     description: "Major version"
     required: false
-    default: "false"
   minor:
     description: "Minor version"
     required: false
