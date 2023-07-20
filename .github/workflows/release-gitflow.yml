@@ -65,13 +65,15 @@ jobs:
       - name: Create pull request
         env:
           DLRS_TAG: ${{ env.DLRS_TAG }}
+          DLRS_BRANCH: ${{ env.DLRS_BRANCH }}
+          DLRS_NEXT_BRANCH: ${{ env.DLRS_NEXT_BRANCH }}
           GH_TOKEN: ${{ github.token }}
         run: |
           echo "::group::Create Pull Request"
           gh pr create \
           --title "[CI] - Create branch ${{ steps.versioning.outputs.branch }}" \
-          --body "Create branch ${{ steps.versioning.outputs.branch }} from ${{ env.DLRS_TAG }}" \
-          --base ${{ env.DLRS_TAG }} 
-          --head ${{ steps.versioning.outputs.branch }}
+          --body "Create branch ${{ env.DLRS_NEXT_BRANCH }} from ${{ env.DLRS_TAG }}" \
+          --base ${{ env.DLRS_BRANCH }} 
+          --head ${{ env.DLRS_BRANCH }}
           echo "::endgroup::"
           
