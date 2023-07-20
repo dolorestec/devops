@@ -27,9 +27,8 @@ jobs:
         uses: dolorestec/devops/.github/actions/variables/load@develop
 
       - name: Create branch
+        if: ${{ github.ref_name == 'develop' }}
         env:
-          BRANCH: ${{ env.DLRS_VERSION }}
+          BRANCH: "release/${{ env.DLRS_VERSION }}"
         run: |
-          [["${{ env.BRANCH}}"] == "master"] && \
-          echo "hotfix" || \
-          echo "release"
+          echo "Creating branch $BRANCH"
