@@ -35,11 +35,15 @@ runs:
         DLRS_VERSION: ${{ inputs.version }}
       run: |
         echo "::group::Versioning major"
-        echo "DLRS_NEXT_VERSION=$( echo ${{ env.DLRS_VERSION }} | awk -F. '{print $1+1".0.0"}')"
-        echo "DLRS_NEXT_TAG=$( echo ${{ env.DLRS_VERSION }} | awk -F. '{print $1+1".0.0"}')"
+        echo "DLRS_NEXT_VERSION=$( echo ${{ env.DLRS_VERSION }} | awk -F. '{print $1+1".0.0"}')"  >> $GITHUB_OUTPUT
+        echo "DLRS_NEXT_TAG=$( echo ${{ env.DLRS_VERSION }} | awk -F. '{print $1+1".0.0"}')-$( echo ${{ env.DLRS_TAG }} | awk -F- '{print $2}' )"  >> $GITHUB_OUTPUT
+        if [[ ${{ env.DLRS_BRANCH }} == "main" ]]; then
+            echo "DLRS_NEXT_BRANCH=hotfix/${{ env.DLRS_NEXT_VERSION }}"  >> $GITHUB_OUTPUT
+          elif [[ ${{ env.DLRS_BRANCH }} == "develop" ]]; then
+            echo "DLRS_NEXT_BRANCH=release/${{ env.DLRS_NEXT_VERSION }}"  >> $GITHUB_OUTPUT
+        fi
         echo "::endgroup::"
-#echo "$(export DLRS_NEXT_TAG=$( echo ${{ env.DLRS_VERSION }} | awk -F. '{print $1+1".0.0"}' ))"
-#echo "$(export DLRS_NEXT_TAG=$( $(echo ${{ env.DLRS_VERSION }} | awk -F. '{print $1+1".0.0"}')-$(echo ${{ env.DLRS_TAG }} | awk -F- '{print $2}') )"
+
     - name: Versioning minor
       shell: bash
       if: ${{ inputs.minor == 'true' }}
@@ -74,13 +78,4 @@ runs:
           elif [[ ${{ env.BRANCH }} == "develop" ]]; then
             echo "DLRS_BRANCH=release/${{ env.DLRS_VERSION }}"
         fi
-        echo "::endgroup::"
-
-    - name: Versioning
-      shell: bash
-      run: |
-        echo "::group::Versioning"
-        echo "DLRS_BRANCH=${{ env.DLRS_NEXT_BRANCH }}"
-        echo "DLRS_TAG=${{ env.DLRS_NEXT_TAG }}"
-        echo "DLRS_VERSION=${{ env.DLRS_NEXT_VERSION }}"
         echo "::endgroup::"
