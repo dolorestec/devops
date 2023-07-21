@@ -15,8 +15,8 @@ runs:
       env:
         DLRS_FILE: ${{ inputs.DLRS_FILE }}
       run: |
-        - echo "::notice title=Create file::Create $DLRS_FILE"
-        - touch $DLRS_FILE
+        echo "::notice title=Create file::Create $DLRS_FILE"
+        touch $DLRS_FILE
 
     - name: Create variables
       shell: bash
