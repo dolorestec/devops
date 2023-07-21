@@ -21,12 +21,12 @@ runs:
     - name: Create variables
       shell: bash
       env:
-        DLRS_NAME: $(echo ${{ github.repository }} | awk -F'/' '{print $NF}')
-        DLRS_VERSION: $(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $1}' | sed 's/[^0-9.]*//g')
+        DLRS_NAME: ${{ $(echo ${{ github.repository }} | awk -F'/' '{print $NF}') }}
+        DLRS_VERSION: ${{ $(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $1}' | sed 's/[^0-9.]*//g') }}
         DLRS_REPOSITORY: ${{ github.repository }}
-        DLRS_BRANCH: $(echo ${{ github.ref }} | awk -F'/' '{print $NF}')
-        DLRS_TAG: $(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')
-        DLRS_SUFFIX: $(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $2}' | sed 's/[^0-9.]*//g')
+        DLRS_BRANCH: ${{ $(echo github.ref | awk -F'/' '{print $NF}') }}
+        DLRS_TAG: ${{ $(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g') }}
+        DLRS_SUFFIX: ${{ $(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $2}' | sed 's/[^0-9.]*//g') }}
       run: |
         echo "::group::Export Variables"
         echo ${{ steps.create-file.outputs.HASH }}
