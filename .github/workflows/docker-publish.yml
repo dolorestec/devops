@@ -54,7 +54,6 @@ jobs:
           context: .
           dockerfile: Dockerfile
           push: true
-          load: true
 
       - name: Logout from ghcr.io
         env:
