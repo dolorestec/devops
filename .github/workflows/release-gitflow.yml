@@ -32,12 +32,15 @@ jobs:
           DLRS_BRANCH: ${{ env.DLRS_BRANCH }}
           DLRS_TAG: ${{ env.DLRS_TAG }}
           DLRS_VERSION: ${{ env.DLRS_VERSION }}
+          DLRS_MAJOR: ${{ github.ref_name == 'develop' && 'true' || 'false' }}
+          DLRS_MINOR: ${{ github.ref_name == 'main' && 'true' || 'false' }}
         uses: dolorestec/devops/.github/actions/versions@develop
         with:
           branch: ${{ env.DLRS_BRANCH }}
           tag: ${{ env.DLRS_TAG }}
           version: ${{ env.DLRS_VERSION }}
-          major: true
+          major: ${{ env.DLRS_MAJOR }}
+          minor: ${{ env.DLRS_MINOR }}
 
       - name: Create branch
         env:
@@ -60,14 +63,14 @@ jobs:
           git fetch --all
           echo "::endgroup::"
 
-      - name: Versioning
+      - name: Set version 
         env:
           DLRS_NAME: ${{ env.DLRS_NAME }}
           DLRS_BRANCH: ${{ env.DLRS_BRANCH }}
           DLRS_TAG: ${{ env.DLRS_TAG }}
           DLRS_VERSION: ${{ env.DLRS_VERSION }}
         run: |
-          echo "::group::Versioning"
+          echo "::group::Set version"
           git checkout ${{ steps.versioning.outputs.branch }}
           sed -i 's/${{env.DLRS_TAG}}/${{ steps.versioning.outputs.tag }}/g' "${{ env.DLRS_NAME }}.json"
           git add "${{ env.DLRS_NAME }}.json"
