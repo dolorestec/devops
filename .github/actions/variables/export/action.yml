@@ -22,7 +22,7 @@ runs:
       shell: bash
       env:
         DLRS_FILE: ${{ inputs.DLRS_FILE }}
-        DLRS_NAME: ${{ $(github.repository | awk -F'/' '{print $NF}') }}
+        DLRS_NAME: $( echo ${{ github.repository }} | awk -F'/' '{print $NF}' )
       run: |
         echo "::group::Environment Variables"
         echo "DLRS_NAME=$(echo ${{ github.repository }} | awk -F'/' '{print $NF}')" >> ${{ inputs.file }}
