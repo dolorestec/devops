@@ -18,19 +18,19 @@ runs:
         echo "::notice title=Create file::Create ${{ env.DLRS_ENV_FILE }}"
         touch ${{ env.DLRS_ENV_FILE }}
 
-    - name: Set variables
+    - name: Export variables
       shell: bash
       run: |
-        echo "::group::Environment Variables"
-        echo "DLRS_NAME=$(echo ${{ github.repository }} | awk -F'/' '{print $NF}')"  >> ${{ env.DLRS_ENV_FILE }} 
-        echo "::endgroup::"
+        echo "teste"
 
     - name: Export variables
       shell: bash
-
+      env:
+        DLRS_ENV_FILE: ${{ inputs.DLRS_ENV_FILE }}
+        DLRS_NAME: $( echo ${{ github.repository }} | awk -F'/' '{print $NF}' )
       run: |
         echo "::group::Export Variables"
-        cat ${{ env.DLRS_ENV_FILE }} | xargs -I {} echo "{}"
+        env | grep DLRS_ 
         echo "::endgroup::"
 
     - name: Upload variables
