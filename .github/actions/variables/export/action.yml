@@ -32,6 +32,13 @@ runs:
         echo "DLRS_SUFFIX=$(cat ${{env.DLRS_VERSION_FILE}} | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')" >> ${{ inputs.DLRS_ENV_FILE }}
         echo "::endgroup::"
 
+    - name: List variables
+      shell: bash
+      run: |
+        echo "::group::Environment Variables"
+        cat ${{ inputs.DLRS_ENV_FILE }}
+        echo "::endgroup::"
+
     - name: Upload variables
       uses: actions/upload-artifact@v3
       env:
