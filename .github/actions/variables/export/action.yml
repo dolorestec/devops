@@ -34,7 +34,7 @@ runs:
       shell: bash
       run: |
         echo "::group::Set Variables DLRS_SUFFIX"
-        echo "$(cat $(echo ${{ github.repository }} | awk -F'/' '{print $NF}').json)"
+        echo "$(echo $(cat ${{ github.repository }} | awk -F'/' '{print $NF}').json)"
         echo "::endgroup::"
 
     - name: List variables
