@@ -2,7 +2,7 @@ name: Export Variables
 description: "Export variables for use in other actions"
 
 inputs:
-  file: 
+  DLRS_FILE: 
     description: "File name"
     required: false
     default: variables.json
@@ -12,12 +12,17 @@ runs:
   steps:
     - name: Create File
       shell: bash
+      env:
+        DLRS_FILE: ${{ inputs.DLRS_FILE }}
       run: |
-        echo "::notice title=Create file::Create ${{ inputs.file }}"
-        touch ${{ inputs.file }}
+        - echo "::notice title=Create file::Create $DLRS_FILE"
+        - touch $DLRS_FILE
 
     - name: Create variables
       shell: bash
+      env:
+        DLRS_FILE: ${{ inputs.DLRS_FILE }}
+        DLRS_NAME: ${{ github.repository | awk -F'/' '{print $NF}' }}
       run: |
         echo "::group::Environment Variables"
         echo "DLRS_NAME=$(echo ${{ github.repository }} | awk -F'/' '{print $NF}')" >> ${{ inputs.file }}
