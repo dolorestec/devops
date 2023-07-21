@@ -25,6 +25,7 @@ runs:
       shell: bash
       run: |
         echo "::group::Load Variables"
-        echo $(cat ${{ inputs.ENV_FILE }}) | xargs -I {}" >> $GITHUB_OUTPUT"
+        echo "$(cat ${{ inputs.ENV_FILE }}) | xargs -I {}" >> $GITHUB_OUTPUT
+        cat ${{ inputs.ENV_FILE }} | xargs -I {} echo "{}" >> $GITHUB_ENV
         cat ${{ inputs.ENV_FILE }} | xargs -I {} echo "{}"
         echo "::endgroup::"
