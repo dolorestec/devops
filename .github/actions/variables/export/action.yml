@@ -28,7 +28,6 @@ runs:
         echo "DLRS_REPOSITORY=${{ github.repository }}" >> ${{ inputs.DLRS_ENV_FILE }}
         echo "DLRS_BRANCH=$(echo ${{ github.ref }} | awk -F'/' '{print $NF}')" >> ${{ inputs.DLRS_ENV_FILE }}
         echo "DLRS_TAG=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')" >> ${{ inputs.DLRS_ENV_FILE }}
-        echo "DLRS_SUFFIX=$( echo $( cat 
         echo "::endgroup::"
 
     - name: Set variables - "DLRS_SUFFIX
