@@ -11,37 +11,30 @@ runs:
   using: composite
   steps:
     - name: Create File
-      id: create-file
+      env:
+        DLRS_ENV_FILE: ${{ inputs.DLRS_ENV_FILE }}
       shell: bash
       run: |
-        echo "::notice title=Create file::Create ${{ inputs.DLRS_ENV_FILE }}"
-        touch ${{ inputs.DLRS_ENV_FILE }}
+        echo "::notice title=Create file::Create ${{ env.DLRS_ENV_FILE }}"
+        touch ${{ env.DLRS_ENV_FILE }}
 
     - name: Set variables
       shell: bash
       run: |
-        echo "::group::Set Variables"
-        export ENV_FILE=$(echo '${{ github.repository }}.json')
-        echo "$ENV_FILE
-        echo "DLRS_NAME=$(echo ${{ github.repository }} | awk -F'/' '{print $NF}')" >> ${{ inputs.DLRS_ENV_FILE }}
-        echo "DLRS_VERSION=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $1}' | sed 's/[^0-9.]*//g')" >> ${{ inputs.DLRS_ENV_FILE }}
-        echo "DLRS_REPOSITORY=${{ github.repository }}" >> ${{ inputs.DLRS_ENV_FILE }}
-        echo "DLRS_BRANCH=$(echo ${{ github.ref }} | awk -F'/' '{print $NF}')" >> ${{ inputs.DLRS_ENV_FILE }}
-        echo "DLRS_TAG=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')" >> ${{ inputs.DLRS_ENV_FILE }}
-        echo "DLRS_SUFFIX="
-        echo "::endgroup::"
-
-    - name: List variables
-      shell: bash
-      run: |
         echo "::group::Environment Variables"
-        cat ${{ inputs.DLRS_ENV_FILE }}
+        echo "DLRS_NAME=$(echo ${{ github.repository }} | awk -F'/' '{print $NF}')"  >> ${{ env.DLRS_ENV_FILE }}
+        echo "DLRS_VERSION=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $1}' | sed 's/[^0-9.]*//g' )"  >> ${{ env.DLRS_ENV_FILE }}
+        echo "DLRS_REPOSITORY=${{ github.repository }}" >> ${{ env.DLRS_ENV_FILE }}
+        echo "DLRS_BRANCH=$(echo ${{ github.ref }} | awk -F'/' '{print $NF}')" >> ${{ env.DLRS_ENV_FILE }}
+        echo "DLRS_TAG=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')"  >> ${{ env.DLRS_ENV_FILE }}
+        echo "DLRS_SUFFIX=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $2}' | sed 's/[^0-9.]*//g' )"  >> ${{ env.DLRS_ENV_FILE }}    
+        cat ${{ env.DLRS_ENV_FILE }} | xargs -I {} echo "{}"
         echo "::endgroup::"
 
     - name: Upload variables
       uses: actions/upload-artifact@v3
       env:
-        DLRS_FILE: ${{ inputs.DLRS_ENV_FILE }}
+        DLRS_ENV_FILE: ${{ inputs.DLRS_ENV_FILE }}
       with:
-        name: ${{ inputs.DLRS_ENV_FILE }}
-        path: ${{ inputs.DLRS_ENV_FILE }}
+        name: ${{ env.DLRS_ENV_FILE }}
+        path: ${{ env.DLRS_ENV_FILE }}
