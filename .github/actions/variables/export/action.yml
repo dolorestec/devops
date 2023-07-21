@@ -22,6 +22,7 @@ runs:
       shell: bash
       run: |
         echo "teste"
+        ls -la
 
     - name: Upload variables
       uses: actions/upload-artifact@v3
