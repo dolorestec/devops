@@ -21,13 +21,13 @@ runs:
     - name: Set variables
       shell: bash
       run: |
-        echo "::group::Environment Variables"
-        echo "DLRS_NAME=$(echo ${{ github.repository }} | awk -F'/' '{print $NF}')"  >> ${{ env.DLRS_ENV_FILE }}
-        echo "DLRS_VERSION=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $1}' | sed 's/[^0-9.]*//g' )"  >> ${{ env.DLRS_ENV_FILE }}
-        echo "DLRS_REPOSITORY=${{ github.repository }}" >> ${{ env.DLRS_ENV_FILE }}
-        echo "DLRS_BRANCH=$(echo ${{ github.ref }} | awk -F'/' '{print $NF}')" >> ${{ env.DLRS_ENV_FILE }}
-        echo "DLRS_TAG=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')"  >> ${{ env.DLRS_ENV_FILE }}
-        echo "DLRS_SUFFIX="  >> ${{ env.DLRS_ENV_FILE }}    
+        echo "::group::Set Variables"
+        echo "DLRS_NAME=$(echo dolorestec/dlrs-release | awk -F'/' '{print $NF}')" >> variables.json
+        echo "DLRS_VERSION=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $1}' | sed 's/[^0-9.]*//g')" >> variables.json
+        echo "DLRS_REPOSITORY=dolorestec/dlrs-release" >> variables.json
+        echo "DLRS_BRANCH=$(echo refs/heads/develop | awk -F'/' '{print $NF}')" >> variables.json
+        echo "DLRS_TAG=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')" >> variables.json
+        echo "DLRS_SUFFIX=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $2}' | sed 's/[^0-9.]*//g')" >> variables.json
         echo "::endgroup::"
 
     - name: Export variables
