@@ -11,12 +11,12 @@ runs:
   using: composite
   steps:
     - name: Create File
-      shell: bash
       env:
         DLRS_FILE: ${{ inputs.DLRS_FILE }}
+      shell: bash
       run: |
-        echo "::notice title=Create file::Create $DLRS_FILE"
-        touch $DLRS_FILE
+        echo "::notice title=Create file::Create ${{ env.DLRS_FILE }}"
+        touch ${{ env.DLRS_FILE }}
 
     - name: Create variables
       shell: bash
