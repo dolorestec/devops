@@ -2,7 +2,7 @@ name: Export Variables
 description: "Export variables for use in other actions"
 
 inputs:
-  DLRS_FILE: 
+  DLRS_ENV_FILE: 
     description: "File name"
     required: false
     default: variables.json
@@ -16,9 +16,9 @@ runs:
         DLRS_ENV_FILE: ${{ inputs.DLRS_FILE }}
       shell: bash
       run: |
-        echo "::notice title=Create file::Create ${{ env.DLRS_FILE }}"
-        touch ${{ env.DLRS_FILE }}
-        echo "HASH=${{ hashFiles(inputs.DLRS_FILE) }}" >> $GITHUB_OUTPUT
+        echo "::notice title=Create file::Create ${{ env.DLRS_ENV_FILE }}"
+        touch ${{ env.DLRS_ENV_FILE }}
+        echo "HASH=${{ hashFiles(inputs.DLRS_ENV_FILE) }}" >> $GITHUB_OUTPUT
 
     - name: Create variables
       shell: bash
@@ -33,13 +33,13 @@ runs:
       run: |
         echo "::group::Export Variables"
         echo ${{ steps.create-file.outputs.HASH }}
-        env | grep DLRS_ | sed 's/^/export /' >> ${{ env.DLRS_FILE }}
+        env | grep DLRS_ | sed 's/^/export /' >> ${{ env.DLRS_ENV_FILE }}
         echo "::endgroup::"
 
     - name: Upload variables
       uses: actions/upload-artifact@v3
       env:
-        DLRS_FILE: ${{ inputs.DLRS_FILE }}
+        DLRS_FILE: ${{ inputs.DLRS_ENV_FILE }}
       with:
-        name: ${{ env.DLRS_FILE }}
-        path: ${{ env.DLRS_FILE }}
+        name: ${{ env.DLRS_ENV_FILE }}
+        path: ${{ env.DLRS_ENV_FILE }}
