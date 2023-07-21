@@ -16,7 +16,6 @@ runs:
       run: |
         echo "::notice title=Create file::Create ${{ inputs.DLRS_ENV_FILE }}"
         touch ${{ inputs.DLRS_ENV_FILE }}
-        echo "HASH=${{ hashFiles(inputs.DLRS_ENV_FILE) }}" >> $GITHUB_OUTPUT
 
     - name: Set variables
       shell: bash
@@ -30,12 +29,10 @@ runs:
         echo "DLRS_SUFFIX=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $2}' | sed 's/[^0-9.]*//g')" >> ${{ inputs.DLRS_ENV_FILE }}
         echo "::endgroup::"
 
-
     - name: List variables
       shell: bash
       run: |
         echo "::group::Environment Variables"
-        echo ${{ steps.create-file.outputs.HASH }}
         cat ${{ inputs.DLRS_ENV_FILE }}
         echo "::endgroup::"
 
