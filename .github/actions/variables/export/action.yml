@@ -14,12 +14,11 @@ runs:
       id: create-file
       env:
         DLRS_ENV_FILE: ${{ inputs.DLRS_FILE }}
-        DLRS_ENV_HASH: ${{ hashFiles(inputs.DLRS_FILE) }}
       shell: bash
       run: |
         echo "::notice title=Create file::Create ${{ env.DLRS_FILE }}"
         touch ${{ env.DLRS_FILE }}
-        echo "HASH=${{ env.DLRS_ENV_HASH }}" >> $GITHUB_OUTPUT
+        echo "HASH=${{ hashFiles(inputs.DLRS_FILE) }}" >> $GITHUB_OUTPUT
 
     - name: Create variables
       shell: bash
