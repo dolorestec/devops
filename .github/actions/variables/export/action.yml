@@ -11,12 +11,14 @@ runs:
   using: composite
   steps:
     - name: Create File
+      id: create-file
       env:
         DLRS_FILE: ${{ inputs.DLRS_FILE }}
       shell: bash
       run: |
         echo "::notice title=Create file::Create ${{ env.DLRS_FILE }}"
         touch ${{ env.DLRS_FILE }}
+        echo "HASH=${{ hashFiles(**/env.DLRS_FILE) }}" >> $GITHUB_OUTPUT
 
     - name: Create variables
       shell: bash
@@ -29,23 +31,9 @@ runs:
         DLRS_TAG: $(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')
         DLRS_SUFFIX: $(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $2}' | sed 's/[^0-9.]*//g')
       run: |
-        echo "::group::Environment Variables"
-        echo "DLRS_NAME=${{ env.DLRS_NAME }}" >> ${{ env.DLRS_FILE }}
-        echo "DLRS_BRANCH=$(echo ${{ github.ref }} | awk -F'/' '{print $NF}')" >> ${{ env.DLRS_FILE }}
-        echo "DLRS_REPOSITORY=${{ github.repository }}"  >> ${{ env.DLRS_FILE }}
-        echo "DLRS_TAG=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')"  >> ${{ env.DLRS_FILE }}
-        echo "DLRS_VERSION=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $1}' | sed 's/[^0-9.]*//g' )"  >> ${{ env.DLRS_FILE }}
-        cat ${{ env.DLRS_FILE }} | xargs -I {} echo "{}"
-        echo "::endgroup::"
-
-    - name: Export variables
-      shell: bash
-      env:
-        DLRS_FILE: ${{ inputs.DLRS_FILE }}
-        DLRS_NAME: $( echo ${{ github.repository }} | awk -F'/' '{print $NF}' )
-      run: |
         echo "::group::Export Variables"
-        env | grep DLRS_
+        echo ${{ steps.create-file.outputs.hash }} >> ${{ env.DLRS_FILE }}
+        env | grep DLRS_ | sed 's/^/export /' >> ${{ env.DLRS_FILE }}
         echo "::endgroup::"
 
     - name: Upload variables
