@@ -25,9 +25,6 @@ runs:
 
     - name: Export variables
       shell: bash
-      env:
-        DLRS_ENV_FILE: ${{ inputs.DLRS_ENV_FILE }}
-        DLRS_NAME: $( echo ${{ github.repository }} | awk -F'/' '{print $NF}' )
       run: |
         echo "::group::Export Variables"
         env | grep DLRS_ 
