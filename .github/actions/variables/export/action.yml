@@ -25,7 +25,7 @@ runs:
         DLRS_NAME: $( echo ${{ github.repository }} | awk -F'/' '{print $NF}' )
       run: |
         echo "::group::Environment Variables"
-        echo "DLRS_NAME=$(echo ${{ github.repository }} | awk -F'/' '{print $NF}')" >> ${{ env.DLRS_FILE }}
+        echo "DLRS_NAME=${{ env.DLRS_NAME }}" >> ${{ env.DLRS_FILE }}
         echo "DLRS_BRANCH=$(echo ${{ github.ref }} | awk -F'/' '{print $NF}')" >> ${{ env.DLRS_FILE }}
         echo "DLRS_ARTIFACT=${{ github.repository }}"  >> ${{ env.DLRS_FILE }}
         echo "DLRS_TAG=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')"  >> ${{ env.DLRS_FILE }}
