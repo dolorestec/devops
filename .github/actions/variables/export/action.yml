@@ -22,7 +22,7 @@ runs:
       shell: bash
       run: |
         echo "::group::Environment Variables"
-        echo "teste"
+        echo "DLRS_NAME=$(echo ${{ github.repository }} | awk -F'/' '{print $NF}')"  >> ${{ env.DLRS_ENV_FILE }}
         echo "::endgroup::"
 
     - name: Upload variables
