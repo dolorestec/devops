@@ -24,10 +24,10 @@ runs:
       run: |
         echo "::group::Set Variables"
         echo "DLRS_NAME=$(echo ${{ github.repository }} | awk -F'/' '{print $NF}')" >> ${{ inputs.DLRS_ENV_FILE }}
-        echo "DLRS_VERSION=$(cat $(echo ${{ github.repository }} | awk -F'/' '{print $NF}').json) | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $1}' | sed 's/[^0-9.]*//g')" >> ${{ inputs.DLRS_ENV_FILE }}
+        echo "DLRS_VERSION=$(echo $(cat ${{ github.repository }} | awk -F'/' '{print $NF}').json) | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $1}' | sed 's/[^0-9.]*//g')" >> ${{ inputs.DLRS_ENV_FILE }}
         echo "DLRS_REPOSITORY=${{ github.repository }}" >> ${{ inputs.DLRS_ENV_FILE }}
         echo "DLRS_BRANCH=$(echo ${{ github.ref }} | awk -F'/' '{print $NF}')" >> ${{ inputs.DLRS_ENV_FILE }}
-        echo "DLRS_TAG=$(cat $(echo ${{ github.repository }} | awk -F'/' '{print $NF}').json) | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')" >> ${{ inputs.DLRS_ENV_FILE }}
+        echo "DLRS_TAG=$(echo $(cat ${{ github.repository }} | awk -F'/' '{print $NF}').json) | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')" >> ${{ inputs.DLRS_ENV_FILE }}
         echo "::endgroup::"
 
     - name: Set DLRS_SUFFIX
