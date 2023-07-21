@@ -24,6 +24,7 @@ jobs:
           fetch-depth: ${{ env.FETCH_DEPTH }}
 
       - name: Load variables
+        id: variables
         uses: dolorestec/devops/.github/actions/variables/load@develop
 
       - name: Versioning

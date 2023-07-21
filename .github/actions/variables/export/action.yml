@@ -21,8 +21,8 @@ runs:
     - name: Create variables
       shell: bash
       env:
-        DLRS_NAME: $( echo ${{ github.repository }} | awk -F'/' '{print $NF}' )
-        DLRS_VERSION: $(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $1}' | sed 's/[^0-9.]*//g' )
+        DLRS_NAME: $(echo ${{ github.repository }} | awk -F'/' '{print $NF}')
+        DLRS_VERSION: $(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $1}' | sed 's/[^0-9.]*//g')
         DLRS_REPOSITORY: ${{ github.repository }}
         DLRS_BRANCH: $(echo ${{ github.ref }} | awk -F'/' '{print $NF}')
         DLRS_TAG: $(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')
@@ -30,7 +30,7 @@ runs:
       run: |
         echo "::group::Export Variables"
         echo ${{ steps.create-file.outputs.HASH }}
-        env | grep DLRS_ | sed 's/^/export /' >> ${{ inputs.DLRS_ENV_FILE }}
+        env | grep DLRS_ >> ${{ inputs.DLRS_ENV_FILE }}
         echo "::endgroup::"
 
     - name: Upload variables
