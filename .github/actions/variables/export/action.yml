@@ -29,7 +29,7 @@ runs:
         echo "DLRS_REPOSITORY=${{ github.repository }}" >> ${{ inputs.DLRS_ENV_FILE }}
         echo "DLRS_BRANCH=$(echo ${{ github.ref }} | awk -F'/' '{print $NF}')" >> ${{ inputs.DLRS_ENV_FILE }}
         echo "DLRS_TAG=$(cat ${{env.DLRS_VERSION_FILE}} | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')" >> ${{ inputs.DLRS_ENV_FILE }}
-        echo "DLRS_SUFFIX=$(cat ${{env.DLRS_VERSION_FILE}} | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g') | awk -F'-' '{print $2}'" >> ${{ inputs.DLRS_ENV_FILE }}
+        echo "DLRS_SUFFIX=$( echo $(cat ${{env.DLRS_VERSION_FILE}} | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g') | | awk -F'-' '{print $2}')" >> ${{ inputs.DLRS_ENV_FILE }}
         echo "::endgroup::"
 
     - name: List variables
