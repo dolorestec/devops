@@ -16,13 +16,20 @@ runs:
       shell: bash
       run: |
         echo "::notice title=Create file::Create ${{ env.DLRS_ENV_FILE }}"
-        touch ${{ env.DLRS_ENV_FILE }}
+        touch ${{ env.DLRS_ENV_FILE }} && echo "DLRS_VERSION_FILE=$(echo ${{ github.repository }} | awk -F'/' '{print $NF}').json" >> $GITHUB_ENV
 
     - name: Export variables
       shell: bash
+      env:
+        DLRS_VERSION_FILE: ${{ env.DLRS_VERSION_FILE }}
       run: |
         echo "::group::Environment Variables"
         echo "DLRS_NAME=$(echo ${{ github.repository }} | awk -F'/' '{print $NF}')" >> ${{ inputs.DLRS_ENV_FILE }}
+        echo "DLRS_VERSION=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $1}' | sed 's/[^0-9.]*//g')" >> ${{ inputs.DLRS_ENV_FILE }}
+        echo "DLRS_REPOSITORY=${{ github.repository }}" >> ${{ inputs.DLRS_ENV_FILE }}
+        echo "DLRS_BRANCH=$(echo ${{ github.ref }} | awk -F'/' '{print $NF}')" >> ${{ inputs.DLRS_ENV_FILE }}
+        echo "DLRS_TAG=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')" >> ${{ inputs.DLRS_ENV_FILE }}
+        echo ${{envDLRS_VERSION_FILE}}
         echo "::endgroup::"
 
     - name: Upload variables
