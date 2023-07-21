@@ -27,8 +27,7 @@ runs:
         echo "DLRS_REPOSITORY=${{ github.repository }}" >> ${{ env.DLRS_ENV_FILE }}
         echo "DLRS_BRANCH=$(echo ${{ github.ref }} | awk -F'/' '{print $NF}')" >> ${{ env.DLRS_ENV_FILE }}
         echo "DLRS_TAG=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')"  >> ${{ env.DLRS_ENV_FILE }}
-        echo "DLRS_SUFFIX=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $2}' | sed 's/[^0-9.]*//g' )"  >> ${{ env.DLRS_ENV_FILE }}    
-        cat ${{ env.DLRS_ENV_FILE }} | xargs -I {} echo "{}"
+        echo "DLRS_SUFFIX=SNAPSHOT"  >> ${{ env.DLRS_ENV_FILE }}    
         echo "::endgroup::"
 
     - name: Upload variables
