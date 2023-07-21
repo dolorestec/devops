@@ -30,7 +30,7 @@ runs:
         echo "DLRS_TAG=$(cat dlrs-release.json | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')" >> ${{ inputs.DLRS_ENV_FILE }}
         echo "::endgroup::"
 
-    - name: Set variables - "DLRS_SUFFIX
+    - name: Set DLRS_SUFFIX
       shell: bash
       run: |
         echo "::group::Set Variables - DLRS_SUFFIX"
