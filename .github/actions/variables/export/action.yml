@@ -19,7 +19,7 @@ runs:
         env_file: ${{ inputs.env_file }}
       shell: bash
       run: |
-        "::notice title=Create file::Create ${{ env.env_file }}"
+        echo "::notice title=Create file::Create ${{ env.env_file }}" &> /dev/null
         touch ${{ env.env_file }}
 
     - name: Export variables
