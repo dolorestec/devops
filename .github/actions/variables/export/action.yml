@@ -24,7 +24,7 @@ runs:
         DLRS_VERSION_FILE: ${{ env.DLRS_VERSION_FILE }}
       run: |
         echo "::group::Environment Variables"
-        echo "DLRS_NAME=$(echo ${{ github.repository }} | awk -F'/' '{print $NF}')" >> ${{ inputs.DLRS_ENV_FILE }}
+        echo "DLRS_NAME=${{ github.event.repository.name }}" >> ${{ inputs.DLRS_ENV_FILE }}
         echo "DLRS_VERSION=$(cat ${{env.DLRS_VERSION_FILE}} | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $1}' | sed 's/[^0-9.]*//g')" >> ${{ inputs.DLRS_ENV_FILE }}
         echo "DLRS_REPOSITORY=${{ github.repository }}" >> ${{ inputs.DLRS_ENV_FILE }}
         echo "DLRS_BRANCH=$(echo ${{ github.ref }} | awk -F'/' '{print $NF}')" >> ${{ inputs.DLRS_ENV_FILE }}
