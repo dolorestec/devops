@@ -1,5 +1,5 @@
 name: Setup environment
-run-name: Environment
+run-name: Variables
 
 on:
   workflow_call:
