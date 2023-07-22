@@ -10,6 +10,10 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name }}
+    outputs:
+      DLRS_NEW_BRANCH: ${{ steps.versioning.outputs.branch }}
+      DLRS_NEW_TAG: ${{ steps.versioning.outputs.tag }}
+      DLRS_NEW_VERSION: ${{ steps.versioning.outputs.version }}
 
     steps:
       - name: Checkout code
@@ -61,8 +65,29 @@ jobs:
           
           git checkout -b "${{ steps.versioning.outputs.branch }}"
           git push origin ${{ steps.versioning.outputs.branch }}
-          git fetch --all
           echo "::endgroup::"
+
+  update:
+    name: Update
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    needs: create
+
+    steps:
+      - name: Checkout code
+        env:
+          REPOSITORY: ${{ github.repository }}
+          REF: ${{ needs.create.outputs.DLRS_NEW_BRANCH }}
+          FETCH_DEPTH: 0
+        uses: Actions/checkout@v3
+        with:
+          repository: ${{ env.REPOSITORY }}
+          ref: ${{ env.REF }}
+          fetch-depth: ${{ env.FETCH_DEPTH }}
+      
+      - name: Load variables
+        id: variables
+        uses: dolorestec/devops/.github/actions/variables/load@develop
 
       - name: Set version 
         env:
@@ -70,25 +95,14 @@ jobs:
           DLRS_BRANCH: ${{ env.DLRS_BRANCH }}
           DLRS_TAG: ${{ env.DLRS_TAG }}
           DLRS_VERSION: ${{ env.DLRS_VERSION }}
+          DLRS_NEW_BRANCH: ${{ needs.create.outputs.DLRS_NEW_BRANCH }}
+          DLRS_NEW_TAG: ${{ needs.create.outputs.DLRS_NEW_TAG }}
+          DLRS_NEW_VERSION: ${{ needs.create.outputs.DLRS_NEW_VERSION }}
+
         run: |
           echo "::group::Set version"
-          git checkout ${{ steps.versioning.outputs.branch }}
-          sed -i 's/${{env.DLRS_TAG}}/${{ steps.versioning.outputs.tag }}/g' "${{ env.DLRS_NAME }}.json"
+          sed -i 's/${{env.DLRS_TAG}}/${{ env.DLRS_NEW_TAG }}/g' "${{ env.DLRS_NAME }}.json"
           git add "${{ env.DLRS_NAME }}.json"
-          git commit -m "[CI] - Create branch ${{ steps.versioning.outputs.branch }}"
-          git push origin ${{ steps.versioning.outputs.branch }}
+          git commit -m "[CI] - Create branch ${{ env.DLRS_NEW_BRANCH }}"
+          git push origin ${{ env.DLRS_NEW_BRANCH }}
           echo "::endgroup::"
-          
-      - if : ${{ failure() }}
-        name: Rollback branch
-        env:
-          DLRS_BRANCH: ${{ env.DLRS_BRANCH }}
-          DLRS_TAG: ${{ env.DLRS_TAG }}
-          DLRS_VERSION: ${{ env.DLRS_VERSION }}
-        run: |
-          echo "::group::Rollback branch"
-          git checkout ${{ env.DLRS_BRANCH }}
-          git branch -D ${{ env.DLRS_BRANCH }}
-          git push origin :${{ env.DLRS_BRANCH }}
-          echo "::endgroup::"
-          
