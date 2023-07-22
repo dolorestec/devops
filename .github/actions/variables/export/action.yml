@@ -23,7 +23,6 @@ runs:
         env_file: ${{ inputs.env_file }}
       shell: bash
       run: |
-        print "Create file ${{ env.env_file }}"
         print "::notice title=Create file::Create ${{ env.env_file }}"
         touch ${{ env.env_file }}
 
