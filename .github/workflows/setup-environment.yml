@@ -24,3 +24,7 @@ jobs:
   
           - name: Export variables
             uses: dolorestec/devops/.github/actions/variables/export@develop
+            with:
+              variables: |
+                DLRS_NAME=${{ github.event.repository.name }}
+                

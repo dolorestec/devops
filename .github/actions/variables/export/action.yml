@@ -11,6 +11,10 @@ inputs:
     required: false
     default: variables.json
 
+  variables:
+    description: "environment variables"
+    required: true
+
 runs:
   using: composite
   steps:
@@ -19,7 +23,8 @@ runs:
         env_file: ${{ inputs.env_file }}
       shell: bash
       run: |
-        echo "::notice title=Create file::Create ${{ env.env_file }}" &> /dev/null
+        print "Create file ${{ env.env_file }}"
+        print "::notice title=Create file::Create ${{ env.env_file }}"
         touch ${{ env.env_file }}
 
     - name: Export variables
@@ -35,6 +40,13 @@ runs:
         echo "DLRS_TAG=$(cat ${{env.DLRS_VERSION_FILE}} | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')" >> ${{ inputs.env_file }}
         echo "DLRS_SUFFIX=$( echo $(cat ${{env.DLRS_VERSION_FILE}} | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g') | awk -F'-' '{print $2}')" >> ${{ inputs.env_file }}
         echo "::endgroup::"
+
+    - name: Variables
+      shell: bash
+      run: |
+        echo "::group::Environment Variables"
+        echo ${{ inputs.variables }}
+        echo "::endgroup::"    
 
     - name: List variables
       shell: bash
