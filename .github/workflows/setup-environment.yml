@@ -24,13 +24,8 @@ jobs:
   
           - name: Export variables
             env:
-              DLRS_VERSION_FILE: "${{ github.event.repository.name }}.json"
+              DLRS_VERSION_FILE: ${{ format('{0}.json',github.event.repository.name) }}
             uses: dolorestec/devops/.github/actions/variables/export@develop
             with:
               variables: |
-                DLRS_NAME=${{ github.event.repository.name }}
-                DLRS_VERSION=$(cat ${{env.DLRS_VERSION_FILE}} | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $1}' | sed 's/[^0-9.]*//g')
-                DLRS_REPOSITORY=${{ github.repository }}
-                DLRS_BRANCH=$(echo ${{ github.ref }} | awk -F'/' '{print $NF}')
-                DLRS_TAG=$(cat ${{env.DLRS_VERSION_FILE}} | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')
-                DLRS_SUFFIX=$( echo $(cat ${{env.DLRS_VERSION_FILE}} | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g') | awk -F'-' '{print $2}')
+                DLRS_NAME=${{ format('{0}.json',github.event.repository.name) }}
