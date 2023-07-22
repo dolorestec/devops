@@ -1,9 +1,13 @@
-name: Export environment variables
-description: "Export variables for use in other actions"
+name: Upload Variables
+author: "Lucas Cantarelli"
+description: "Upload artifact with environment variables"
+branding:
+  icon: 'list'
+  color: 'green'
 
 inputs:
   env_file: 
-    description: "File name"
+    description: "environment variables file name"
     required: false
     default: variables.json
 
@@ -15,8 +19,8 @@ runs:
         env_file: ${{ inputs.env_file }}
       shell: bash
       run: |
-        echo "::notice title=Create file::Create ${{ env.env_file }}"
-        touch ${{ env.env_file }} && echo "DLRS_VERSION_FILE=$(echo ${{ github.repository }} | awk -F'/' '{print $NF}').json" >> $GITHUB_ENV
+        "::notice title=Create file::Create ${{ env.env_file }}"
+        touch ${{ env.env_file }}
 
     - name: Export variables
       shell: bash
