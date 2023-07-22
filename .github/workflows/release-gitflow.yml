@@ -101,6 +101,8 @@ jobs:
 
         run: |
           echo "::group::Set version"
+          git config --global user.email "${{ github.actor }}jpa@gmail.com"
+          git config --global user.name "${{ github.actor }}"
           sed -i 's/${{env.DLRS_TAG}}/${{ env.DLRS_NEW_TAG }}/g' "${{ env.DLRS_NAME }}.json"
           git add "${{ env.DLRS_NAME }}.json"
           git commit -m "[CI] - Create branch ${{ env.DLRS_NEW_BRANCH }}"
