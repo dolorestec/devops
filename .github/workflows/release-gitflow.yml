@@ -50,12 +50,12 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           echo "::group::Create branch"
-          echo "Branch:${{ env.DLRS_BRANCH }} -> ${{ env.DRLS_NEW_BRANCH}}
+          echo "Branch:${{ env.DLRS_BRANCH }} -> ${{ env.DRLS_NEW_BRANCH}}"
 
           git config --global user.email "${{ github.actor }}jpa@gmail.com"
-          git config --global user.name "${{ github.actor }}"
+          git config --global user.name ${{ github.actor }}
           
-          git checkout -b "${{ env.DRLS_NEW_BRANCH}}"
+          git checkout -b ${{ env.DRLS_NEW_BRANCH}}
           git merge --no-ff ${{ env.DLRS_BRANCH }} -m "[CI] - Create branch ${{ env.DRLS_NEW_BRANCH }}"
           git push origin ${{ env.DRLS_NEW_BRANCH }}
           echo "::endgroup::"

@@ -2,7 +2,7 @@ name: Export environment variables
 description: "Export variables for use in other actions"
 
 inputs:
-  DLRS_ENV_FILE: 
+  env_file: 
     description: "File name"
     required: false
     default: variables.json
@@ -12,37 +12,37 @@ runs:
   steps:
     - name: Create File
       env:
-        DLRS_ENV_FILE: ${{ inputs.DLRS_ENV_FILE }}
+        env_file: ${{ inputs.env_file }}
       shell: bash
       run: |
-        echo "::notice title=Create file::Create ${{ env.DLRS_ENV_FILE }}"
-        touch ${{ env.DLRS_ENV_FILE }} && echo "DLRS_VERSION_FILE=$(echo ${{ github.repository }} | awk -F'/' '{print $NF}').json" >> $GITHUB_ENV
+        echo "::notice title=Create file::Create ${{ env.env_file }}"
+        touch ${{ env.env_file }} && echo "DLRS_VERSION_FILE=$(echo ${{ github.repository }} | awk -F'/' '{print $NF}').json" >> $GITHUB_ENV
 
     - name: Export variables
       shell: bash
       env:
-        DLRS_VERSION_FILE: ${{ env.DLRS_VERSION_FILE }}
+        DLRS_VERSION_FILE: "${{ github.event.repository.name }}.json"
       run: |
         echo "::group::Environment Variables"
-        echo "DLRS_NAME=${{ github.event.repository.name }}" >> ${{ inputs.DLRS_ENV_FILE }}
-        echo "DLRS_VERSION=$(cat ${{env.DLRS_VERSION_FILE}} | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $1}' | sed 's/[^0-9.]*//g')" >> ${{ inputs.DLRS_ENV_FILE }}
-        echo "DLRS_REPOSITORY=${{ github.repository }}" >> ${{ inputs.DLRS_ENV_FILE }}
-        echo "DLRS_BRANCH=$(echo ${{ github.ref }} | awk -F'/' '{print $NF}')" >> ${{ inputs.DLRS_ENV_FILE }}
-        echo "DLRS_TAG=$(cat ${{env.DLRS_VERSION_FILE}} | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')" >> ${{ inputs.DLRS_ENV_FILE }}
-        echo "DLRS_SUFFIX=$( echo $(cat ${{env.DLRS_VERSION_FILE}} | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g') | awk -F'-' '{print $2}')" >> ${{ inputs.DLRS_ENV_FILE }}
+        echo "DLRS_NAME=${{ github.event.repository.name }}" >> ${{ inputs.env_file }}
+        echo "DLRS_VERSION=$(cat ${{env.DLRS_VERSION_FILE}} | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g' | awk -F'-' '{print $1}' | sed 's/[^0-9.]*//g')" >> ${{ inputs.env_file }}
+        echo "DLRS_REPOSITORY=${{ github.repository }}" >> ${{ inputs.env_file }}
+        echo "DLRS_BRANCH=$(echo ${{ github.ref }} | awk -F'/' '{print $NF}')" >> ${{ inputs.env_file }}
+        echo "DLRS_TAG=$(cat ${{env.DLRS_VERSION_FILE}} | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g')" >> ${{ inputs.env_file }}
+        echo "DLRS_SUFFIX=$( echo $(cat ${{env.DLRS_VERSION_FILE}} | grep version | awk -F':' '{print $2}' | sed 's/ \|"\|//g') | awk -F'-' '{print $2}')" >> ${{ inputs.env_file }}
         echo "::endgroup::"
 
     - name: List variables
       shell: bash
       run: |
         echo "::group::Environment Variables"
-        cat ${{ inputs.DLRS_ENV_FILE }}
+        cat ${{ inputs.env_file }}
         echo "::endgroup::"
 
     - name: Upload variables
       uses: actions/upload-artifact@v3
       env:
-        DLRS_ENV_FILE: ${{ inputs.DLRS_ENV_FILE }}
+        env_file: ${{ inputs.env_file }}
       with:
-        name: ${{ env.DLRS_ENV_FILE }}
-        path: ${{ env.DLRS_ENV_FILE }}
+        name: ${{ env.env_file }}
+        path: ${{ env.env_file }}
