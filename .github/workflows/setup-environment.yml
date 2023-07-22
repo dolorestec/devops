@@ -2,30 +2,53 @@ name: Setup environment
 run-name: Environment
 
 on:
-    workflow_call:
+  workflow_call:
+    inputs:
+      env_file:
+        type: string
+        description: 'Environment file'
+        required: true
+        default: ${{ format('{0}.env',github.event.job.name) }}
+      version_file:
+        type: string
+        description: 'Project version file, ex: package.json, composer.json, pom.xml'
+        required: true
+        default: ${{ format('{0}.json',github.event.repository.name) }}
+      variables:
+          type: string
+          description: 'Environment variables'
+          required: true
 
 jobs:
     variables:
         name: Variables
         timeout-minutes: 10
         runs-on: ubuntu-latest
+        concurrency:
+          group: ${{ github.ref }}
+          cancel-in-progress: true
   
         steps:
           - name: Checkout code
-            env:
-              REPOSITORY: ${{ github.repository }}
-              REF: ${{ github.ref_name }}
-              FETCH_DEPTH: 0
             uses: Actions/checkout@v3
             with:
-              repository: ${{ env.REPOSITORY }}
-              ref: ${{ env.REF }}
-              fetch-depth: ${{ env.FETCH_DEPTH }}
-  
-          - name: Export variables
-            env:
-              DLRS_VERSION_FILE: ${{ format('{0}.json',github.event.repository.name) }}
-            uses: dolorestec/devops/.github/actions/variables/export@develop
+              repository: ${{ github.repository }}
+              ref: ${{ github.ref_name }}
+              fetch-depth: 0
+        
+          - name: Create File
+            run: |
+                echo "::notice title=Create file::Create ${{ inputs.env_file }}"
+                touch ${{ inputs.env_file }}
+          
+          - name: Set variables
+            run: |
+              echo "::notice title=Set variables::Set variables"
+              echo ${{ inputs.variables }} >> ${{ inputs.env_file }}
+
+          - name: Upload artifact
+            uses: actions/upload-artifact@v2
             with:
-              variables: |
-                DLRS_NAME=${{ format('{0}.json',github.event.repository.name) }}
+              name: ${{ inputs.env_file }}
+              path: ${{ inputs.env_file }}
+            

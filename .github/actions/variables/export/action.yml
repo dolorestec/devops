@@ -6,13 +6,16 @@ branding:
   color: 'green'
 
 inputs:
-  env_file: 
-    description: "environment variables file name"
-    required: false
-    default: variables.json
-
+  env_file:
+    description: 'Environment file'
+    required: true
+    default: ${{ format('{0}.env',github.event.job.name) }}
+  version_file:
+    description: 'Project version file, ex: package.json, composer.json, pom.xml'
+    required: true
+    default: ${{ format('{0}.json',github.event.repository.name) }}
   variables:
-    description: "environment variables"
+    description: 'Environment variables'
     required: true
 
 runs:
@@ -43,7 +46,7 @@ runs:
     - name: Variables
       shell: bash
       run: |
-        echo "::group::Environment Variables"
+        echo "::group::Environment Variables from inputs"
         echo ${{ inputs.variables }}
         echo "::endgroup::"    
 
