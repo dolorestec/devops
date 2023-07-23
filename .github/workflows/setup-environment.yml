@@ -45,11 +45,8 @@ jobs:
             env:
               variables: ${{ toJson(inputs.variables) }}
             run: |
-              echo "::notice title=Set variables::Set variables"
-              for key in $(echo $variables | jq -r "keys[]" ); do
-                value=$(echo $variables | jq -r ".$key")
-                echo "$key=$value" >> ${{ inputs.env_file }}
-              done
+              echo ${variables} | jq -r 'to_entries[] | "export \(.key)=\(.value)"' >> ${{ inputs.env_file }}
+              echo ${{ env.variables }}
 
           - name: Load variables
             run: |
