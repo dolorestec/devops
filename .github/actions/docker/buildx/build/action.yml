@@ -64,6 +64,7 @@ runs:
           --iidfile image_id.txt \
           --file ${{ inputs.dockerfile }} \
           --tag "${{ inputs.image }}:${{ inputs.tag }}" \
+          $([ ${{ inputs.push }} == "true" ] && echo "--push") \
           $([ ${{ inputs.no-cache }} == "true" ] && echo "--no-cache") \
           $([ ${{ inputs.pull }} == "true" ] && echo "--pull") \
           $([ ${{ inputs.load }} == "true" ] && echo "--load") \
