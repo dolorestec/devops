@@ -11,16 +11,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        env:
-          REPOSITORY: ${{ github.repository }}
-          REF: ${{ github.ref_name }}
-          FETCH_DEPTH: 0
+      - name: Checkout
         uses: Actions/checkout@v3
         with:
           repository: ${{ github.repository }}
           ref: ${{ github.ref_name }}
-          fetch-depth: ${{ env.FETCH_DEPTH }}
+          fetch-depth: 0
 
       - name: Load variables
         uses: dolorestec/devops/.github/actions/variables/load@develop
