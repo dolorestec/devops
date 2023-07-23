@@ -43,9 +43,11 @@ jobs:
           
           - name: Set variables
             env:
-              variables: ${{ inputs.variables }}
+              variables: ${{ toJson(inputs.variables) }}
             run: |
-              echo ${{ env.variables }}
+              for key,value in ${{ fromJson(env.variables) }}; do
+                echo "$key=$value"
+              done
 
           - name: Load variables
             run: |
