@@ -43,7 +43,7 @@ jobs:
           
           - name: Set variables
             env:
-              variables: ${{ toJson(inputs.variables) }}
+              variables: ${{ inputs.variables }}
             run: |
               echo ${{ env.variables }}
 
