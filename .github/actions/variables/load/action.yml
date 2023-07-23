@@ -5,7 +5,7 @@ inputs:
   ENV_FILE: 
     description: "File name"
     required: false
-    default: variables.json
+    default: ${{ format('{0}.env',github.event.repository.name) }}
 
 runs:
   using: composite
