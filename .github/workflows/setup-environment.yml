@@ -44,10 +44,14 @@ jobs:
           - name: Set variables
             run: |
               echo "::notice title=Set variables::Set variables"
-              echo ${{ inputs.variables }} >> ${{ inputs.env_file }}
+              echo ${{ inputs.variables }}
+
+          - name: Load variables
+            run: |
+              cat ${{ inputs.env_file }}
 
           - name: Upload artifact
-            uses: actions/upload-artifact@v2
+            uses: actions/upload-artifact@v3
             with:
               name: ${{ inputs.env_file }}
               path: ${{ inputs.env_file }}
