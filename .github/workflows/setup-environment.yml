@@ -42,11 +42,13 @@ jobs:
                 touch ${{ inputs.env_file }}
           
           - name: Set variables
+            env:
+              variables: ${{ toJson(inputs.variables) }}
             run: |
               echo "::notice title=Set variables::Set variables"
-              for var in ${{ inputs.variables }}; do
-                echo "$var"
-                echo "$var" >> ${{ inputs.env_file }}
+              for key in $(echo $variables | jq -r "keys[]" ); do
+                value=$(echo $variables | jq -r ".$key")
+                echo "$key=$value" >> ${{ inputs.env_file }}
               done
 
           - name: Load variables
