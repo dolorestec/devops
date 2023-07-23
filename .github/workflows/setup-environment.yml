@@ -45,7 +45,6 @@ jobs:
             env:
               variables: ${{ toJson(inputs.variables) }}
             run: |
-              echo ${variables} | jq -r 'to_entries[] | "export \(.key)=\(.value)"' >> ${{ inputs.env_file }}
               echo ${{ env.variables }}
 
           - name: Load variables
