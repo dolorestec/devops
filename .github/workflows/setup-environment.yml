@@ -45,9 +45,7 @@ jobs:
             env:
               variables: ${{ toJson(inputs.variables) }}
             run: |
-              for var in ${{ fromJson(env.variables) }}; do
-                echo "$var"
-              done
+              echo ${{ env.variables }}
 
           - name: Load variables
             run: |
