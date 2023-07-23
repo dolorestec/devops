@@ -15,7 +15,24 @@ inputs:
   dockerfile:
     description: "Path to the Dockerfile"
     required: true
+  push:
+    description: "Push the image to the registry"
+    required: false
+    default: "false"
+  pull:
+    description: "Pull the image from the registry"
+    required: false
+    default: "false"
+  load:
+    description: "Load the image to the registry"
+    required: false
+    default: "false"
+  no-cache:
+    description: "Do not use cache when building the image"
+    required: false
+    default: "false"
   
+
 runs:
   using: composite
   steps:
@@ -47,7 +64,9 @@ runs:
           --iidfile image_id.txt \
           --file ${{ inputs.dockerfile }} \
           --tag "${{ inputs.image }}:${{ inputs.tag }}" \
-          --pull
+          $([ ${{ inputs.no-cache }} == "true" ] && echo "--no-cache") \
+          $([ ${{ inputs.pull }} == "true" ] && echo "--pull") \
+          $([ ${{ inputs.load }} == "true" ] && echo "--load") \
           ${{ inputs.context }}
       run: |
         echo "::group::Build image"
