@@ -44,7 +44,10 @@ jobs:
           - name: Set variables
             run: |
               echo "::notice title=Set variables::Set variables"
-              echo ${{ inputs.variables }}
+              for var in ${{ inputs.variables }}; do
+                echo $var
+                echo $var >> ${{ inputs.env_file }}
+              done
 
           - name: Load variables
             run: |
