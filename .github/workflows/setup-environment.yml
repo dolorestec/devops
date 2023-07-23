@@ -8,7 +8,7 @@ on:
         type: string
         description: 'Environment file'
         required: true
-        default: ${{ format('{0}.env',github.event.job.name) }}
+        default: ${{ format('{0}.env',github.event.repository.name) }}
       version_file:
         type: string
         description: 'Project version file, ex: package.json, composer.json, pom.xml'
