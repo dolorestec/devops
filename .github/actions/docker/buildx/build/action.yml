@@ -17,16 +17,14 @@ inputs:
     required: true
   push:
     description: "Push the image to the registry"
-    required: false
-    default: "false"
+    required: true
   pull:
     description: "Pull the image from the registry"
     required: false
     default: "false"
   load:
     description: "Load the image to the registry"
-    required: false
-    default: "false"
+    required: true
   no-cache:
     description: "Do not use cache when building the image"
     required: false
