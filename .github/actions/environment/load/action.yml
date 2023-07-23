@@ -2,10 +2,9 @@ name: Load Variables
 description: "Load variables for use in other actions"
 
 inputs:
-  ENV_FILE: 
+  env_file: 
     description: "File name"
-    required: false
-    default: ${{ format('{0}.env',github.event.repository.name) }}
+    required: true
 
 runs:
   using: composite
@@ -13,13 +12,12 @@ runs:
     - name: Download variables
       uses: actions/download-artifact@v3
       with:
-        name: ${{ inputs.ENV_FILE }}
+        name: ${{ inputs.env_file }}
       
     - name: Set variables
-      id: set-variables
       shell: bash
       run: |
         echo "::group::Load Variables"
-        cat ${{ inputs.ENV_FILE }} | xargs -I {} echo "{}" >> $GITHUB_ENV
-        cat ${{ inputs.ENV_FILE }} | xargs -I {} echo "{}"
+        cat ${{ inputs.env_file }} | xargs -I {} echo "{}" >> $GITHUB_ENV
+        cat ${{ inputs.env_file }} | xargs -I {} echo "{}"
         echo "::endgroup::"
