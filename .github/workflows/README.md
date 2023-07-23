@@ -6,8 +6,15 @@
 
 ### setup-environment
 
+###### Description
+
 - `setup-environment` is a workflow that runs on `workflow_call` event.
 - It is used to setup the environment for the other workflows.
+
+#### Inputs
+
+
+- `github_token` - Github token to use for the workflow.
 
 #### Usage
 
