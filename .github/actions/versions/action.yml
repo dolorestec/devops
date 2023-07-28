@@ -11,9 +11,13 @@ inputs:
   version:
     description: "Version name"
     required: true
+  suffix:
+    description: "Version suffix"
+    required: false
   major:
     description: "Major version"
     required: false
+    default: "false"
   minor:
     description: "Minor version"
     required: false
@@ -40,10 +44,6 @@ runs:
     - name: Versioning major
       shell: bash
       if: ${{ inputs.major == 'true' }}
-      env:
-        DLRS_BRANCH: ${{ inputs.branch }}
-        DLRS_TAG: ${{ inputs.tag }}
-        DLRS_VERSION: ${{ inputs.version }}
       run: |
         echo "::group::Versioning major"
         echo "DLRS_NEXT_VERSION=$( echo ${{ env.DLRS_VERSION }} | awk -F. '{print $1+1".0.0"}')" >> $GITHUB_ENV
@@ -53,7 +53,11 @@ runs:
           elif [[ ${{ env.DLRS_BRANCH }} == "develop" ]]; then
             echo "DLRS_NEXT_BRANCH=release/$( echo ${{ env.DLRS_VERSION }} | awk -F. '{print $1+1".0.0"}')" >> $GITHUB_ENV
         fi
-        echo "::endgroup::"
+        echo "::endgroup::"[
+      env:
+        DLRS_BRANCH: ${{ inputs.branch }}
+        DLRS_TAG: ${{ inputs.tag }}
+        DLRS_VERSION: ${{ inputs.version }}
 
     - name: Versioning minor
       shell: bash
@@ -91,6 +95,23 @@ runs:
         fi
         echo "::endgroup::"
 
+    - name: Versioning suffix
+      shell: bash
+      if: ${{ inputs.patch == 'false' && inputs.minor == 'false' && inputs.major == 'false' }}
+      run: |
+        echo "::group::Versioning suffix"
+        if [[ ${{ env.DLRS_SUFFIX }} == "SNAPSHOT" ]]; then
+            echo "DLRS_NEXT_SUFFIX=RC1"
+        else 
+            echo "DLRS_NEXT_SUFFIX=$( echo ${{ env.DLRS_SUFFIX }} | awk -FRC '{print "RC"$2+1}')"
+        fi
+        echo "::endgroup::"
+      env:
+        DLRS_BRANCH: ${{ inputs.branch }}
+        DLRS_TAG: ${{ inputs.tag }}
+        DLRS_VERSION: ${{ inputs.version }}
+        DLRS_SUFFIX: ${{ inputs.suffix }}
+
     - name: Set outputs
       id: set_outputs
       shell: bash
@@ -99,4 +120,5 @@ runs:
         echo "version=${{ env.DLRS_NEXT_VERSION }}" >> $GITHUB_OUTPUT
         echo "tag=${{ env.DLRS_NEXT_TAG }}" >> $GITHUB_OUTPUT
         echo "branch=${{ env.DLRS_NEXT_BRANCH }}" >> $GITHUB_OUTPUT
+        echo "suffix=${{ env.DLRS_NEXT_SUFFIX }}" >> $GITHUB_OUTPUT
         echo "::endgroup::"

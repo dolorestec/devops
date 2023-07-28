@@ -8,14 +8,7 @@ inputs:
 
 runs:
   using: composite
-  steps:
-    - name: Checkout
-      uses: Actions/checkout@v3
-      with:
-        repository: ${{ github.repository }}
-        ref: ${{ github.ref_name }}
-        fetch-depth: 0
-        
+  steps:       
     - name: Download variables
       uses: actions/download-artifact@v3
       with:
