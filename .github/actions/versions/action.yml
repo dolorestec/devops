@@ -122,3 +122,8 @@ runs:
         echo "branch=${{ env.DLRS_NEXT_BRANCH }}" >> $GITHUB_OUTPUT
         echo "suffix=${{ env.DLRS_NEXT_SUFFIX }}" >> $GITHUB_OUTPUT
         echo "::endgroup::"
+      env:
+        DLRS_NEXT_BRANCH: ${{ env.DLRS_NEXT_BRANCH }}
+        DLRS_NEXT_TAG: ${{ env.DLRS_NEXT_TAG }}
+        DLRS_NEXT_VERSION: ${{ env.DLRS_NEXT_VERSION }}
+        DLRS_NEXT_SUFFIX: ${{ env.DLRS_NEXT_SUFFIX }}

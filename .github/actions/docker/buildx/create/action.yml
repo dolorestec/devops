@@ -1,6 +1,6 @@
-name: Setup Buildx
+name: Create Buildx
 author: Lucas Cantarelli
-description: "Setup Buildx for docker build"
+description: "Create Buildx for docker build"
 
 inputs:
   name:
