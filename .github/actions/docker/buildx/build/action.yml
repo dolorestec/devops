@@ -9,6 +9,10 @@ inputs:
   tag:
     description: "Tag of the image to build"
     required: true
+  registry:
+    description: "Registry to push the image"
+    required: false
+    default: "ghcr.io"
   context:
     description: "Path to the build context"
     required: true
@@ -65,19 +69,19 @@ runs:
       env:
         command: |
           docker buildx build \
-          --cache-from "type=registry,mode=max,ref=ghcr.io/${{ github.repository }}:${{ inputs.tag }}" \
-          --cache-to "type=registry,mode=max,ref=ghcr.io/${{ github.repository }}:${{ inputs.tag }}" \
+          --cache-from "type=registry,mode=max,ref=${{ inputs.registry }}/${{ github.repository }}:${{ inputs.tag }}" \
+          --cache-to "type=registry,mode=max,ref=${{ inputs.registry }}/${{ github.repository }}:${{ inputs.tag }}" \
           --iidfile image_id.txt \
           --file ${{ inputs.dockerfile }} \
-          --tag "${{ inputs.image }}:${{ inputs.tag }}" \
+          --tag "${{ inputs.registry }}/${{ inputs.image }}:${{ inputs.tag }}" \
           $([ ${{ inputs.push }} == "true" ] && echo "--push") \
           $([ ${{ inputs.no-cache }} == "true" ] && echo "--no-cache") \
           $([ ${{ inputs.pull }} == "true" ] && echo "--pull") \
           $([ ${{ inputs.load }} == "true" ] && echo "--load") \
+          &( [ -n "${{ inputs.runner-version }}" ] && echo --build-arg VERSION=${{ inputs.runner-version }} ) \
+          &( [ -n "${{ inputs.runner-token }}" ] && echo --build-arg TOKEN=${{ inputs.runner-token }} ) \  
           ${{ inputs.context }}
       run: |
         echo "::group::Build image"
-        docker tag ${{ inputs.image }}:${{ inputs.tag }} ghcr.io/${{ github.repository }}:${{ inputs.tag }}
         ${{ env.command }}
-
         echo "::endgroup::"
