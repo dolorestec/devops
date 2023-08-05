@@ -84,6 +84,6 @@ runs:
       run: |
         echo "::group::Build image"
         ${{ env.command }}
-        docker manifest create "${{ inputs.registry }}/${{ github.repository }}:${{ inputs.tag }}" "${{ inputs.registry }}/${{ github.repository }}:${{ inputs.tag }}"
-        docker manifest push "${{ inputs.registry }}/${{ github.repository }}:${{ inputs.tag }}"
+        docker manifest create "${{ github.repository }}:${{ inputs.tag }}" "${{ inputs.registry }}/${{ github.repository }}:${{ inputs.tag }}"
+        docker manifest push "${{ github.repository }}:${{ inputs.tag }}"
         echo "::endgroup::"
