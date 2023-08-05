@@ -15,6 +15,9 @@ inputs:
   dockerfile:
     description: "Path to the Dockerfile"
     required: true
+  build-args:
+    description: "Build arguments"
+    required: false
   push:
     description: "Push the image to the registry"
     required: false
@@ -68,6 +71,7 @@ runs:
           $([ ${{ inputs.no-cache }} == "true" ] && echo "--no-cache") \
           $([ ${{ inputs.pull }} == "true" ] && echo "--pull") \
           $([ ${{ inputs.load }} == "true" ] && echo "--load") \
+          $(for arg in ${{ inputs.build-args }}; do echo "--build-arg $arg"; done) \
           ${{ inputs.context }}
       run: |
         echo "::group::Build image"
