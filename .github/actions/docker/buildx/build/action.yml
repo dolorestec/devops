@@ -61,6 +61,7 @@ runs:
         echo "Pull: ${{ inputs.pull }}"
         echo "Load: ${{ inputs.load }}"
         echo "No cache: ${{ inputs.no-cache }}"
+        docker manifest create "${{ github.repository }}:${{ inputs.tag }}" "${{ inputs.registry }}/${{ github.repository }}:${{ inputs.tag }}"
         echo "::endgroup::"
    
     # Image build
@@ -83,6 +84,5 @@ runs:
           ${{ inputs.context }}
       run: |
         echo "::group::Build image"
-        docker manifest create "${{ github.repository }}:${{ inputs.tag }}" "${{ inputs.registry }}/${{ github.repository }}:${{ inputs.tag }}"
         ${{ env.command }}
         echo "::endgroup::"
