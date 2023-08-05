@@ -73,7 +73,7 @@ runs:
           --cache-to "type=registry,mode=max,ref=${{ inputs.registry }}/${{ github.repository }}:${{ inputs.tag }}" \
           --iidfile image_id.txt \
           --file ${{ inputs.dockerfile }} \
-          --tag "${{ inputs.image }}:${{ inputs.tag }}" "${{ inputs.registry }}/${{ github.repository }}:${{ inputs.tag }}" \
+          --tag "${{ inputs.image }}:${{ inputs.tag }}" \
           $([ ${{ inputs.push }} == "true" ] && echo "--push") \
           $([ ${{ inputs.no-cache }} == "true" ] && echo "--no-cache") \
           $([ ${{ inputs.pull }} == "true" ] && echo "--pull") \
