@@ -79,7 +79,7 @@ runs:
           $([ ${{ inputs.pull }} == "true" ] && echo "--pull") \
           $([ ${{ inputs.load }} == "true" ] && echo "--load") \
           $( [ -n "${{ inputs.runner-version }}" ] && echo "--build-arg VERSION=${{ inputs.runner-version }}" ) \
-          $( [ -n "${{ inputs.runner-token }}" ] && echo "--build-arg TOKEN=${{ inputs.runner-token }}" ) \  
+          $( [ -n "${{ inputs.runner-token }}" ] && echo "--build-arg TOKEN=${{ inputs.runner-token }}" ) \
           ${{ inputs.context }}
       run: |
         echo "::group::Build image"
