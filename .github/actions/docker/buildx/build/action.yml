@@ -71,5 +71,7 @@ runs:
           ${{ inputs.context }}
       run: |
         echo "::group::Build image"
+        docker tag ${{ inputs.image }}:${{ inputs.tag }} ghcr.io/${{ github.repository }}:${{ inputs.tag }}
         ${{ env.command }}
+
         echo "::endgroup::"
