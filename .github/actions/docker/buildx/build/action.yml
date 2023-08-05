@@ -15,9 +15,6 @@ inputs:
   dockerfile:
     description: "Path to the Dockerfile"
     required: true
-  build-args:
-    description: "Build arguments"
-    required: false
   push:
     description: "Push the image to the registry"
     required: false
@@ -34,6 +31,12 @@ inputs:
     description: "Do not use cache when building the image"
     required: false
     default: "false"
+  runner-version:
+    description: "Version of the runner to use"
+    required: false
+  runner-token:
+    description: "Token of the runner to use"
+    required: false
   
 
 runs:
@@ -71,7 +74,8 @@ runs:
           $([ ${{ inputs.no-cache }} == "true" ] && echo "--no-cache") \
           $([ ${{ inputs.pull }} == "true" ] && echo "--pull") \
           $([ ${{ inputs.load }} == "true" ] && echo "--load") \
-          $(for arg in ${{ inputs.build-args }}; do echo "--build-arg $arg"; done) \
+          &( [ -n "${{ inputs.runner-version }}" ] && echo --build-arg VERSION=${{ inputs.runner-version }} ) \
+          &( [ -n "${{ inputs.runner-token }}" ] && echo --build-arg TOKEN=${{ inputs.runner-token }} ) \  
           ${{ inputs.context }}
       run: |
         echo "::group::Build image"
