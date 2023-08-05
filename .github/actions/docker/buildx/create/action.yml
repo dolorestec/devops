@@ -37,17 +37,13 @@ runs:
       shell: bash        
       run: |
         echo "::group::CHecking if Buildx exists"
-        docker buildx create \
-        --name ${{ inputs.name }} \
-        --driver ${{ inputs.driver }} \
-        ${{ inputs.flags }} \
-        $( [[ -z "${{ inputs.use }}" ]] || echo "--use")
+        docker buildx inspect ${{ inputs.name }} || echo "Buildx ${{ inputs.name }} not found"
         echo "::endgroup::"
-
 
     # Create builder
     - name: Create Buildx
-      shell: bash        
+      shell: bash      
+      if: steps.check_buildx.outputs.exit_code == 1  
       run: |
         echo "::group::Create Buildx"
         docker buildx create \
