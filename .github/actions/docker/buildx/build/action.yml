@@ -73,7 +73,7 @@ runs:
           --cache-to "type=registry,mode=max,ref=${{ inputs.registry }}/${{ github.repository }}:${{ inputs.tag }}" \
           --iidfile image_id.txt \
           --file ${{ inputs.dockerfile }} \
-          --tag "${{ inputs.registry }}/${{ inputs.image }}:${{ inputs.tag }}" \
+          --tag "${{ inputs.image }}:${{ inputs.tag }}" \
           $([ ${{ inputs.push }} == "true" ] && echo "--push") \
           $([ ${{ inputs.no-cache }} == "true" ] && echo "--no-cache") \
           $([ ${{ inputs.pull }} == "true" ] && echo "--pull") \
@@ -84,4 +84,6 @@ runs:
       run: |
         echo "::group::Build image"
         ${{ env.command }}
+        docker tag $(cat image_id.txt) "${{ inputs.registry }}/${{ github.repository }}:${{ inputs.tag }}"
+        docker push --all-tags "${{ inputs.registry }}/${{ github.repository }}"
         echo "::endgroup::"
